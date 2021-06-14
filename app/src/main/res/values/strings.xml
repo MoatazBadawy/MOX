@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MOX</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tob_tabe">Top</string>
+    <string name="technology_tabe">Technology</string>
+    <string name="business_tabe">Business</string>
+    <string name="general_tabe">News</string>
+    <string name="sports_tabe">Sports</string>
+    <string name="science_tabe">Science</string>
+</resources>
