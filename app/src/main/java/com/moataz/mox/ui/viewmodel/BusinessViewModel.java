@@ -15,27 +15,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TopViewModel extends ViewModel {
+public class BusinessViewModel extends ViewModel {
 
-    public LiveData<Resource<ArticleResponse>> makeApiCallTop() {
+    public LiveData<Resource<ArticleResponse>> makeApiCallBusiness() {
+        final MutableLiveData<Resource<ArticleResponse>> businessObjectsList = new MutableLiveData<>();
 
-        final MutableLiveData<Resource<ArticleResponse>> topObjectsList = new MutableLiveData<>();
-        topObjectsList.setValue(Resource.loading());
+        businessObjectsList.setValue(Resource.loading());
         APIService apiService = RetroInstance.getRetroClien().create(APIService.class);
-        Call<ArticleResponse> call = apiService.getTopObjectsList("us","f97f99ed437f4f01a2076254fc625fcf");
+        Call<ArticleResponse> call = apiService.getCategoryObjectsList("business","en","f97f99ed437f4f01a2076254fc625fcf");
         call.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(@NotNull Call<ArticleResponse> call, @NotNull Response<ArticleResponse> response) {
-                topObjectsList.postValue(Resource.success(response.body()));
+                businessObjectsList.postValue(Resource.success(response.body()));
 
             }
 
             @Override
             public void onFailure(@NotNull Call<ArticleResponse> call, @NotNull Throwable t) {
-                topObjectsList.setValue(Resource.error(t.getMessage() != null ? t.getMessage() : "Unknown Error"));
+                businessObjectsList.setValue(Resource.error(t.getMessage() != null ? t.getMessage() : "Unknown Error"));
             }
         });
 
-        return topObjectsList;
+        return businessObjectsList;
     }
 }

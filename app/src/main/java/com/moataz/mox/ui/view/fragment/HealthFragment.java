@@ -7,21 +7,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentTopBinding;
+import com.moataz.mox.databinding.FragmentHealthBinding;
 import com.moataz.mox.ui.adapter.ArticleAdapter;
-import com.moataz.mox.ui.viewmodel.TopViewModel;
+import com.moataz.mox.ui.viewmodel.HealthViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class TopFragment extends Fragment {
+public class HealthFragment extends Fragment {
 
     private ArticleAdapter adapter;
-    private TopViewModel viewModel;
-    private FragmentTopBinding binding;
+    private HealthViewModel viewModel;
+    private FragmentHealthBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentTopBinding.inflate(getLayoutInflater());
+        binding = FragmentHealthBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -33,27 +33,27 @@ public class TopFragment extends Fragment {
 
     private void initializeViews() {
         adapter = new ArticleAdapter();
-        binding.recyclerViewTop.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerViewTop.setHasFixedSize(true);
-        binding.recyclerViewTop.setAdapter(adapter);
+        binding.recyclerViewHealth.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewHealth.setHasFixedSize(true);
+        binding.recyclerViewHealth.setAdapter(adapter);
     }
 
     private void getList() {
-        viewModel.makeApiCallTop().observe(requireActivity(), response -> {
+        viewModel.makeApiCallHealth().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.errorBoldTop.setVisibility(View.VISIBLE);
-                    binding.errorMessage1Top.setVisibility(View.VISIBLE);
-                    binding.errorMessage2Top.setVisibility(View.VISIBLE);
-                    binding.progressBarTop.setVisibility(View.GONE);
+                    binding.errorBoldHealth.setVisibility(View.VISIBLE);
+                    binding.errorMessage1Health.setVisibility(View.VISIBLE);
+                    binding.errorMessage2Health.setVisibility(View.VISIBLE);
+                    binding.progressBarHealth.setVisibility(View.GONE);
                     break;
                 }
                 case LOADING: {
-                    binding.progressBarTop.setVisibility(View.VISIBLE);
+                    binding.progressBarHealth.setVisibility(View.VISIBLE);
                     break;
                 }
                 case SUCCESS:{
-                    binding.progressBarTop.setVisibility(View.GONE);
+                    binding.progressBarHealth.setVisibility(View.GONE);
                     adapter.setNewsList(response.data);
                     break;
                 }
@@ -62,17 +62,17 @@ public class TopFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshTop.setOnRefreshListener(() -> viewModel.makeApiCallTop().observe(requireActivity(), response -> {
+        binding.swipeToRefreshHealth.setOnRefreshListener(() -> viewModel.makeApiCallHealth().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.swipeToRefreshTop.setRefreshing(false);
+                    binding.swipeToRefreshHealth.setRefreshing(false);
                     break;
                 }
                 case SUCCESS:{
-                    binding.swipeToRefreshTop.setRefreshing(false);
-                    binding.errorBoldTop.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Top.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Top.setVisibility(View.INVISIBLE);
+                    binding.swipeToRefreshHealth.setRefreshing(false);
+                    binding.errorBoldHealth.setVisibility(View.INVISIBLE);
+                    binding.errorMessage1Health.setVisibility(View.INVISIBLE);
+                    binding.errorMessage2Health.setVisibility(View.INVISIBLE);
                     adapter.setNewsList(response.data);
                     break;
                 }
@@ -81,6 +81,6 @@ public class TopFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(TopViewModel.class);
+        viewModel = new ViewModelProvider(this).get(HealthViewModel.class);
     }
 }

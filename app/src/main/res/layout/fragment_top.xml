@@ -12,7 +12,6 @@
         android:id="@+id/swipe_to_refresh_top"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_42sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,9 +21,9 @@
             android:id="@+id/recyclerView_top"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="@dimen/_4sdp"
             android:clipToPadding="false"
             android:overScrollMode="never"
-            android:paddingBottom="@dimen/_6sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

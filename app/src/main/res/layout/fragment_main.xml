@@ -16,6 +16,7 @@
         app:tabIndicatorHeight="0dp"
         app:tabMode="scrollable"
         app:tabRippleColor="@null"
+        android:overScrollMode="never"
         app:tabBackground="@drawable/tab_layout_selector"
         app:tabSelectedTextColor="@color/white"
         app:tabTextAppearance="@style/TabTextAppearance"

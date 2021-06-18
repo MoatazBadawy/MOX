@@ -1,66 +1,86 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.moataz.mox.databinding.FragmentTechnologyBinding;
+import com.moataz.mox.ui.adapter.ArticleAdapter;
+import com.moataz.mox.ui.viewmodel.TechnologyViewModel;
+import org.jetbrains.annotations.NotNull;
 
-import com.moataz.mox.R;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TechnologyFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TechnologyFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TechnologyFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TechnologyFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TechnologyFragment newInstance(String param1, String param2) {
-        TechnologyFragment fragment = new TechnologyFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ArticleAdapter adapter;
+    private TechnologyViewModel viewModel;
+    private FragmentTechnologyBinding binding;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_technology, container, false);
+        binding = FragmentTechnologyBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        requireActivity().setTitle("");
+        initializeViews();
+        initializeViewModel();
+        getTopList();
+        onSwipeRefresh();
+        return view;
+    }
+
+    private void initializeViews() {
+        adapter = new ArticleAdapter();
+        binding.recyclerViewTechnology.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewTechnology.setHasFixedSize(true);
+        binding.recyclerViewTechnology.setAdapter(adapter);
+    }
+
+    private void getTopList() {
+        viewModel.makeApiCallTechnology().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.errorBoldTechnology.setVisibility(View.VISIBLE);
+                    binding.errorMessage1Technology.setVisibility(View.VISIBLE);
+                    binding.errorMessage2Technology.setVisibility(View.VISIBLE);
+                    binding.progressBarTechnology.setVisibility(View.GONE);
+                    break;
+                }
+                case LOADING: {
+                    binding.progressBarTechnology.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.progressBarTechnology.setVisibility(View.GONE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        });
+    }
+
+    private void onSwipeRefresh() {
+        binding.swipeToRefreshTechnology.setOnRefreshListener(() -> viewModel.makeApiCallTechnology().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.swipeToRefreshTechnology.setRefreshing(false);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.swipeToRefreshTechnology.setRefreshing(false);
+                    binding.errorBoldTechnology.setVisibility(View.INVISIBLE);
+                    binding.errorMessage1Technology.setVisibility(View.INVISIBLE);
+                    binding.errorMessage2Technology.setVisibility(View.INVISIBLE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        }));
+    }
+
+    private void initializeViewModel() {
+        viewModel = new ViewModelProvider(this).get(TechnologyViewModel.class);
     }
 }

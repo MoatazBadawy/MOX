@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.fragment.BusinessFragment;
-import com.moataz.mox.ui.view.fragment.GeneralFragment;
+import com.moataz.mox.ui.view.fragment.HealthFragment;
 import com.moataz.mox.ui.view.fragment.MainFragment;
 import com.moataz.mox.ui.view.fragment.ScienceFragment;
 import com.moataz.mox.ui.view.fragment.SportsFragment;
@@ -32,7 +32,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         } else if (position == 3) {
             return new SportsFragment();
         } else if (position == 4) {
-            return new GeneralFragment();
+            return new HealthFragment();
         } else {
             return new ScienceFragment();
         }
@@ -49,7 +49,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         } else if (position == 3) {
             return mContext.getString(R.string.sports_tabe);
         } else if (position == 4) {
-            return mContext.getString(R.string.general_tabe);
+            return mContext.getString(R.string.health_tabe);
         } else {
             return mContext.getString(R.string.science_tabe);
         }

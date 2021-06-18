@@ -1,15 +1,11 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.material.tabs.TabLayout;
-import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentMainBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 
@@ -20,7 +16,7 @@ public class MainFragment extends Fragment {
 
     FragmentMainBinding binding;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();

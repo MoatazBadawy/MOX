@@ -1,66 +1,86 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.moataz.mox.databinding.FragmentScienceBinding;
+import com.moataz.mox.ui.adapter.ArticleAdapter;
+import com.moataz.mox.ui.viewmodel.ScienceViewModel;
+import org.jetbrains.annotations.NotNull;
 
-import com.moataz.mox.R;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ScienceFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ScienceFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ScienceFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ScienceFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ScienceFragment newInstance(String param1, String param2) {
-        ScienceFragment fragment = new ScienceFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ArticleAdapter adapter;
+    private ScienceViewModel viewModel;
+    private FragmentScienceBinding binding;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_science, container, false);
+        binding = FragmentScienceBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        requireActivity().setTitle("");
+        initializeViews();
+        initializeViewModel();
+        getList();
+        onSwipeRefresh();
+        return view;
+    }
+
+    private void initializeViews() {
+        adapter = new ArticleAdapter();
+        binding.recyclerViewScience.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewScience.setHasFixedSize(true);
+        binding.recyclerViewScience.setAdapter(adapter);
+    }
+
+    private void getList() {
+        viewModel.makeApiCallScience().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.errorBoldScience.setVisibility(View.VISIBLE);
+                    binding.errorMessage1Science.setVisibility(View.VISIBLE);
+                    binding.errorMessage2Science.setVisibility(View.VISIBLE);
+                    binding.progressBarScience.setVisibility(View.GONE);
+                    break;
+                }
+                case LOADING: {
+                    binding.progressBarScience.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.progressBarScience.setVisibility(View.GONE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        });
+    }
+
+    private void onSwipeRefresh() {
+        binding.swipeToRefreshScience.setOnRefreshListener(() -> viewModel.makeApiCallScience().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.swipeToRefreshScience.setRefreshing(false);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.swipeToRefreshScience.setRefreshing(false);
+                    binding.errorBoldScience.setVisibility(View.INVISIBLE);
+                    binding.errorMessage1Science.setVisibility(View.INVISIBLE);
+                    binding.errorMessage2Science.setVisibility(View.INVISIBLE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        }));
+    }
+
+    private void initializeViewModel() {
+        viewModel = new ViewModelProvider(this).get(ScienceViewModel.class);
     }
 }
