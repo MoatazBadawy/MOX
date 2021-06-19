@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentTechnologyBinding;
 import com.moataz.mox.ui.adapter.ArticleAdapter;
+import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.ui.viewmodel.TechnologyViewModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,7 @@ public class TechnologyFragment extends Fragment {
     private ArticleAdapter adapter;
     private TechnologyViewModel viewModel;
     private FragmentTechnologyBinding binding;
+    ViewPagerAdapter adapterViewPager;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -27,7 +29,6 @@ public class TechnologyFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getTopList();
-        onSwipeRefresh();
         return view;
     }
 
@@ -59,25 +60,6 @@ public class TechnologyFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void onSwipeRefresh() {
-        binding.swipeToRefreshTechnology.setOnRefreshListener(() -> viewModel.makeApiCallTechnology().observe(requireActivity(), response -> {
-            switch (response.status){
-                case ERROR: {
-                    binding.swipeToRefreshTechnology.setRefreshing(false);
-                    break;
-                }
-                case SUCCESS:{
-                    binding.swipeToRefreshTechnology.setRefreshing(false);
-                    binding.errorBoldTechnology.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Technology.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Technology.setVisibility(View.INVISIBLE);
-                    adapter.setNewsList(response.data);
-                    break;
-                }
-            }
-        }));
     }
 
     private void initializeViewModel() {

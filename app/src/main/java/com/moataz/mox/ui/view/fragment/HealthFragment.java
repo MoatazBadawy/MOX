@@ -27,7 +27,6 @@ public class HealthFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getList();
-        onSwipeRefresh();
         return view;
     }
 
@@ -59,25 +58,6 @@ public class HealthFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void onSwipeRefresh() {
-        binding.swipeToRefreshHealth.setOnRefreshListener(() -> viewModel.makeApiCallHealth().observe(requireActivity(), response -> {
-            switch (response.status){
-                case ERROR: {
-                    binding.swipeToRefreshHealth.setRefreshing(false);
-                    break;
-                }
-                case SUCCESS:{
-                    binding.swipeToRefreshHealth.setRefreshing(false);
-                    binding.errorBoldHealth.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Health.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Health.setVisibility(View.INVISIBLE);
-                    adapter.setNewsList(response.data);
-                    break;
-                }
-            }
-        }));
     }
 
     private void initializeViewModel() {

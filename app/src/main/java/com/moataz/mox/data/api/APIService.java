@@ -17,13 +17,13 @@ public interface APIService {
             String API_KEY
     );
 
-    @GET("v2/top-headlines")
+    @GET("v2/everything")
     Call<ArticleResponse> getCategoryObjectsList(
-            @Query("category")
-            String category,
+            @Query("q")
+                    String category,
             @Query("language")
-            String language,
+                    String language,
             @Query("apikey")
-            String API_KEY
+                    String API_KEY
     );
 }

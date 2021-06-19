@@ -54,7 +54,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/abeezee"
             android:lineSpacingExtra="4sp"
-            android:maxLength="107"
+            android:maxLines="3"
             android:text="This artical is a test and very best fro you. so if you like this news please call me and i will not answer haha..."
             android:textAlignment="textStart"
             android:textSize="@dimen/_11ssp"
@@ -90,7 +90,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/sorce_name"
             app:layout_constraintStart_toEndOf="@+id/sorce_name"
             app:layout_constraintTop_toTopOf="@+id/sorce_name"
-            app:srcCompat="@drawable/circel" />
+            app:srcCompat="@drawable/ic_circel" />
 
         <TextView
             android:id="@+id/author_name"

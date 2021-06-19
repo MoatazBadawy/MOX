@@ -1,9 +1,9 @@
 package com.moataz.mox.ui.adapter;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.fragment.BusinessFragment;
 import com.moataz.mox.ui.view.fragment.HealthFragment;

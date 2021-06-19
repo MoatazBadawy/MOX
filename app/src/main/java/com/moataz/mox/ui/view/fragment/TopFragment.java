@@ -1,14 +1,20 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentTopBinding;
 import com.moataz.mox.ui.adapter.ArticleAdapter;
+import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.ui.viewmodel.TopViewModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +23,7 @@ public class TopFragment extends Fragment {
     private ArticleAdapter adapter;
     private TopViewModel viewModel;
     private FragmentTopBinding binding;
+    ViewPagerAdapter adapterViewPager;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -27,7 +34,6 @@ public class TopFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getList();
-        onSwipeRefresh();
         return view;
     }
 
@@ -59,25 +65,6 @@ public class TopFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void onSwipeRefresh() {
-        binding.swipeToRefreshTop.setOnRefreshListener(() -> viewModel.makeApiCallTop().observe(requireActivity(), response -> {
-            switch (response.status){
-                case ERROR: {
-                    binding.swipeToRefreshTop.setRefreshing(false);
-                    break;
-                }
-                case SUCCESS:{
-                    binding.swipeToRefreshTop.setRefreshing(false);
-                    binding.errorBoldTop.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Top.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Top.setVisibility(View.INVISIBLE);
-                    adapter.setNewsList(response.data);
-                    break;
-                }
-            }
-        }));
     }
 
     private void initializeViewModel() {

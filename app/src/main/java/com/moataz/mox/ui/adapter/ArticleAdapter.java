@@ -1,26 +1,35 @@
 package com.moataz.mox.ui.adapter;
 
+import android.animation.Animator;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.Article;
-import com.moataz.mox.data.model.response.ArticleResponse;
+
+import java.util.List;
+import java.util.Objects;
 
 public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArticleResponse items = null;
+    private List<Article> items = null;
 
-    public void setNewsList(ArticleResponse items) {
+    public void setNewsList(List<Article> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -28,37 +37,26 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == R.id.image_news) {
-            return new NewsViewHolder(
-                    LayoutInflater.from(parent.getContext()).inflate(
-                            R.layout.list_news,
-                            parent,
-                            false
-                    )
-            );
-        } else throw new IllegalArgumentException("unknown view type");
+        return new NewsViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.list_news,
+                        parent,
+                        false
+                )
+        );
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == R.id.image_news) {
-            Article firstImageModel = items.getArticles().get(position);
-            ((NewsViewHolder) holder).setNewsData(firstImageModel);
-        }
+        Article article = items.get(position);
+        ((NewsViewHolder) holder).setNewsData(article);
+        ((NewsViewHolder) holder).setOnClick(article);
     }
 
     @Override
     public int getItemCount() {
-            if (items ==null) return 0;
-            return items.getArticles().size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0 && position < items.getArticles().size()) {
-            return R.id.image_news;
-        }
-        return R.id.image_news;
+        if (items == null) return 0;
+        return items.size();
     }
 
     static class NewsViewHolder extends RecyclerView.ViewHolder {
@@ -77,17 +75,37 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             authorNews = itemView.findViewById(R.id.author_name);
         }
 
-        void setNewsData(Article articleModel) {
-                Glide.with(itemView.getContext())
-                        .load(articleModel.getUrlToImage())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(imageNews);
+        void setNewsData(Article article) {
+            Glide.with(itemView.getContext())
+                    .load(article.getUrlToImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(imageNews);
 
-                titleNews.setText(articleModel.getTitle());
-                descriptionNews.setText(articleModel.getDescription());
-                nameNews.setText(articleModel.getSource().getId());
-                authorNews.setText(articleModel.getAuthor());
+            titleNews.setText(article.getTitle());
+            descriptionNews.setText(article.getDescription());
+            nameNews.setText(Objects.requireNonNull(article.getSource()).getId());
+            authorNews.setText(article.getAuthor());
+        }
+
+        /**
+         * When the user click on article it will open the article
+         * in new Tab using ChromeCustomTab
+         */
+        void setOnClick(Article article) {
+            itemView.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setExitAnimations(itemView.getContext(), android.R.anim.fade_in, android.R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(),customTabIntent.build(),Uri.parse(article.getUrl()));
+            });
+        }
+
+        static void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
+            String packageName = "com.android.chrome";
+            customTabsIntent.intent.setPackage(packageName);
+            customTabsIntent.launchUrl(activity,uri);
         }
     }
 }

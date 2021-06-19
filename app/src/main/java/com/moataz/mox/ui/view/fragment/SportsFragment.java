@@ -1,20 +1,15 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.moataz.mox.R;
-import com.moataz.mox.databinding.FragmentScienceBinding;
 import com.moataz.mox.databinding.FragmentSportsBinding;
 import com.moataz.mox.ui.adapter.ArticleAdapter;
-import com.moataz.mox.ui.viewmodel.ScienceViewModel;
+import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.ui.viewmodel.SportsViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +29,6 @@ public class SportsFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getList();
-        onSwipeRefresh();
         return view;
     }
 
@@ -66,25 +60,6 @@ public class SportsFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void onSwipeRefresh() {
-        binding.swipeToRefreshSports.setOnRefreshListener(() -> viewModel.makeApiCallSports().observe(requireActivity(), response -> {
-            switch (response.status){
-                case ERROR: {
-                    binding.swipeToRefreshSports.setRefreshing(false);
-                    break;
-                }
-                case SUCCESS:{
-                    binding.swipeToRefreshSports.setRefreshing(false);
-                    binding.errorBoldSports.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Sports.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Sports.setVisibility(View.INVISIBLE);
-                    adapter.setNewsList(response.data);
-                    break;
-                }
-            }
-        }));
     }
 
     private void initializeViewModel() {

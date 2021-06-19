@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentScienceBinding;
 import com.moataz.mox.ui.adapter.ArticleAdapter;
+import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.ui.viewmodel.ScienceViewModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,6 @@ public class ScienceFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getList();
-        onSwipeRefresh();
         return view;
     }
 
@@ -59,25 +59,6 @@ public class ScienceFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void onSwipeRefresh() {
-        binding.swipeToRefreshScience.setOnRefreshListener(() -> viewModel.makeApiCallScience().observe(requireActivity(), response -> {
-            switch (response.status){
-                case ERROR: {
-                    binding.swipeToRefreshScience.setRefreshing(false);
-                    break;
-                }
-                case SUCCESS:{
-                    binding.swipeToRefreshScience.setRefreshing(false);
-                    binding.errorBoldScience.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Science.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Science.setVisibility(View.INVISIBLE);
-                    adapter.setNewsList(response.data);
-                    break;
-                }
-            }
-        }));
     }
 
     private void initializeViewModel() {

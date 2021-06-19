@@ -13,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MOX">
-        <activity android:name=".ui.view.activity.DisplayContentActivity"></activity>
-        <activity android:name=".ui.view.activity.MainActivity">
+        <activity android:name=".ui.view.activity.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
