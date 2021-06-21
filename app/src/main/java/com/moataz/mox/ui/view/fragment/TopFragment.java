@@ -34,6 +34,7 @@ public class TopFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getList();
+        onSwipeRefresh();
         return view;
     }
 
@@ -65,6 +66,25 @@ public class TopFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void onSwipeRefresh() {
+        binding.swipeToRefreshTop.setOnRefreshListener(() -> viewModel.makeApiCallTop().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.swipeToRefreshTop.setRefreshing(false);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.swipeToRefreshTop.setRefreshing(false);
+                    binding.errorBoldTop.setVisibility(View.INVISIBLE);
+                    binding.errorMessage1Top.setVisibility(View.INVISIBLE);
+                    binding.errorMessage2Top.setVisibility(View.INVISIBLE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        }));
     }
 
     private void initializeViewModel() {

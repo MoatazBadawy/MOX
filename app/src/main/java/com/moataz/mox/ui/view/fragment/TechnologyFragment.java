@@ -29,6 +29,7 @@ public class TechnologyFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getTopList();
+        onSwipeRefresh();
         return view;
     }
 
@@ -60,6 +61,25 @@ public class TechnologyFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void onSwipeRefresh() {
+        binding.swipeToRefreshTechnology.setOnRefreshListener(() -> viewModel.makeApiCallTechnology().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.swipeToRefreshTechnology.setRefreshing(false);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.swipeToRefreshTechnology.setRefreshing(false);
+                    binding.errorBoldTechnology.setVisibility(View.INVISIBLE);
+                    binding.errorMessage1Technology.setVisibility(View.INVISIBLE);
+                    binding.errorMessage2Technology.setVisibility(View.INVISIBLE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        }));
     }
 
     private void initializeViewModel() {

@@ -8,4 +8,5 @@
     <string name="health_tabe">Health</string>
     <string name="sports_tabe">Sports</string>
     <string name="science_tabe">Science</string>
+    <string name="background">Background</string>
 </resources>

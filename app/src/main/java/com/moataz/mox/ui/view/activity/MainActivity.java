@@ -3,6 +3,7 @@ package com.moataz.mox.ui.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         initializeView();
     }
 
+    @SuppressLint("ResourceType")
     private void initializeView() {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); // make the icons on Statues black
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,

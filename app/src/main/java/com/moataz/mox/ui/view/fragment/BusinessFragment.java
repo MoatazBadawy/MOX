@@ -29,6 +29,7 @@ public class BusinessFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getList();
+        onSwipeRefresh();
         return view;
     }
 
@@ -60,6 +61,25 @@ public class BusinessFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void onSwipeRefresh() {
+        binding.swipeToRefreshBusiness.setOnRefreshListener(() -> viewModel.makeApiCallBusiness().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.swipeToRefreshBusiness.setRefreshing(false);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.swipeToRefreshBusiness.setRefreshing(false);
+                    binding.errorBoldBusiness.setVisibility(View.INVISIBLE);
+                    binding.errorMessage1Business.setVisibility(View.INVISIBLE);
+                    binding.errorMessage2Business.setVisibility(View.INVISIBLE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        }));
     }
 
     private void initializeViewModel() {

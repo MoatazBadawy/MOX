@@ -28,6 +28,7 @@ public class ScienceFragment extends Fragment {
         initializeViews();
         initializeViewModel();
         getList();
+        onSwipeRefresh();
         return view;
     }
 
@@ -59,6 +60,25 @@ public class ScienceFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void onSwipeRefresh() {
+        binding.swipeToRefreshScience.setOnRefreshListener(() -> viewModel.makeApiCallScience().observe(requireActivity(), response -> {
+            switch (response.status){
+                case ERROR: {
+                    binding.swipeToRefreshScience.setRefreshing(false);
+                    break;
+                }
+                case SUCCESS:{
+                    binding.swipeToRefreshScience.setRefreshing(false);
+                    binding.errorBoldScience.setVisibility(View.INVISIBLE);
+                    binding.errorMessage1Science.setVisibility(View.INVISIBLE);
+                    binding.errorMessage2Science.setVisibility(View.INVISIBLE);
+                    adapter.setNewsList(response.data);
+                    break;
+                }
+            }
+        }));
     }
 
     private void initializeViewModel() {
