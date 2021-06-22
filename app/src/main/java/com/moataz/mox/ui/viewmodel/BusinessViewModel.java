@@ -26,7 +26,7 @@ public class BusinessViewModel extends ViewModel {
         final MutableLiveData<Resource<List<Article>>> businessObjectsList = new MutableLiveData<>();
         businessObjectsList.setValue(Resource.loading());
         APIService apiService = RetroInstance.getRetroClien().create(APIService.class);
-        Call<ArticleResponse> call = apiService.getCategoryObjectsList("business","en","229b8268919c430b8c00bf0fff104926");
+        Call<ArticleResponse> call = apiService.getCategoryObjectsList("business","en","35a114dfffb84d77b102065f5333765d");
         call.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(@NotNull Call<ArticleResponse> call, @NotNull Response<ArticleResponse> response) {

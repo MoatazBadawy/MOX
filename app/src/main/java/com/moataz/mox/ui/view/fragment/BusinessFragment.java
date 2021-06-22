@@ -44,9 +44,6 @@ public class BusinessFragment extends Fragment {
         viewModel.makeApiCallBusiness().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.errorBoldBusiness.setVisibility(View.VISIBLE);
-                    binding.errorMessage1Business.setVisibility(View.VISIBLE);
-                    binding.errorMessage2Business.setVisibility(View.VISIBLE);
                     binding.progressBarBusiness.setVisibility(View.GONE);
                     break;
                 }
@@ -72,9 +69,6 @@ public class BusinessFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshBusiness.setRefreshing(false);
-                    binding.errorBoldBusiness.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Business.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Business.setVisibility(View.INVISIBLE);
                     adapter.setNewsList(response.data);
                     break;
                 }

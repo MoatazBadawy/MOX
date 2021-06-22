@@ -37,49 +37,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/error_bold_sports"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Error!"
-        android:textAlignment="center"
-        android:textColor="#CB000000"
-        android:textSize="@dimen/_24sdp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.47" />
-
-    <TextView
-        android:id="@+id/error_message_1_sports"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:layout_marginEnd="16dp"
-        android:text="There seems to be a problem! We are working on fixing it"
-        android:textAlignment="center"
-        android:textSize="@dimen/_14ssp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/error_bold_sports" />
-
-    <TextView
-        android:id="@+id/error_message_2_sports"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:text="Please check your internet connection"
-        android:textAlignment="center"
-        android:textSize="@dimen/_14ssp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/error_message_1_sports" />
 </androidx.constraintlayout.widget.ConstraintLayout>

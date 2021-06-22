@@ -44,9 +44,6 @@ public class SportsFragment extends Fragment {
         viewModel.makeApiCallSports().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.errorBoldSports.setVisibility(View.VISIBLE);
-                    binding.errorMessage1Sports.setVisibility(View.VISIBLE);
-                    binding.errorMessage2Sports.setVisibility(View.VISIBLE);
                     binding.progressBarSports.setVisibility(View.GONE);
                     break;
                 }
@@ -72,9 +69,6 @@ public class SportsFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshSports.setRefreshing(false);
-                    binding.errorBoldSports.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Sports.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Sports.setVisibility(View.INVISIBLE);
                     adapter.setNewsList(response.data);
                     break;
                 }

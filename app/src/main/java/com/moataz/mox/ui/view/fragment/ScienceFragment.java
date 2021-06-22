@@ -43,9 +43,6 @@ public class ScienceFragment extends Fragment {
         viewModel.makeApiCallScience().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.errorBoldScience.setVisibility(View.VISIBLE);
-                    binding.errorMessage1Science.setVisibility(View.VISIBLE);
-                    binding.errorMessage2Science.setVisibility(View.VISIBLE);
                     binding.progressBarScience.setVisibility(View.GONE);
                     break;
                 }
@@ -71,9 +68,6 @@ public class ScienceFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshScience.setRefreshing(false);
-                    binding.errorBoldScience.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Science.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Science.setVisibility(View.INVISIBLE);
                     adapter.setNewsList(response.data);
                     break;
                 }

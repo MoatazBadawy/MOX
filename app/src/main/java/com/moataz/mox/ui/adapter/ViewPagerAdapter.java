@@ -17,11 +17,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final MainFragment mContext;
     private static final int NUM_PAGES = 6;
-    public ViewPagerAdapter(MainFragment context, FragmentManager fm) {
-        super(fm);
-        mContext = context;
+
+    public ViewPagerAdapter(MainFragment mContext, int behavior, @NonNull FragmentManager fm) {
+        super(fm, behavior);
+        this.mContext = mContext;
     }
 
+    @NonNull
     public Fragment getItem(int position) {
         if (position == 0) {
             return new TopFragment();
@@ -58,5 +60,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return NUM_PAGES;
+    }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        // POSITION_NONE makes it possible to reload the PagerAdapter
+        return POSITION_NONE;
     }
 }

@@ -1,9 +1,6 @@
 package com.moataz.mox.ui.adapter;
 
-import android.animation.Animator;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -12,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +35,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new NewsViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.list_news,
+                        R.layout.list_articles,
                         parent,
                         false
                 )

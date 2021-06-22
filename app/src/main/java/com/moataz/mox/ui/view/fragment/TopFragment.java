@@ -1,29 +1,35 @@
 package com.moataz.mox.ui.view.fragment;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentTopBinding;
 import com.moataz.mox.ui.adapter.ArticleAdapter;
-import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.ui.viewmodel.TopViewModel;
+import com.moataz.mox.utils.CheckNetwork;
+import com.moataz.mox.utils.IOnBackPressed;
+
 import org.jetbrains.annotations.NotNull;
 
-public class TopFragment extends Fragment {
+public class TopFragment extends Fragment implements IOnBackPressed  {
 
     private ArticleAdapter adapter;
     private TopViewModel viewModel;
     private FragmentTopBinding binding;
-    ViewPagerAdapter adapterViewPager;
+    BottomSheetDialog bottomSheetDialog;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -49,9 +55,6 @@ public class TopFragment extends Fragment {
         viewModel.makeApiCallTop().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.errorBoldTop.setVisibility(View.VISIBLE);
-                    binding.errorMessage1Top.setVisibility(View.VISIBLE);
-                    binding.errorMessage2Top.setVisibility(View.VISIBLE);
                     binding.progressBarTop.setVisibility(View.GONE);
                     break;
                 }
@@ -77,9 +80,6 @@ public class TopFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshTop.setRefreshing(false);
-                    binding.errorBoldTop.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Top.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Top.setVisibility(View.INVISIBLE);
                     adapter.setNewsList(response.data);
                     break;
                 }
@@ -89,5 +89,12 @@ public class TopFragment extends Fragment {
 
     private void initializeViewModel() {
         viewModel = new ViewModelProvider(this).get(TopViewModel.class);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        requireActivity().moveTaskToBack(true); //exit the app when press back
+        requireActivity().finish();
+        return true;
     }
 }

@@ -44,9 +44,6 @@ public class TechnologyFragment extends Fragment {
         viewModel.makeApiCallTechnology().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.errorBoldTechnology.setVisibility(View.VISIBLE);
-                    binding.errorMessage1Technology.setVisibility(View.VISIBLE);
-                    binding.errorMessage2Technology.setVisibility(View.VISIBLE);
                     binding.progressBarTechnology.setVisibility(View.GONE);
                     break;
                 }
@@ -72,9 +69,6 @@ public class TechnologyFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshTechnology.setRefreshing(false);
-                    binding.errorBoldTechnology.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Technology.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Technology.setVisibility(View.INVISIBLE);
                     adapter.setNewsList(response.data);
                     break;
                 }

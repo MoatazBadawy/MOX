@@ -42,9 +42,6 @@ public class HealthFragment extends Fragment {
         viewModel.makeApiCallHealth().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.errorBoldHealth.setVisibility(View.VISIBLE);
-                    binding.errorMessage1Health.setVisibility(View.VISIBLE);
-                    binding.errorMessage2Health.setVisibility(View.VISIBLE);
                     binding.progressBarHealth.setVisibility(View.GONE);
                     break;
                 }
@@ -70,9 +67,6 @@ public class HealthFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshHealth.setRefreshing(false);
-                    binding.errorBoldHealth.setVisibility(View.INVISIBLE);
-                    binding.errorMessage1Health.setVisibility(View.INVISIBLE);
-                    binding.errorMessage2Health.setVisibility(View.INVISIBLE);
                     adapter.setNewsList(response.data);
                     break;
                 }
