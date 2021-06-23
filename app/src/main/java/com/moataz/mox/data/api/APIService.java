@@ -1,7 +1,7 @@
 package com.moataz.mox.data.api;
 
 
-import com.moataz.mox.data.model.response.ArticleResponse;
+import com.moataz.mox.data.model.Article.ArticleResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

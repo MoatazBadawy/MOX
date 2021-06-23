@@ -1,4 +1,4 @@
-package com.moataz.mox.data.model
+package com.moataz.mox.data.model.Article
 
 data class Article(
     val author: String?,

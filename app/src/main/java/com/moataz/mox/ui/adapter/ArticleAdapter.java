@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
-import com.moataz.mox.data.model.Article;
+import com.moataz.mox.data.model.Article.Article;
 
 import java.util.List;
 import java.util.Objects;

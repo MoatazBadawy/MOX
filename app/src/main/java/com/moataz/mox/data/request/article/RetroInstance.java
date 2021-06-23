@@ -1,4 +1,4 @@
-package com.moataz.mox.data.request;
+package com.moataz.mox.data.request.article;
 
 import java.util.concurrent.TimeUnit;
 

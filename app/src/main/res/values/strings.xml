@@ -3,11 +3,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tob_tabe">Top</string>
-    <string name="technology_tabe">Development</string>
-    <string name="business_tabe">Android dev</string>
-    <string name="sports_tabe">UI/UX</string>
-    <string name="health_tabe">Mobile UI</string>
-    <string name="science_tabe">Sports</string>
+    <string name="technology_tabe">Technology</string>
+    <string name="business_tabe">Business</string>
+    <string name="sports_tabe">Sorts</string>
+    <string name="health_tabe">Health</string>
+    <string name="science_tabe">Science</string>
     <string name="background">Background</string>
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="please_check_your_internet_connection">please check your internet connection</string>

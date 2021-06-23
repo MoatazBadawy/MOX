@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.moataz.mox.data.api.APIService;
-import com.moataz.mox.data.model.Article;
-import com.moataz.mox.data.model.response.ArticleResponse;
-import com.moataz.mox.data.request.RetroInstance;
+import com.moataz.mox.data.model.Article.Article;
+import com.moataz.mox.data.model.Article.Article.ArticleResponse;
+import com.moataz.mox.data.request.article.RetroInstance;
 import com.moataz.mox.utils.Resource;
 
 import org.jetbrains.annotations.NotNull;

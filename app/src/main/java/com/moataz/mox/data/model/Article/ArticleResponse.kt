@@ -1,6 +1,4 @@
-package com.moataz.mox.data.model.response
-
-import com.moataz.mox.data.model.Article
+package com.moataz.mox.data.model.Article
 
 data class ArticleResponse(
     val articles: List<Article>,

@@ -3,10 +3,6 @@ package com.moataz.mox.utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.moataz.mox.data.model.Article;
-
-import java.util.List;
-
 public class Resource<T> {
 
     @NonNull
