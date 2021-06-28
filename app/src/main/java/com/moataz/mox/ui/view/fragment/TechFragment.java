@@ -8,15 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentScienceBinding;
-import com.moataz.mox.ui.adapter.ArticleAdapter;
-import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.ui.viewmodel.ScienceViewModel;
+import com.moataz.mox.ui.adapter.ThevergeAdapter;
+import com.moataz.mox.ui.viewmodel.TechViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class ScienceFragment extends Fragment {
+public class TechFragment extends Fragment {
 
-    private ArticleAdapter adapter;
-    private ScienceViewModel viewModel;
+    private ThevergeAdapter adapter;
+    private TechViewModel viewModel;
     private FragmentScienceBinding binding;
 
     @Override
@@ -33,14 +32,14 @@ public class ScienceFragment extends Fragment {
     }
 
     private void initializeViews() {
-        adapter = new ArticleAdapter();
+        adapter = new ThevergeAdapter();
         binding.recyclerViewScience.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewScience.setHasFixedSize(true);
         binding.recyclerViewScience.setAdapter(adapter);
     }
 
     private void getList() {
-        viewModel.makeApiCallScience().observe(requireActivity(), response -> {
+        viewModel.makeApiCallTechArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarScience.setVisibility(View.GONE);
@@ -52,7 +51,7 @@ public class ScienceFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarScience.setVisibility(View.GONE);
-                    adapter.setNewsList(response.data);
+                    adapter.setThevergeList(response.data);
                     break;
                 }
             }
@@ -60,7 +59,7 @@ public class ScienceFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshScience.setOnRefreshListener(() -> viewModel.makeApiCallScience().observe(requireActivity(), response -> {
+        binding.swipeToRefreshScience.setOnRefreshListener(() -> viewModel.makeApiCallTechArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshScience.setRefreshing(false);
@@ -68,7 +67,7 @@ public class ScienceFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshScience.setRefreshing(false);
-                    adapter.setNewsList(response.data);
+                    adapter.setThevergeList(response.data);
                     break;
                 }
             }
@@ -76,6 +75,6 @@ public class ScienceFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(ScienceViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TechViewModel.class);
     }
 }

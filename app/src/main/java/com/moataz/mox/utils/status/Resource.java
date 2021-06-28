@@ -1,4 +1,4 @@
-package com.moataz.mox.utils;
+package com.moataz.mox.utils.status;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +13,6 @@ public class Resource<T> {
 
     @Nullable
     public final String message;
-
 
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message) {
         this.status = status;

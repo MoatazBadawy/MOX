@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".ui.view.fragment.UIFragment">
+    tools:context=".ui.view.fragment.AgileFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_to_refresh_business"
+        android:id="@+id/swipe_to_refresh_agile"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_business"
+            android:id="@+id/recyclerView_agile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="@dimen/_4sdp"
@@ -28,7 +28,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:id="@+id/progress_bar_business"
+        android:id="@+id/progress_bar_agile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

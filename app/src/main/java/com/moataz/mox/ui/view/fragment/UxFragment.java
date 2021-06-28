@@ -8,14 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentHealthBinding;
-import com.moataz.mox.ui.adapter.ArticleAdapter;
-import com.moataz.mox.ui.viewmodel.HealthViewModel;
+import com.moataz.mox.ui.adapter.MediumAdapter;
+import com.moataz.mox.ui.viewmodel.UXViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class HealthFragment extends Fragment {
+public class UxFragment extends Fragment {
 
-    private ArticleAdapter adapter;
-    private HealthViewModel viewModel;
+    private MediumAdapter adapter;
+    private UXViewModel viewModel;
     private FragmentHealthBinding binding;
 
     @Override
@@ -32,14 +32,14 @@ public class HealthFragment extends Fragment {
     }
 
     private void initializeViews() {
-        adapter = new ArticleAdapter();
+        adapter = new MediumAdapter();
         binding.recyclerViewHealth.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewHealth.setHasFixedSize(true);
         binding.recyclerViewHealth.setAdapter(adapter);
     }
 
     private void getList() {
-        viewModel.makeApiCallHealth().observe(requireActivity(), response -> {
+        viewModel.makeApiCallUXArticle().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarHealth.setVisibility(View.GONE);
@@ -51,7 +51,7 @@ public class HealthFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarHealth.setVisibility(View.GONE);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -59,7 +59,7 @@ public class HealthFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshHealth.setOnRefreshListener(() -> viewModel.makeApiCallHealth().observe(requireActivity(), response -> {
+        binding.swipeToRefreshHealth.setOnRefreshListener(() -> viewModel.makeApiCallUXArticle().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshHealth.setRefreshing(false);
@@ -67,7 +67,7 @@ public class HealthFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshHealth.setRefreshing(false);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -75,6 +75,6 @@ public class HealthFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(HealthViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UXViewModel.class);
     }
 }

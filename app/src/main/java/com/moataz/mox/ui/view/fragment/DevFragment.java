@@ -8,16 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentSportsBinding;
-import com.moataz.mox.ui.adapter.ArticleAdapter;
-import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.ui.viewmodel.SportsViewModel;
+import com.moataz.mox.ui.adapter.MediumAdapter;
+import com.moataz.mox.ui.viewmodel.DevViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-public class SportsFragment extends Fragment {
+public class DevFragment extends Fragment {
 
-    private ArticleAdapter adapter;
-    private SportsViewModel viewModel;
+    private MediumAdapter adapter;
+    private DevViewModel viewModel;
     private FragmentSportsBinding binding;
 
     @Override
@@ -34,14 +33,14 @@ public class SportsFragment extends Fragment {
     }
 
     private void initializeViews() {
-        adapter = new ArticleAdapter();
+        adapter = new MediumAdapter();
         binding.recyclerViewSports.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewSports.setHasFixedSize(true);
         binding.recyclerViewSports.setAdapter(adapter);
     }
 
     private void getList() {
-        viewModel.makeApiCallSports().observe(requireActivity(), response -> {
+        viewModel.makeApiCallDevArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarSports.setVisibility(View.GONE);
@@ -53,7 +52,7 @@ public class SportsFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarSports.setVisibility(View.GONE);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -61,7 +60,7 @@ public class SportsFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshSports.setOnRefreshListener(() -> viewModel.makeApiCallSports().observe(requireActivity(), response -> {
+        binding.swipeToRefreshSports.setOnRefreshListener(() -> viewModel.makeApiCallDevArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshSports.setRefreshing(false);
@@ -69,7 +68,7 @@ public class SportsFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshSports.setRefreshing(false);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -77,6 +76,6 @@ public class SportsFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(SportsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DevViewModel.class);
     }
 }

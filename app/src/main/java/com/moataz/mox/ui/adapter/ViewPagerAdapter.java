@@ -5,18 +5,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.moataz.mox.R;
-import com.moataz.mox.ui.view.fragment.BusinessFragment;
-import com.moataz.mox.ui.view.fragment.HealthFragment;
+import com.moataz.mox.ui.view.fragment.AgileFragment;
+import com.moataz.mox.ui.view.fragment.DevFragment;
+import com.moataz.mox.ui.view.fragment.UIFragment;
+import com.moataz.mox.ui.view.fragment.UxFragment;
 import com.moataz.mox.ui.view.fragment.MainFragment;
-import com.moataz.mox.ui.view.fragment.ScienceFragment;
-import com.moataz.mox.ui.view.fragment.SportsFragment;
-import com.moataz.mox.ui.view.fragment.TechnologyFragment;
+import com.moataz.mox.ui.view.fragment.TechFragment;
+import com.moataz.mox.ui.view.fragment.AndroidFragment;
 import com.moataz.mox.ui.view.fragment.TopFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final MainFragment mContext;
-    private static final int NUM_PAGES = 6;
+    private static final int NUM_PAGES = 7;
 
     public ViewPagerAdapter(MainFragment mContext, int behavior, @NonNull FragmentManager fm) {
         super(fm, behavior);
@@ -28,32 +29,36 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 0) {
             return new TopFragment();
         } else if (position == 1) {
-            return new TechnologyFragment();
+            return new TechFragment();
         } else if (position == 2) {
-            return new BusinessFragment();
+            return new DevFragment();
         } else if (position == 3) {
-            return new SportsFragment();
+            return new AndroidFragment();
         } else if (position == 4) {
-            return new HealthFragment();
+            return new UxFragment();
+        } else if (position == 5){
+            return new UIFragment();
         } else {
-            return new ScienceFragment();
+            return new AgileFragment();
         }
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
-            return mContext.getString(R.string.tob_tabe);
+            return mContext.getString(R.string.top_tab);
         } else if (position == 1) {
-            return mContext.getString(R.string.technology_tabe);
+            return mContext.getString(R.string.tech_tab);
         } else if (position == 2) {
-            return mContext.getString(R.string.business_tabe);
+            return mContext.getString(R.string.pro_tab);
         } else if (position == 3) {
-            return mContext.getString(R.string.sports_tabe);
+            return mContext.getString(R.string.android_tab);
         } else if (position == 4) {
-            return mContext.getString(R.string.health_tabe);
+            return mContext.getString(R.string.ux_tab);
+        } else if (position == 5){
+            return mContext.getString(R.string.ui_tab);
         } else {
-            return mContext.getString(R.string.science_tabe);
+            return mContext.getString(R.string.agile_tab);
         }
     }
 
@@ -64,7 +69,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getItemPosition(@NonNull Object object) {
-        // POSITION_NONE makes it possible to reload the PagerAdapter
-        return POSITION_NONE;
+        return POSITION_NONE; // POSITION_NONE makes it possible to reload the PagerAdapter
     }
 }

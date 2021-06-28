@@ -1,17 +1,31 @@
 <resources>
     <string name="app_name">MOX</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tob_tabe">Top</string>
-    <string name="technology_tabe">Technology</string>
-    <string name="business_tabe">Business</string>
-    <string name="sports_tabe">Sorts</string>
-    <string name="health_tabe">Health</string>
-    <string name="science_tabe">Science</string>
+
+    <!--tabLayout-->
+    <string name="top_tab">Top</string>
+    <string name="tech_tab">Technology</string>
+    <string name="dev_tab">Clean Code</string>
+    <string name="android_tab">Android Dev</string>
+    <string name="pro_tab">Development</string>
+    <string name="ux_tab">UX Design</string>
+    <string name="ui_tab">Product UI</string>
+    <string name="agile_tab">Work Agile</string>
+
+    <!--actions-->
     <string name="background">Background</string>
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="please_check_your_internet_connection">please check your internet connection</string>
-    <string name="there_s_seems_an_error_we_try_to_fix_it_at_this_time">There\'s seems an error, we try to fix it at this time</string>
+    <string name="there_s_seems_an_error_we_try_to_fix_it_at_this_time">There\'s seems an error and we are working on it</string>
     <string name="try_again">Try Again</string>
-<string name="whoops">Whoops!</string>
+    <string name="whoops">Whoops!</string>
+
+    <!--names-->
+    <string name="medium">Medium</string>
+    <string name="theverge">theverge</string>
+    <string name="cnn">CNN</string>
+    <string name="author">CNN editor\'s</string>
+
+    <!--description-->
+    <string name="article_image">Article Image</string>
+    <string name="comma_image">Comma Image</string>
 </resources>

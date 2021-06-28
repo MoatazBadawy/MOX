@@ -8,17 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentTechnologyBinding;
-import com.moataz.mox.ui.adapter.ArticleAdapter;
-import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.ui.viewmodel.TechnologyViewModel;
+import com.moataz.mox.ui.adapter.MediumAdapter;
+import com.moataz.mox.ui.viewmodel.AndroidViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class TechnologyFragment extends Fragment {
+public class AndroidFragment extends Fragment {
 
-    private ArticleAdapter adapter;
-    private TechnologyViewModel viewModel;
+    private MediumAdapter adapter;
+    private AndroidViewModel viewModel;
     private FragmentTechnologyBinding binding;
-    ViewPagerAdapter adapterViewPager;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -34,14 +32,14 @@ public class TechnologyFragment extends Fragment {
     }
 
     private void initializeViews() {
-        adapter = new ArticleAdapter();
+        adapter = new MediumAdapter();
         binding.recyclerViewTechnology.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewTechnology.setHasFixedSize(true);
         binding.recyclerViewTechnology.setAdapter(adapter);
     }
 
     private void getTopList() {
-        viewModel.makeApiCallTechnology().observe(requireActivity(), response -> {
+        viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarTechnology.setVisibility(View.GONE);
@@ -53,7 +51,7 @@ public class TechnologyFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarTechnology.setVisibility(View.GONE);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -61,7 +59,7 @@ public class TechnologyFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshTechnology.setOnRefreshListener(() -> viewModel.makeApiCallTechnology().observe(requireActivity(), response -> {
+        binding.swipeToRefreshTechnology.setOnRefreshListener(() -> viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshTechnology.setRefreshing(false);
@@ -69,7 +67,7 @@ public class TechnologyFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshTechnology.setRefreshing(false);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -77,6 +75,6 @@ public class TechnologyFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(TechnologyViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AndroidViewModel.class);
     }
 }

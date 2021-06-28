@@ -1,4 +1,4 @@
-package com.moataz.mox.utils;
+package com.moataz.mox.utils.helper;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 public class CheckNetwork {
-
 
     private static final String TAG = CheckNetwork.class.getSimpleName();
 

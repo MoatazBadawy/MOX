@@ -8,8 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.moataz.mox.data.api.APIService;
-import com.moataz.mox.data.model.news.CnnResponse;
-import com.moataz.mox.data.model.news.Item;
+import com.moataz.mox.data.model.article.Item;
+import com.moataz.mox.data.model.article.MediumResponse;
 import com.moataz.mox.data.request.RetroInstant;
 import com.moataz.mox.utils.status.Resource;
 
@@ -23,33 +23,32 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+public class AgileViewModel extends ViewModel {
 
-public class TopViewModel extends ViewModel {
+    private static final String TAG = "AgileViewModel";
 
-    private static final String TAG = "TopViewModel";
-
-    public LiveData<Resource<List<Item>>> makeApiCallTopArticles() {
+    public LiveData<Resource<List<Item>>> makeApiCallAgileArticles() {
         final MutableLiveData<Resource<List<Item>>> mediumObjectsList = new MutableLiveData<>();
         mediumObjectsList.setValue(Resource.loading());
         APIService apiService = RetroInstant.getRetroMediumClient().create(APIService.class);
-        Observable<CnnResponse> observable = apiService.getNewsObjectsList(
-                "http://rss.cnn.com/rss/cnn_topstories.rss",
-                "gemq2i32mdg0aaye65jvvzguuzhxuuj3aqkn3dig",
-                "25");
+        Observable<MediumResponse> observable = apiService.getArticleObjectsList(
+                "https://medium.com/feed/tag/agile",
+                "gemq2i32mdg0aaye65jvvzguuzhxuuj3aqkn3dig");
 
-        Observer<CnnResponse> observer = new Observer<CnnResponse>() {
+        Observer<MediumResponse> observer = new Observer<MediumResponse>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
 
             }
 
             @Override
-            public void onNext(CnnResponse value) {
+            public void onNext(MediumResponse value) {
                 List<Item> articles = new ArrayList<>();
                 assert value != null;
                 List<Item> responce = value.getItems();
                 for (int i = 0; i < Objects.requireNonNull(responce).size(); i ++) {
-                    if (!Objects.equals(Objects.requireNonNull(responce.get(i).getEnclosure()).getLink(), null)
+                    if (!Objects.equals(responce.get(i).getAuthor(), "")
+                            && !Objects.equals(responce.get(i).getThumbnail(), "")
                             && !Objects.equals(responce.get(i).getTitle(), "")) {
                         articles.add(responce.get(i));
                     }

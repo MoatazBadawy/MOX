@@ -12,20 +12,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
-import com.moataz.mox.data.model.Article.Article;
+import com.moataz.mox.data.model.news.Item;
 
 import java.util.List;
 import java.util.Objects;
 
-public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Article> items = null;
+    private List<Item> items = null;
 
-    public void setNewsList(List<Article> items) {
+    public void setCNNList(List<Item> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -35,7 +35,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new NewsViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.list_articles,
+                        R.layout.list_article,
                         parent,
                         false
                 )
@@ -44,9 +44,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Article article = items.get(position);
-        ((NewsViewHolder) holder).setNewsData(article);
-        ((NewsViewHolder) holder).setOnClick(article);
+        Item News = items.get(position);
+        ((NewsViewHolder) holder).setData(News);
+        ((NewsViewHolder) holder).setOnClick(News);
     }
 
     @Override
@@ -56,45 +56,41 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     static class NewsViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView imageNews;
-        private final TextView titleNews;
-        private final TextView descriptionNews;
-        private final TextView nameNews;
-        private final TextView authorNews;
+        private final ImageView image;
+        private final TextView title;
+        private final TextView source;
+        private final TextView author;
 
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageNews = itemView.findViewById(R.id.image_news);
-            titleNews = itemView.findViewById(R.id.title);
-            descriptionNews = itemView.findViewById(R.id.description);
-            nameNews = itemView.findViewById(R.id.sorce_name);
-            authorNews = itemView.findViewById(R.id.author_name);
+            image = itemView.findViewById(R.id.image_medium);
+            title = itemView.findViewById(R.id.title_medium);
+            source = itemView.findViewById(R.id.source_medium);
+            author = itemView.findViewById(R.id.author_name_medium);
         }
 
-        void setNewsData(Article article) {
+        void setData(Item news) {
             Glide.with(itemView.getContext())
-                    .load(article.getUrlToImage())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .load(Objects.requireNonNull(news.getEnclosure()).getLink())
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(imageNews);
+                    .into(image);
 
-            titleNews.setText(article.getTitle());
-            descriptionNews.setText(article.getDescription());
-            nameNews.setText(Objects.requireNonNull(article.getSource()).getId());
-            authorNews.setText(article.getAuthor());
+            title.setText(news.getTitle());
+            source.setText(R.string.cnn);
+            author.setText(R.string.author);
         }
 
         /**
          * When the user click on article it will open the article
          * in new Tab using ChromeCustomTab
          */
-        void setOnClick(Article article) {
+        void setOnClick(Item mediumArticle) {
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
                 customTabIntent.setExitAnimations(itemView.getContext(), android.R.anim.fade_in, android.R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
-                openCustomTabs(itemView.getContext(),customTabIntent.build(),Uri.parse(article.getUrl()));
+                openCustomTabs(itemView.getContext(),customTabIntent.build(),Uri.parse(mediumArticle.getLink()));
             });
         }
 

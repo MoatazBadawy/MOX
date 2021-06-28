@@ -1,4 +1,4 @@
-package com.moataz.mox.utils;
+package com.moataz.mox.utils.status;
 
 public enum Status {
     LOADING,

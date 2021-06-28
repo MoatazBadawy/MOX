@@ -11,8 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentMainBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.utils.CheckNetwork;
-import com.moataz.mox.utils.IOnBackPressed;
+import com.moataz.mox.utils.helper.CheckNetwork;
 
 /**
  * Created by Moataz
@@ -46,7 +45,7 @@ public class MainFragment extends Fragment {
         if (CheckNetwork.isInternetAvailable(requireActivity())) {
             bottomSheetDialog.dismiss();
         } else {
-            bottomSheetDialog.setCancelable(false);
+            bottomSheetDialog.setCanceledOnTouchOutside(false);
             bottomSheetDialog.show();
         }
         Button buttonNoInternet = bottomSheetDialog.findViewById(R.id.buttonNoInternet);

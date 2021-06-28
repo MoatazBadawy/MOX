@@ -8,17 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.moataz.mox.databinding.FragmentBusinessBinding;
-import com.moataz.mox.ui.adapter.ArticleAdapter;
+import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.ui.viewmodel.BusinessViewModel;
+import com.moataz.mox.ui.viewmodel.UIViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class BusinessFragment extends Fragment {
+public class UIFragment extends Fragment {
 
-    private ArticleAdapter adapter;
-    private BusinessViewModel viewModel;
+    private MediumAdapter adapter;
+    private UIViewModel viewModel;
     private FragmentBusinessBinding binding;
-    ViewPagerAdapter adapterViewPager;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -34,14 +33,14 @@ public class BusinessFragment extends Fragment {
     }
 
     private void initializeViews() {
-        adapter = new ArticleAdapter();
+        adapter = new MediumAdapter();
         binding.recyclerViewBusiness.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewBusiness.setHasFixedSize(true);
         binding.recyclerViewBusiness.setAdapter(adapter);
     }
 
     private void getList() {
-        viewModel.makeApiCallBusiness().observe(requireActivity(), response -> {
+        viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarBusiness.setVisibility(View.GONE);
@@ -53,7 +52,7 @@ public class BusinessFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarBusiness.setVisibility(View.GONE);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -61,7 +60,7 @@ public class BusinessFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshBusiness.setOnRefreshListener(() -> viewModel.makeApiCallBusiness().observe(requireActivity(), response -> {
+        binding.swipeToRefreshBusiness.setOnRefreshListener(() -> viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshBusiness.setRefreshing(false);
@@ -69,7 +68,7 @@ public class BusinessFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshBusiness.setRefreshing(false);
-                    adapter.setNewsList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -77,6 +76,6 @@ public class BusinessFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(BusinessViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UIViewModel.class);
     }
 }
