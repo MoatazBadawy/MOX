@@ -2,14 +2,11 @@ package com.moataz.mox.ui.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
-import com.moataz.mox.utils.helper.IOnBackPressed;
 
 public class MainActivity extends AppCompatActivity  {
 

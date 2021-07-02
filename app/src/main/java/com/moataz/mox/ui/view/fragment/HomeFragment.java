@@ -1,11 +1,7 @@
 package com.moataz.mox.ui.view.fragment;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +15,7 @@ import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.utils.helper.CheckNetwork;
 import com.moataz.mox.utils.helper.IOnBackPressed;
 
-import java.util.Objects;
-
-public class HomeFragment extends Fragment implements IOnBackPressed {
+public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
 
     FragmentMainBinding binding;
     ViewPagerAdapter adapter;
@@ -50,9 +44,9 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         if (CheckNetwork.isInternetAvailable(requireActivity())) {
             bottomSheetDialog.dismiss();
         } else {
-            bottomSheetDialog.setCanceledOnTouchOutside(false);
-            bottomSheetDialog.show();
+            setupBottomSheetDialog();
         }
+        /* Try Again Button */
         Button buttonNoInternet = bottomSheetDialog.findViewById(R.id.buttonNoInternet);
         assert buttonNoInternet != null;
         buttonNoInternet.setOnClickListener(v -> {
@@ -65,6 +59,38 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                 bottomSheetDialog.show();
             }
         });
+    }
+
+    private void setupBottomSheetDialog() {
+        bottomSheetDialog = new BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme) {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setOnKeyListener((dialog, keyCode, event) -> {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                        // Back key is pressed
+                        bottomSheetDialog.dismiss(); // Optional
+                        requireActivity().moveTaskToBack(true); //exit the app when press back
+                        requireActivity().finish();
+                        return true;
+                    }
+                    return false;
+                });
+
+            }
+        };
+        bottomSheetDialog.setContentView(R.layout.bottomsheet_no_internet);
+        bottomSheetDialog.setCancelable(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (CheckNetwork.isInternetAvailable(requireActivity())) {
+            bottomSheetDialog.dismiss();
+        } else {
+            bottomSheetDialog.show();
+        }
     }
 
     @Override

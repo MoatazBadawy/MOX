@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentAgileBinding;
-import com.moataz.mox.databinding.FragmentTechnologyBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.AgileViewModel;
 import com.moataz.mox.ui.viewmodel.AndroidViewModel;
