@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentScienceBinding;
+import com.moataz.mox.databinding.FragmentTechBinding;
 import com.moataz.mox.ui.adapter.ThevergeAdapter;
 import com.moataz.mox.ui.viewmodel.TechViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +16,12 @@ public class TechFragment extends Fragment {
 
     private ThevergeAdapter adapter;
     private TechViewModel viewModel;
-    private FragmentScienceBinding binding;
+    private FragmentTechBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentScienceBinding.inflate(getLayoutInflater());
+        binding = FragmentTechBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();

@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentBusinessBinding;
+import com.moataz.mox.databinding.FragmentUiBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.ui.viewmodel.UIViewModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +16,12 @@ public class UIFragment extends Fragment {
 
     private MediumAdapter adapter;
     private UIViewModel viewModel;
-    private FragmentBusinessBinding binding;
+    private FragmentUiBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentBusinessBinding.inflate(getLayoutInflater());
+        binding = FragmentUiBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();

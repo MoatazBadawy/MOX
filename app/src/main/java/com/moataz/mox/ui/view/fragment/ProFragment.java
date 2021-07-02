@@ -7,22 +7,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentSportsBinding;
+import com.moataz.mox.databinding.FragmentProBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.viewmodel.DevViewModel;
+import com.moataz.mox.ui.viewmodel.ProViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-public class DevFragment extends Fragment {
+public class ProFragment extends Fragment {
 
     private MediumAdapter adapter;
-    private DevViewModel viewModel;
-    private FragmentSportsBinding binding;
+    private ProViewModel viewModel;
+    private FragmentProBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentSportsBinding.inflate(getLayoutInflater());
+        binding = FragmentProBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -76,6 +76,6 @@ public class DevFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(DevViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProViewModel.class);
     }
 }

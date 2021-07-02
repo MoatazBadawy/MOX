@@ -1,11 +1,8 @@
 package com.moataz.mox.data.api;
 
-
 import com.moataz.mox.data.model.news.CnnResponse;
 import com.moataz.mox.data.model.article.MediumResponse;
-
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

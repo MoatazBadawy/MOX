@@ -12,8 +12,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentMainBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.utils.helper.CheckNetwork;
-import com.moataz.mox.utils.helper.IOnBackPressed;
+import com.moataz.mox.utils.CheckNetwork;
+import com.moataz.mox.utils.IOnBackPressed;
 
 public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
 

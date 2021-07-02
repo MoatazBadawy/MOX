@@ -1,31 +1,27 @@
 package com.moataz.mox.ui.viewmodel;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.moataz.mox.data.api.APIService;
 import com.moataz.mox.data.model.article.Item;
 import com.moataz.mox.data.model.article.MediumResponse;
 import com.moataz.mox.data.request.RetroInstant;
-import com.moataz.mox.utils.status.Resource;
-
+import com.moataz.mox.utils.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class AgileViewModel extends ViewModel {
+public class RemotelyViewModel extends ViewModel {
 
-    private static final String TAG = "AgileViewModel";
+    private static final String TAG = "RemotelyViewModel";
 
     public LiveData<Resource<List<Item>>> makeApiCallAgileArticles() {
         final MutableLiveData<Resource<List<Item>>> mediumObjectsList = new MutableLiveData<>();

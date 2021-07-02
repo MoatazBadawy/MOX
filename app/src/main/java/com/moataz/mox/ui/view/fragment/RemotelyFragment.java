@@ -1,33 +1,27 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.moataz.mox.R;
-import com.moataz.mox.databinding.FragmentAgileBinding;
+import com.moataz.mox.databinding.FragmentRemotelyBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.viewmodel.AgileViewModel;
-import com.moataz.mox.ui.viewmodel.AndroidViewModel;
-
+import com.moataz.mox.ui.viewmodel.RemotelyViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class AgileFragment extends Fragment {
+public class RemotelyFragment extends Fragment {
 
     private MediumAdapter adapter;
-    private AgileViewModel viewModel;
-    private FragmentAgileBinding binding;
+    private RemotelyViewModel viewModel;
+    private FragmentRemotelyBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAgileBinding.inflate(getLayoutInflater());
+        binding = FragmentRemotelyBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -81,6 +75,6 @@ public class AgileFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(AgileViewModel.class);
+        viewModel = new ViewModelProvider(this).get(RemotelyViewModel.class);
     }
 }

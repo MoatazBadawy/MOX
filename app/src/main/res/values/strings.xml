@@ -8,7 +8,7 @@
     <string name="pro_tab">Programming</string>
     <string name="ux_tab">UI Design</string>
     <string name="ui_tab">UX Design</string>
-    <string name="agile_tab">Remote Work</string>
+    <string name="agile_tab">Remotely</string>
 
     <!--actions-->
     <string name="background">Background</string>

@@ -2,7 +2,6 @@ package com.moataz.mox.ui.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
-
 import android.os.Bundle;
 import android.view.View;
 import com.moataz.mox.R;

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentHealthBinding;
+import com.moataz.mox.databinding.FragmentUxBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.UXViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +16,12 @@ public class UxFragment extends Fragment {
 
     private MediumAdapter adapter;
     private UXViewModel viewModel;
-    private FragmentHealthBinding binding;
+    private FragmentUxBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentHealthBinding.inflate(getLayoutInflater());
+        binding = FragmentUxBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();

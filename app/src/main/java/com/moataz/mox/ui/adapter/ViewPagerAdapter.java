@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.moataz.mox.R;
-import com.moataz.mox.ui.view.fragment.AgileFragment;
-import com.moataz.mox.ui.view.fragment.DevFragment;
+import com.moataz.mox.ui.view.fragment.RemotelyFragment;
+import com.moataz.mox.ui.view.fragment.ProFragment;
 import com.moataz.mox.ui.view.fragment.UIFragment;
 import com.moataz.mox.ui.view.fragment.UxFragment;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
@@ -31,15 +31,15 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         } else if (position == 1) {
             return new TechFragment();
         } else if (position == 2) {
-            return new DevFragment();
+            return new ProFragment();
         } else if (position == 3) {
             return new AndroidFragment();
         } else if (position == 4) {
-            return new UxFragment();
-        } else if (position == 5){
             return new UIFragment();
+        } else if (position == 5){
+            return new UxFragment();
         } else {
-            return new AgileFragment();
+            return new RemotelyFragment();
         }
     }
 

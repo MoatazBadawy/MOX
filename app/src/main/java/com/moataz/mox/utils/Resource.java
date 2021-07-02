@@ -1,4 +1,4 @@
-package com.moataz.mox.utils.status;
+package com.moataz.mox.utils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
