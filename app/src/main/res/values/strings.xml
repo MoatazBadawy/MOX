@@ -4,12 +4,11 @@
     <!--tabLayout-->
     <string name="top_tab">Top</string>
     <string name="tech_tab">Technology</string>
-    <string name="dev_tab">Clean Code</string>
     <string name="android_tab">Android Dev</string>
     <string name="pro_tab">Programming</string>
-    <string name="ux_tab">UX Design</string>
-    <string name="ui_tab">Product UI</string>
-    <string name="agile_tab">Work Agile</string>
+    <string name="ux_tab">UI Design</string>
+    <string name="ui_tab">UX Design</string>
+    <string name="agile_tab">Remote Work</string>
 
     <!--actions-->
     <string name="background">Background</string>

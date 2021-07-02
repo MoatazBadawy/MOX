@@ -1,22 +1,27 @@
 package com.moataz.mox.ui.view.fragment;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentMainBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.utils.helper.CheckNetwork;
+import com.moataz.mox.utils.helper.IOnBackPressed;
 
-/**
- * Created by Moataz
- */
-public class MainFragment extends Fragment {
+import java.util.Objects;
+
+public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
 
     FragmentMainBinding binding;
     ViewPagerAdapter adapter;
@@ -35,7 +40,7 @@ public class MainFragment extends Fragment {
     private void initializeViewPager() {
         adapter = new ViewPagerAdapter(this,0,requireActivity().getSupportFragmentManager());
         binding.viewPager.setAdapter(adapter);
-        binding.viewPager.setOffscreenPageLimit(5); // make TabLayout not Update the data when swipe
+        binding.viewPager.setOffscreenPageLimit(6); // make TabLayout not Update the data when swipe
         binding.tabs.setupWithViewPager(binding.viewPager);
     }
 
@@ -45,9 +50,10 @@ public class MainFragment extends Fragment {
         if (CheckNetwork.isInternetAvailable(requireActivity())) {
             bottomSheetDialog.dismiss();
         } else {
-            bottomSheetDialog.setCanceledOnTouchOutside(false);
+            bottomSheetDialog.setCancelable(false);
             bottomSheetDialog.show();
         }
+        // Try Again Button
         Button buttonNoInternet = bottomSheetDialog.findViewById(R.id.buttonNoInternet);
         assert buttonNoInternet != null;
         buttonNoInternet.setOnClickListener(v -> {
@@ -60,5 +66,28 @@ public class MainFragment extends Fragment {
                 bottomSheetDialog.show();
             }
         });
+        // Exit the app when bottomSheet shown
+        bottomSheetDialog = new BottomSheetDialog(requireContext()) {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setOnKeyListener((dialog, keyCode, event) -> {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                        bottomSheetDialog.dismiss();
+                        requireActivity().moveTaskToBack(true);
+                        requireActivity().finish();
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        };
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        requireActivity().moveTaskToBack(true);
+        requireActivity().finish();
+        return true;
     }
 }

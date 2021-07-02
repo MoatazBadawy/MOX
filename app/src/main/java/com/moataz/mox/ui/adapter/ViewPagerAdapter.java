@@ -9,17 +9,17 @@ import com.moataz.mox.ui.view.fragment.AgileFragment;
 import com.moataz.mox.ui.view.fragment.DevFragment;
 import com.moataz.mox.ui.view.fragment.UIFragment;
 import com.moataz.mox.ui.view.fragment.UxFragment;
-import com.moataz.mox.ui.view.fragment.MainFragment;
+import com.moataz.mox.ui.view.fragment.HomeFragment;
 import com.moataz.mox.ui.view.fragment.TechFragment;
 import com.moataz.mox.ui.view.fragment.AndroidFragment;
 import com.moataz.mox.ui.view.fragment.TopFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final MainFragment mContext;
+    private final HomeFragment mContext;
     private static final int NUM_PAGES = 7;
 
-    public ViewPagerAdapter(MainFragment mContext, int behavior, @NonNull FragmentManager fm) {
+    public ViewPagerAdapter(HomeFragment mContext, int behavior, @NonNull FragmentManager fm) {
         super(fm, behavior);
         this.mContext = mContext;
     }
