@@ -21,7 +21,7 @@ import com.moataz.mox.utils.helper.IOnBackPressed;
 
 import java.util.Objects;
 
-public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
+public class HomeFragment extends Fragment implements IOnBackPressed {
 
     FragmentMainBinding binding;
     ViewPagerAdapter adapter;
@@ -50,10 +50,9 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
         if (CheckNetwork.isInternetAvailable(requireActivity())) {
             bottomSheetDialog.dismiss();
         } else {
-            bottomSheetDialog.setCancelable(false);
+            bottomSheetDialog.setCanceledOnTouchOutside(false);
             bottomSheetDialog.show();
         }
-        // Try Again Button
         Button buttonNoInternet = bottomSheetDialog.findViewById(R.id.buttonNoInternet);
         assert buttonNoInternet != null;
         buttonNoInternet.setOnClickListener(v -> {
@@ -66,22 +65,6 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
                 bottomSheetDialog.show();
             }
         });
-        // Exit the app when bottomSheet shown
-        bottomSheetDialog = new BottomSheetDialog(requireContext()) {
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setOnKeyListener((dialog, keyCode, event) -> {
-                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                        bottomSheetDialog.dismiss();
-                        requireActivity().moveTaskToBack(true);
-                        requireActivity().finish();
-                        return true;
-                    }
-                    return false;
-                });
-            }
-        };
     }
 
     @Override

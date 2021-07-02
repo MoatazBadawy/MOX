@@ -16,19 +16,11 @@ public class RetroInstant {
     public static HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 
     public static Retrofit getRetroMediumClient() {
-        logging.level(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .build();
-
         if(retrofit == null ) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(client)
                     .build();
         }
         return retrofit;
