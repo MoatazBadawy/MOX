@@ -1,7 +1,16 @@
 package com.moataz.mox.ui.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.pm.ShortcutInfoCompat;
+import androidx.core.content.pm.ShortcutManagerCompat;
+import androidx.core.graphics.drawable.IconCompat;
 import androidx.core.view.ViewCompat;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import com.moataz.mox.R;
@@ -14,6 +23,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeView();
+        setupShortcuts();
     }
 
     private void initializeView() {
@@ -21,6 +31,10 @@ public class MainActivity extends AppCompatActivity  {
         ViewCompat.setLayoutDirection(getWindow().getDecorView(), ViewCompat.LAYOUT_DIRECTION_LTR);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,
                 new HomeFragment()).commit();
+    }
+
+    private void setupShortcuts() {
+        Shortcuts.setupShortcuts(this);
     }
 
     @Override

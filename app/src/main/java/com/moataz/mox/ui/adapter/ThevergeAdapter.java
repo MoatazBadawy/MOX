@@ -31,7 +31,7 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ArticleViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.list_article,
+                        R.layout.list_articles,
                         parent,
                         false
                 )

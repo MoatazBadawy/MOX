@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentTopBinding;
+import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.CNNAdapter;
 import com.moataz.mox.ui.viewmodel.TopViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +16,12 @@ public class TopFragment extends Fragment {
 
     private CNNAdapter adapter;
     private TopViewModel viewModel;
-    private FragmentTopBinding binding;
+    private FragmentArticlesBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentTopBinding.inflate(getLayoutInflater());
+        binding = FragmentArticlesBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -33,24 +33,24 @@ public class TopFragment extends Fragment {
 
     private void initializeViews() {
         adapter = new CNNAdapter();
-        binding.recyclerViewTop.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerViewTop.setHasFixedSize(true);
-        binding.recyclerViewTop.setAdapter(adapter);
+        binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewArticles.setHasFixedSize(true);
+        binding.recyclerViewArticles.setAdapter(adapter);
     }
 
     private void getList() {
         viewModel.makeApiCallTopArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.progressBarTop.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     break;
                 }
                 case LOADING: {
-                    binding.progressBarTop.setVisibility(View.VISIBLE);
+                    binding.progressBarArticles.setVisibility(View.VISIBLE);
                     break;
                 }
                 case SUCCESS:{
-                    binding.progressBarTop.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     adapter.setCNNList(response.data);
                     break;
                 }
@@ -59,14 +59,14 @@ public class TopFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshTop.setOnRefreshListener(() -> viewModel.makeApiCallTopArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallTopArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.swipeToRefreshTop.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     break;
                 }
                 case SUCCESS:{
-                    binding.swipeToRefreshTop.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     adapter.setCNNList(response.data);
                     break;
                 }

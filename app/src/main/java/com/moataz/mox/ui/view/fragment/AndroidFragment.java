@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentAndroidBinding;
+import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.AndroidViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +16,12 @@ public class AndroidFragment extends Fragment {
 
     private MediumAdapter adapter;
     private AndroidViewModel viewModel;
-    private FragmentAndroidBinding binding;
+    private FragmentArticlesBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAndroidBinding.inflate(getLayoutInflater());
+        binding = FragmentArticlesBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -33,24 +33,24 @@ public class AndroidFragment extends Fragment {
 
     private void initializeViews() {
         adapter = new MediumAdapter();
-        binding.recyclerViewTechnology.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerViewTechnology.setHasFixedSize(true);
-        binding.recyclerViewTechnology.setAdapter(adapter);
+        binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewArticles.setHasFixedSize(true);
+        binding.recyclerViewArticles.setAdapter(adapter);
     }
 
     private void getTopList() {
         viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.progressBarTechnology.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     break;
                 }
                 case LOADING: {
-                    binding.progressBarTechnology.setVisibility(View.VISIBLE);
+                    binding.progressBarArticles.setVisibility(View.VISIBLE);
                     break;
                 }
                 case SUCCESS:{
-                    binding.progressBarTechnology.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     adapter.setMediumList(response.data);
                     break;
                 }
@@ -59,14 +59,14 @@ public class AndroidFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshTechnology.setOnRefreshListener(() -> viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.swipeToRefreshTechnology.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     break;
                 }
                 case SUCCESS:{
-                    binding.swipeToRefreshTechnology.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     adapter.setMediumList(response.data);
                     break;
                 }

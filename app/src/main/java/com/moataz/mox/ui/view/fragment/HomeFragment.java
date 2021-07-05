@@ -10,21 +10,21 @@ import android.widget.Button;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.moataz.mox.R;
-import com.moataz.mox.databinding.FragmentMainBinding;
+import com.moataz.mox.databinding.FragmentHomeBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.utils.CheckNetwork;
 import com.moataz.mox.utils.IOnBackPressed;
 
 public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
 
-    FragmentMainBinding binding;
+    FragmentHomeBinding binding;
     ViewPagerAdapter adapter;
     BottomSheetDialog bottomSheetDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentMainBinding.inflate(getLayoutInflater());
+        binding = FragmentHomeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         initializeViewPager();
         showBottomSheetDialog();
@@ -46,7 +46,6 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
         } else {
             setupBottomSheetDialog();
         }
-        /* Try Again Button */
         Button buttonNoInternet = bottomSheetDialog.findViewById(R.id.buttonNoInternet);
         assert buttonNoInternet != null;
         buttonNoInternet.setOnClickListener(v -> {
@@ -68,9 +67,8 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
                 super.onCreate(savedInstanceState);
                 setOnKeyListener((dialog, keyCode, event) -> {
                     if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                        // Back key is pressed
-                        bottomSheetDialog.dismiss(); // Optional
-                        requireActivity().moveTaskToBack(true); //exit the app when press back
+                        bottomSheetDialog.dismiss();
+                        requireActivity().moveTaskToBack(true);
                         requireActivity().finish();
                         return true;
                     }

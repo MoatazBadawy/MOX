@@ -33,7 +33,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new NewsViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.list_article,
+                        R.layout.list_articles,
                         parent,
                         false
                 )

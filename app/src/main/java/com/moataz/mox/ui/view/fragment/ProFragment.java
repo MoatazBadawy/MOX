@@ -7,22 +7,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentProBinding;
+import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.ProViewModel;
-
 import org.jetbrains.annotations.NotNull;
 
 public class ProFragment extends Fragment {
 
     private MediumAdapter adapter;
     private ProViewModel viewModel;
-    private FragmentProBinding binding;
+    private FragmentArticlesBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentProBinding.inflate(getLayoutInflater());
+        binding = FragmentArticlesBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -34,24 +33,24 @@ public class ProFragment extends Fragment {
 
     private void initializeViews() {
         adapter = new MediumAdapter();
-        binding.recyclerViewSports.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerViewSports.setHasFixedSize(true);
-        binding.recyclerViewSports.setAdapter(adapter);
+        binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewArticles.setHasFixedSize(true);
+        binding.recyclerViewArticles.setAdapter(adapter);
     }
 
     private void getList() {
         viewModel.makeApiCallDevArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.progressBarSports.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     break;
                 }
                 case LOADING: {
-                    binding.progressBarSports.setVisibility(View.VISIBLE);
+                    binding.progressBarArticles.setVisibility(View.VISIBLE);
                     break;
                 }
                 case SUCCESS:{
-                    binding.progressBarSports.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     adapter.setMediumList(response.data);
                     break;
                 }
@@ -60,14 +59,14 @@ public class ProFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshSports.setOnRefreshListener(() -> viewModel.makeApiCallDevArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallDevArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.swipeToRefreshSports.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     break;
                 }
                 case SUCCESS:{
-                    binding.swipeToRefreshSports.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     adapter.setMediumList(response.data);
                     break;
                 }

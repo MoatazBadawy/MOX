@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentUiBinding;
+import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.UIViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +16,12 @@ public class UIFragment extends Fragment {
 
     private MediumAdapter adapter;
     private UIViewModel viewModel;
-    private FragmentUiBinding binding;
+    private FragmentArticlesBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentUiBinding.inflate(getLayoutInflater());
+        binding = FragmentArticlesBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -33,24 +33,24 @@ public class UIFragment extends Fragment {
 
     private void initializeViews() {
         adapter = new MediumAdapter();
-        binding.recyclerViewBusiness.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerViewBusiness.setHasFixedSize(true);
-        binding.recyclerViewBusiness.setAdapter(adapter);
+        binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewArticles.setHasFixedSize(true);
+        binding.recyclerViewArticles.setAdapter(adapter);
     }
 
     private void getList() {
         viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.progressBarBusiness.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     break;
                 }
                 case LOADING: {
-                    binding.progressBarBusiness.setVisibility(View.VISIBLE);
+                    binding.progressBarArticles.setVisibility(View.VISIBLE);
                     break;
                 }
                 case SUCCESS:{
-                    binding.progressBarBusiness.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     adapter.setMediumList(response.data);
                     break;
                 }
@@ -59,14 +59,14 @@ public class UIFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshBusiness.setOnRefreshListener(() -> viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.swipeToRefreshBusiness.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     break;
                 }
                 case SUCCESS:{
-                    binding.swipeToRefreshBusiness.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     adapter.setMediumList(response.data);
                     break;
                 }

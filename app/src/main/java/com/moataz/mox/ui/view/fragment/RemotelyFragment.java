@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.moataz.mox.databinding.FragmentRemotelyBinding;
+import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.RemotelyViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +16,12 @@ public class RemotelyFragment extends Fragment {
 
     private MediumAdapter adapter;
     private RemotelyViewModel viewModel;
-    private FragmentRemotelyBinding binding;
+    private FragmentArticlesBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRemotelyBinding.inflate(getLayoutInflater());
+        binding = FragmentArticlesBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
         initializeViews();
@@ -33,24 +33,24 @@ public class RemotelyFragment extends Fragment {
 
     private void initializeViews() {
         adapter = new MediumAdapter();
-        binding.recyclerViewAgile.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerViewAgile.setHasFixedSize(true);
-        binding.recyclerViewAgile.setAdapter(adapter);
+        binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewArticles.setHasFixedSize(true);
+        binding.recyclerViewArticles.setAdapter(adapter);
     }
 
     private void getTopList() {
         viewModel.makeApiCallAgileArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.progressBarAgile.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     break;
                 }
                 case LOADING: {
-                    binding.progressBarAgile.setVisibility(View.VISIBLE);
+                    binding.progressBarArticles.setVisibility(View.VISIBLE);
                     break;
                 }
                 case SUCCESS:{
-                    binding.progressBarAgile.setVisibility(View.GONE);
+                    binding.progressBarArticles.setVisibility(View.GONE);
                     adapter.setMediumList(response.data);
                     break;
                 }
@@ -59,14 +59,14 @@ public class RemotelyFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshAgile.setOnRefreshListener(() -> viewModel.makeApiCallAgileArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallAgileArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
-                    binding.swipeToRefreshAgile.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     break;
                 }
                 case SUCCESS:{
-                    binding.swipeToRefreshAgile.setRefreshing(false);
+                    binding.swipeToRefreshArticles.setRefreshing(false);
                     adapter.setMediumList(response.data);
                     break;
                 }
