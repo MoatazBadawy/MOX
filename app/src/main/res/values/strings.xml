@@ -16,7 +16,7 @@
     <string name="please_check_your_internet_connection">please check your internet connection</string>
     <string name="there_s_seems_an_error_we_try_to_fix_it_at_this_time">There\'s seems an error and we are working on it</string>
     <string name="try_again">Try Again</string>
-    <string name="whoops">Whoops!</string>
+    <string name="whoops">Ooops!</string>
 
     <!--names-->
     <string name="medium">Medium</string>
