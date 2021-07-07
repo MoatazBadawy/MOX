@@ -10,13 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+
 import androidx.core.app.NotificationCompat;
+
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.activity.MainActivity;
 
-public class NotificationReceiver extends BroadcastReceiver {
+public class NotificationAfternoon extends BroadcastReceiver {
 
-    private static final String CHANNEL_ID = "NEW_ARTICLES";
+    private static final String CHANNEL_ID = "NEW_ARTICLES_AFTERNOON";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,13 +30,14 @@ public class NotificationReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(context);
-
         Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
-                .setSubText("New Articles")
-                .setContentTitle("Articles have arrived")
-                .setContentText("New articles are here just for you")
+                .setSubText("Articles")
+                .setContentTitle("New articles here")
+                .setContentText("Check out the new articles made just for you")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLights(Color.WHITE, 1000, 500)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .build();
@@ -50,6 +53,8 @@ public class NotificationReceiver extends BroadcastReceiver {
                     "Channel 1",
                     NotificationManager.IMPORTANCE_HIGH
             );
+            channel.enableLights(true);
+            channel.setLightColor(Color.WHITE);
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(0, notification);
