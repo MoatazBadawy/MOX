@@ -32,10 +32,10 @@ public class NotificationAfternoon extends BroadcastReceiver {
         Notification.Builder builder = new Notification.Builder(context);
         Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
                 .setSubText("Articles")
-                .setContentTitle("New articles here")
-                .setContentText("Check out the new articles made just for you")
+                .setContentTitle("New articles arrived")
+                .setContentText("Check out the new articles created just for you")
                 .setSmallIcon(R.drawable.ic_notification)
-                .setLights(Color.WHITE, 1000, 500)
+                .setLights(Notification.FLAG_SHOW_LIGHTS, 1000, 500)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
@@ -50,11 +50,12 @@ public class NotificationAfternoon extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Channel 1",
+                    "Channel 2",
                     NotificationManager.IMPORTANCE_HIGH
             );
             channel.enableLights(true);
             channel.setLightColor(Color.WHITE);
+            channel.enableVibration(false);
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(0, notification);

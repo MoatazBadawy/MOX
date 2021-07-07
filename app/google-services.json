@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "832286590188",
+    "project_id": "mox-articles",
+    "storage_bucket": "mox-articles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832286590188:android:5d2da3454882e4c81e51c9",
+        "android_client_info": {
+          "package_name": "com.moataz.mox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832286590188-jhnln5ikbbavrodl1ujlmrnmc0opa9f5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moataz.mox",
+            "certificate_hash": "6adb231f517529115e6d2a4cbef37e6471e6e873"
+          }
+        },
+        {
+          "client_id": "832286590188-6fruaa5s136qjruquvdpqtdeosl3khas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW_mOWCS9VWropfaiPnTz0spsesZwJwgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832286590188-6fruaa5s136qjruquvdpqtdeosl3khas.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

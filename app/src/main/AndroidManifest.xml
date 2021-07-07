@@ -23,6 +23,7 @@
         </activity>
 
         <receiver android:name=".ui.view.brush.NotificationMorning" />
+        <receiver android:name=".ui.view.brush.NotificationAfternoon" />
 
         <meta-data
             android:name="preloaded_fonts"
