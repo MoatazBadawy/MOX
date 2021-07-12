@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.moataz.mox.R;
-import com.moataz.mox.utils.IOnBackPressed;
+import com.moataz.mox.ui.helper.IOnBackPressed;
 
 /**
  * A simple {@link Fragment} subclass.

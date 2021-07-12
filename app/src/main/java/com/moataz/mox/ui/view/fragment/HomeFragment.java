@@ -12,10 +12,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentHomeBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.utils.CheckNetwork;
-import com.moataz.mox.utils.IOnBackPressed;
+import com.moataz.mox.ui.helper.CheckNetwork;
+import com.moataz.mox.ui.helper.IOnBackPressed;
 
-public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
+public class HomeFragment extends BottomSheetDialogFragment  {
 
     FragmentHomeBinding binding;
     ViewPagerAdapter adapter;
@@ -89,12 +89,5 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
         } else {
             bottomSheetDialog.show();
         }
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        requireActivity().moveTaskToBack(true);
-        requireActivity().finish();
-        return true;
     }
 }
