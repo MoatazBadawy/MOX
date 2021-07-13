@@ -2,20 +2,20 @@ package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentHomeBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.ui.helper.CheckNetwork;
-import com.moataz.mox.ui.helper.IOnBackPressed;
+import com.moataz.mox.utils.helper.CheckNetwork;
 
-public class HomeFragment extends BottomSheetDialogFragment  {
+public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
     ViewPagerAdapter adapter;
@@ -34,7 +34,7 @@ public class HomeFragment extends BottomSheetDialogFragment  {
     private void initializeViewPager() {
         adapter = new ViewPagerAdapter(this,0,requireActivity().getSupportFragmentManager());
         binding.viewPager.setAdapter(adapter);
-        binding.viewPager.setOffscreenPageLimit(6); // make TabLayout not Update the data when swipe
+        binding.viewPager.setOffscreenPageLimit(8); // make TabLayout not Update the data when swipe
         binding.tabs.setupWithViewPager(binding.viewPager);
     }
 
@@ -79,15 +79,5 @@ public class HomeFragment extends BottomSheetDialogFragment  {
         };
         bottomSheetDialog.setContentView(R.layout.bottomsheet_no_internet);
         bottomSheetDialog.setCancelable(false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (CheckNetwork.isInternetAvailable(requireActivity())) {
-            bottomSheetDialog.dismiss();
-        } else {
-            bottomSheetDialog.show();
-        }
     }
 }

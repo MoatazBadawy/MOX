@@ -45,6 +45,7 @@ public class NotificationAfternoon extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
+                .setStyle(new NotificationCompat.BigTextStyle())
                 .build();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

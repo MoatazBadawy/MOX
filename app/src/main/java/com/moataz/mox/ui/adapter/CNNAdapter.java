@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.news.Item;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -86,7 +85,8 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
-                customTabIntent.setExitAnimations(itemView.getContext(), android.R.anim.fade_in, android.R.anim.slide_out_right);
+                customTabIntent.setStartAnimations(itemView.getContext(),R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(itemView.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
                 openCustomTabs(itemView.getContext(),customTabIntent.build(),Uri.parse(mediumArticle.getLink()));
             });

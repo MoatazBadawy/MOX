@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.helper;
+package com.moataz.mox.utils.helper;
 
 public interface IOnBackPressed {
     boolean onBackPressed();

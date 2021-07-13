@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.helper;
+package com.moataz.mox.utils.helper;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

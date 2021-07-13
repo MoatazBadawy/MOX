@@ -3,28 +3,16 @@ package com.moataz.mox.ui.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.brush.NotificationAfternoon;
 import com.moataz.mox.ui.view.brush.NotificationMorning;
-import com.moataz.mox.ui.view.fragment.PremiumFragment;
-import com.moataz.mox.ui.view.fragment.SavedFragment;
-import com.moataz.mox.ui.view.fragment.SearchFragment;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
 import com.moataz.mox.ui.view.brush.Shortcuts;
-import com.moataz.mox.ui.helper.IOnBackPressed;
 
 public class MainActivity extends AppCompatActivity  {
 
