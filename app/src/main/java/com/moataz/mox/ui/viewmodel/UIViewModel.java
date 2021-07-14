@@ -34,9 +34,4 @@ public class UIViewModel extends ViewModel {
                         throwable -> mediumObjectsList.setValue(null)));
         return mediumObjectsList;
     }
-
-    @Override
-    protected void onCleared() {
-        disposables.clear();
-    }
 }

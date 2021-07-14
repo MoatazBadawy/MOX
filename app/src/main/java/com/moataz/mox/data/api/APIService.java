@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface APIService {
     @GET("v1/api.json")
-    Single<MediumResponse> getArticleObjectsList(
+    Observable<MediumResponse> getArticleObjectsList(
             @Query("rss_url")
             String rssURL,
             @Query("api_key")
@@ -17,7 +17,7 @@ public interface APIService {
     );
 
     @GET("v1/api.json")
-    Single<CnnResponse> getNewsObjectsList(
+    Observable<CnnResponse> getNewsObjectsList(
             @Query("rss_url")
             String rssURL,
             @Query("api_key")

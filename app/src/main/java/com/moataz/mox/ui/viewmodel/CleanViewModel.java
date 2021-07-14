@@ -27,9 +27,4 @@ public class CleanViewModel extends ViewModel {
                         throwable -> mediumObjectsList.setValue(null)));
         return mediumObjectsList;
     }
-
-    @Override
-    protected void onCleared() {
-        disposables.clear();
-    }
 }

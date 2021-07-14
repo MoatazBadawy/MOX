@@ -69,6 +69,7 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Glide.with(itemView.getContext())
                     .load(mediumArticle.getThumbnail())
                     .transition(DrawableTransitionOptions.withCrossFade())
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(image);
 
             title.setText(mediumArticle.getTitle());

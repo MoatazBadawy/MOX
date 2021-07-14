@@ -68,6 +68,7 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void setData(Item mediumArticle) {
             Glide.with(itemView.getContext())
                     .load(mediumArticle.getThumbnail())
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(image);
 
             title.setText(mediumArticle.getTitle());
