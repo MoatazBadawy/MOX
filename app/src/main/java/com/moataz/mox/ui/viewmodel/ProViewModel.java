@@ -23,15 +23,52 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ProViewModel extends ViewModel {
 
-    private final CompositeDisposable disposables = new CompositeDisposable();
-    final MutableLiveData<Resource<List<Item>>> mediumObjectsList = new MutableLiveData<>();
-    private final ArticlesRepository articlesRepository = new ArticlesRepository();
-    public LiveData<Resource<List<Item>>> makeApiCallDevArticles() {
-        disposables.add(articlesRepository.executeProApi()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> mediumObjectsList.setValue(Resource.success(result.getItems())),
-                        throwable -> mediumObjectsList.setValue(null)));
-        return mediumObjectsList;
+        private static final String TAG = "ProViewModel";
+
+        public LiveData<Resource<List<Item>>> makeApiCallDevArticles() {
+            final MutableLiveData<Resource<List<Item>>> articleObjectsList = new MutableLiveData<>();
+            articleObjectsList.setValue(Resource.loading());
+            APIService apiService = RetroInstant.getRetroMediumClient().create(APIService.class);
+            Observable<MediumResponse> observable = apiService.getArticleObjectsList(
+                    "https://medium.com/feed/tag/development",
+                    "2wjlh0wtxhp4zriwj6segb8ohftkbx0swwxtyjwh");
+
+            Observer<MediumResponse> observer = new Observer<MediumResponse>() {
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
+
+                }
+
+                @Override
+                public void onNext(MediumResponse value) {
+                    List<Item> articles = new ArrayList<>();
+                    assert value != null;
+                    List<Item> responce = value.getItems();
+                    for (int i = 0; i < Objects.requireNonNull(responce).size(); i ++) {
+                        if (!Objects.equals(responce.get(i).getAuthor(), "")
+                                && !Objects.equals(responce.get(i).getThumbnail(), "")
+                                && !Objects.equals(responce.get(i).getTitle(), "")) {
+                            articles.add(responce.get(i));
+                        }
+                    }
+                    articleObjectsList.postValue(Resource.success(articles));
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    Log.e(TAG, "onError: message",e);
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            };
+
+            observable.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(observer);
+
+            return articleObjectsList;
+        }
     }
-}

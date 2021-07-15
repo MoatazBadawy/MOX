@@ -3,15 +3,21 @@ package com.moataz.mox.ui.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.news.Item;
@@ -32,13 +38,14 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new NewsViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.list_articles,
+                        R.layout.list_news,
                         parent,
                         false
                 )
         );
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Item News = items.get(position);
@@ -55,6 +62,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     static class NewsViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
         private final TextView title;
+        private final TextView description;
         private final TextView source;
         private final TextView author;
 
@@ -62,17 +70,23 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             image = itemView.findViewById(R.id.image_medium);
             title = itemView.findViewById(R.id.title_medium);
+            description = itemView.findViewById(R.id.description);
             source = itemView.findViewById(R.id.source_medium);
             author = itemView.findViewById(R.id.author_name_medium);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         void setData(Item news) {
             Glide.with(itemView.getContext())
                     .load(Objects.requireNonNull(news.getEnclosure()).getLink())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .skipMemoryCache(true)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(image);
 
             title.setText(news.getTitle());
+            description.setText(Html.fromHtml(news.getDescription(),Html.FROM_HTML_MODE_COMPACT));
             source.setText(R.string.cnn);
             author.setText(R.string.author);
         }

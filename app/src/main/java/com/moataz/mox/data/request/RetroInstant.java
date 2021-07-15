@@ -17,15 +17,13 @@ public class RetroInstant {
 
     private final static HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
     private static OkHttpClient okHttpClient;
-    public static APIService getRetroMediumClient() {
+    public static Retrofit getRetroMediumClient() {
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
         interceptor.level(HttpLoggingInterceptor.Level.BASIC);
         interceptor.level(HttpLoggingInterceptor.Level.HEADERS);
         if (okHttpClient == null) {
             okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
-                    .connectTimeout(90, TimeUnit.SECONDS)
-                    .readTimeout(90, TimeUnit.SECONDS)
                     .build();
         }
         Retrofit retrofit = new Retrofit.Builder()
@@ -34,6 +32,6 @@ public class RetroInstant {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
-        return retrofit.create(APIService.class);
+        return retrofit;
     }
 }

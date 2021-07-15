@@ -12,11 +12,8 @@ import io.reactivex.Single;
 
 public class ArticlesRepository {
 
-    private final APIService service;
+    /*private final APIService service;
 
-    public ArticlesRepository() {
-        this.service = RetroInstant.getRetroMediumClient();
-    }
 
     public Observable<CnnResponse> executeCnnApi(){
         return service.getNewsObjectsList("http://rss.cnn.com/rss/cnn_topstories.rss",
@@ -59,5 +56,5 @@ public class ArticlesRepository {
     public Observable<MediumResponse> executeCleanApi() {
         return service.getArticleObjectsList("https://medium.com/feed/topic/freelancing",
                 "2wjlh0wtxhp4zriwj6segb8ohftkbx0swwxtyjwh");
-    }
+    }*/
 }

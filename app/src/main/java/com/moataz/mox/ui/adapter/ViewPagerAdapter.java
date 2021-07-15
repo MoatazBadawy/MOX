@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.fragment.CleanFragment;
-import com.moataz.mox.ui.view.fragment.IosFragment;
 import com.moataz.mox.ui.view.fragment.RemotelyFragment;
 import com.moataz.mox.ui.view.fragment.ProFragment;
 import com.moataz.mox.ui.view.fragment.UIFragment;

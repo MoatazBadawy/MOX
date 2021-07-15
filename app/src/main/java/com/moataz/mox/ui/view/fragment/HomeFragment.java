@@ -2,7 +2,6 @@ package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -10,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentHomeBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.utils.helper.CheckNetwork;
+import com.moataz.mox.utils.CheckNetwork;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BottomSheetDialogFragment {
 
     FragmentHomeBinding binding;
     ViewPagerAdapter adapter;
@@ -79,5 +79,15 @@ public class HomeFragment extends Fragment {
         };
         bottomSheetDialog.setContentView(R.layout.bottomsheet_no_internet);
         bottomSheetDialog.setCancelable(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (CheckNetwork.isInternetAvailable(requireActivity())) {
+            bottomSheetDialog.dismiss();
+        } else {
+            bottomSheetDialog.show();
+        }
     }
 }

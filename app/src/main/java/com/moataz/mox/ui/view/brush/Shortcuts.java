@@ -28,7 +28,7 @@ public class Shortcuts {
                 .setLongLabel("Linkedin")
                 .setIcon(IconCompat.createFromIcon(Icon.createWithResource(context, R.mipmap.ic_linkedin_round)))
                 .setIntent(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.linkedin.com/in/moataz-badawy/")))
+                        Uri.parse("https://www.linkedin.com/company/moxarticles/")))
                 .build();
         ShortcutManagerCompat.pushDynamicShortcut(context, shortcut2);
     }

@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.CleanViewModel;
-import com.moataz.mox.utils.helper.IOnBackPressed;
 
 import org.jetbrains.annotations.NotNull;
 

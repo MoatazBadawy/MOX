@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginRight="@dimen/_6sdp"
+    android:layout_marginLeft="@dimen/_6sdp"
+    android:layout_marginBottom="@dimen/_12sdp"
+    app:cardCornerRadius="@dimen/_6sdp"
+    app:cardElevation="@dimen/_2sdp">
+
+    <!-- or 260sdp -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_medium"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_160sdp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:contentDescription="@string/article_image" />
+
+        <TextView
+            android:id="@+id/title_medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:elevation="@dimen/_7sdp"
+            android:fontFamily="@font/abeezee"
+            android:lineSpacingExtra="5sp"
+            tools:text="6 Python Projects You Can Finish in a Weekend like a pro!"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_medium" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:elevation="@dimen/_7sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/abeezee"
+            android:lineSpacingExtra="4sp"
+            android:maxLines="2"
+            android:text="This artical is a test and very best fro you. so if you like this news please call me and i will not answer haha..."
+            android:textAlignment="textStart"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_medium" />
+
+        <TextView
+            android:id="@+id/source_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:elevation="@dimen/_7sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/abeezee"
+            android:lineSpacingExtra="4sp"
+            android:maxLength="15"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description"
+            tools:text="Medium" />
+
+        <ImageView
+            android:id="@+id/image_circle"
+            android:layout_width="@dimen/_6sdp"
+            android:layout_height="@dimen/_6sdp"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:contentDescription="@string/comma_image"
+            app:layout_constraintBottom_toBottomOf="@+id/source_medium"
+            app:layout_constraintStart_toEndOf="@+id/source_medium"
+            app:layout_constraintTop_toTopOf="@+id/source_medium"
+            app:srcCompat="@drawable/ic_circel" />
+
+        <TextView
+            android:id="@+id/author_name_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:elevation="@dimen/_7sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/abeezee"
+            android:lineSpacingExtra="4sp"
+            tools:text="Moataz Badawy"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/_8ssp"
+            android:maxLength="15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_circle"
+            app:layout_constraintTop_toBottomOf="@+id/description"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

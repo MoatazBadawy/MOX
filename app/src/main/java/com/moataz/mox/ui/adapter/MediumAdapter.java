@@ -3,16 +3,22 @@ package com.moataz.mox.ui.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.article.Item;
 import java.util.List;
@@ -68,6 +74,9 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void setData(Item mediumArticle) {
             Glide.with(itemView.getContext())
                     .load(mediumArticle.getThumbnail())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .skipMemoryCache(true)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(image);
 
