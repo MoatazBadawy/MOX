@@ -2,6 +2,8 @@ package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.tabs.TabLayout;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentHomeBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
@@ -36,6 +39,26 @@ public class HomeFragment extends BottomSheetDialogFragment {
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(8); // make TabLayout not Update the data when swipe
         binding.tabs.setupWithViewPager(binding.viewPager);
+
+
+        binding.tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                binding.viewPager.setCurrentItem(tab.getPosition(),true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {//scroll to top
+                RecyclerView mRecyclerView = requireActivity().findViewById(R.id.recyclerView_articles);//mine one is RecyclerView
+                if (mRecyclerView.getAdapter() != null && mRecyclerView.getAdapter().getItemCount() > 0) {
+                    mRecyclerView.smoothScrollToPosition(0);
+                }
+            }
+        });
     }
 
     private void showBottomSheetDialog() {

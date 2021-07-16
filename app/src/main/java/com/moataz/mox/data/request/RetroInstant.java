@@ -1,9 +1,5 @@
 package com.moataz.mox.data.request;
 
-import android.app.Service;
-
-import com.moataz.mox.data.api.APIService;
-
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -24,14 +20,15 @@ public class RetroInstant {
         if (okHttpClient == null) {
             okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
+                    .connectTimeout(90, TimeUnit.SECONDS)
+                    .readTimeout(90, TimeUnit.SECONDS)
                     .build();
         }
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
-        return retrofit;
     }
 }

@@ -65,7 +65,7 @@ public class NotificationMorning extends BroadcastReceiver {
     public static void setupMorningNotification(Context context) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY,7);
+        cal.set(Calendar.HOUR_OF_DAY,8);
         cal.set(Calendar.MINUTE,0);
         cal.set(Calendar.SECOND, 0);
         if(cal.getTimeInMillis()>System.currentTimeMillis()){

@@ -3,22 +3,17 @@ package com.moataz.mox.ui.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.article.Item;
 import java.util.List;
@@ -65,10 +60,10 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.image_medium);
-            title = itemView.findViewById(R.id.title_medium);
-            source = itemView.findViewById(R.id.source_medium);
-            author = itemView.findViewById(R.id.author_name_medium);
+            image = itemView.findViewById(R.id.image_article);
+            title = itemView.findViewById(R.id.title_article);
+            source = itemView.findViewById(R.id.source_article);
+            author = itemView.findViewById(R.id.author_name_article);
         }
 
         void setData(Item mediumArticle) {

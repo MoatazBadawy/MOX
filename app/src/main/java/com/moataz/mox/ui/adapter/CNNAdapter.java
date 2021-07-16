@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -68,11 +66,11 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.image_medium);
-            title = itemView.findViewById(R.id.title_medium);
-            description = itemView.findViewById(R.id.description);
-            source = itemView.findViewById(R.id.source_medium);
-            author = itemView.findViewById(R.id.author_name_medium);
+            image = itemView.findViewById(R.id.image_news);
+            title = itemView.findViewById(R.id.title_news);
+            description = itemView.findViewById(R.id.description_news);
+            source = itemView.findViewById(R.id.source_news);
+            author = itemView.findViewById(R.id.author_name_news);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
@@ -86,7 +84,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .into(image);
 
             title.setText(news.getTitle());
-            description.setText(Html.fromHtml(news.getDescription(),Html.FROM_HTML_MODE_COMPACT));
+            description.setText(Html.fromHtml(Objects.requireNonNull(news.getDescription()).replaceAll("(<(/)img>)|(<img.+?>)", ""),Html.FROM_HTML_MODE_COMPACT));
             source.setText(R.string.cnn);
             author.setText(R.string.author);
         }
