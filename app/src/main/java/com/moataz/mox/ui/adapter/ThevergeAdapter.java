@@ -1,5 +1,6 @@
 package com.moataz.mox.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.article.Item;
 import java.util.List;
+import java.util.Objects;
 
 public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -57,6 +59,7 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private final TextView title;
         private final TextView source;
         private final TextView author;
+        private final Activity activity = new Activity();
 
         ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,13 +70,19 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         void setData(Item mediumArticle) {
-            Glide.with(itemView.getContext())
-                    .load(mediumArticle.getThumbnail())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .skipMemoryCache(true)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(image);
+            Glide.get(itemView.getContext()).clearMemory();
+            // load images in MainThread
+            activity.runOnUiThread (() -> {
+                Glide.with(itemView.getContext())
+                        .load(mediumArticle.getThumbnail())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(image);
+
+                Glide.get(itemView.getContext()).clearMemory();
+            });
 
             title.setText(mediumArticle.getTitle());
             source.setText(R.string.theverge);

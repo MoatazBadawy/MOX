@@ -17,7 +17,7 @@
             android:layout_height="@dimen/_105sdp"
             android:layout_marginTop="@dimen/_24sdp"
             android:contentDescription="@string/no_internet_connection"
-            android:src="@drawable/no_internet"
+            android:src="@drawable/ic_no_internet"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

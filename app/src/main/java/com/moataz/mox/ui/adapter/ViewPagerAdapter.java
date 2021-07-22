@@ -19,11 +19,11 @@ import com.moataz.mox.ui.view.fragment.WebFragment;
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final HomeFragment mContext;
-    private static final int NUM_PAGES = 9;
+    private static final int NUM_PAGES = 7;
 
-    public ViewPagerAdapter(HomeFragment mContext, int behavior, @NonNull FragmentManager fm) {
-        super(fm, behavior);
-        this.mContext = mContext;
+    public ViewPagerAdapter(HomeFragment context, int behavior, @NonNull FragmentManager fragmentManager) {
+        super(fragmentManager, behavior);
+        this.mContext = context;
     }
 
     @NonNull
@@ -36,17 +36,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return new ProFragment();
         } else if (position == 3) {
             return new AndroidFragment();
-        } else if (position == 4) {
-            return new WebFragment();
-        }  else if (position == 5) {
+        }  else if (position == 4) {
             return new UIFragment();
-        } else if (position == 6){
+        } else if (position == 5){
             return new UxFragment();
-        } else if (position == 7){
+        } else {
             return new RemotelyFragment();
-        }
-        else {
-            return new CleanFragment();
         }
     }
 
@@ -61,15 +56,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         } else if (position == 3) {
             return mContext.getString(R.string.android_tab);
         } else if (position == 4) {
-            return mContext.getString(R.string.web_tab);
-        } else if (position == 5) {
             return mContext.getString(R.string.ui_tab);
-        } else if (position == 6){
+        } else if (position == 5){
             return mContext.getString(R.string.ux_tab);
-        } else if (position == 7) {
-            return mContext.getString(R.string.agile_tab);
         } else {
-            return mContext.getString(R.string.clean_tab);
+            return mContext.getString(R.string.agile_tab);
         }
     }
 

@@ -17,8 +17,9 @@ import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentHomeBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
 import com.moataz.mox.utils.CheckNetwork;
+import com.moataz.mox.utils.IOnBackPressed;
 
-public class HomeFragment extends BottomSheetDialogFragment {
+public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
 
     FragmentHomeBinding binding;
     ViewPagerAdapter adapter;
@@ -37,7 +38,7 @@ public class HomeFragment extends BottomSheetDialogFragment {
     private void initializeViewPager() {
         adapter = new ViewPagerAdapter(this,0,requireActivity().getSupportFragmentManager());
         binding.viewPager.setAdapter(adapter);
-        binding.viewPager.setOffscreenPageLimit(8); // make TabLayout not Update the data when swipe
+        binding.viewPager.setOffscreenPageLimit(6); // make TabLayout not Update the data when swipe
         binding.tabs.setupWithViewPager(binding.viewPager);
 
 
@@ -112,5 +113,12 @@ public class HomeFragment extends BottomSheetDialogFragment {
         } else {
             bottomSheetDialog.show();
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        requireActivity().moveTaskToBack(true);
+        requireActivity().finish();
+        return true;
     }
 }

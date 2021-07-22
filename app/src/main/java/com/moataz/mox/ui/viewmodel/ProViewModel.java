@@ -28,8 +28,8 @@ public class ProViewModel extends ViewModel {
             articleObjectsList.setValue(Resource.loading());
             APIService apiService = RetroInstant.getRetroMediumClient().create(APIService.class);
             Observable<MediumResponse> observable = apiService.getArticleObjectsList(
-                    "https://medium.com/feed/tag/development",
-                    "2wjlh0wtxhp4zriwj6segb8ohftkbx0swwxtyjwh");
+                    "https://betterprogramming.pub/feed",
+                    "b7fnpiy39m1ntewj93105d5ukhpmifvmnqufyksq");
 
             Observer<MediumResponse> observer = new Observer<MediumResponse>() {
                 @Override

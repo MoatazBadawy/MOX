@@ -11,24 +11,11 @@ public class RetroInstant {
 
     public static String BASE_URL = "https://api.rss2json.com/";
 
-    private final static HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-    private static OkHttpClient okHttpClient;
     public static Retrofit getRetroMediumClient() {
-        interceptor.level(HttpLoggingInterceptor.Level.BODY);
-        interceptor.level(HttpLoggingInterceptor.Level.BASIC);
-        interceptor.level(HttpLoggingInterceptor.Level.HEADERS);
-        if (okHttpClient == null) {
-            okHttpClient = new OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .connectTimeout(90, TimeUnit.SECONDS)
-                    .readTimeout(90, TimeUnit.SECONDS)
-                    .build();
-        }
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
                 .build();
     }
 }

@@ -8,10 +8,10 @@
     <string name="android_tab">Android Dev</string>
     <string name="web_tab">Web Dev</string>
     <string name="ios_tab">Ios Dev</string>
-    <string name="ui_tab">UI Design</string>
+    <string name="ui_tab">Front End</string>
     <string name="ux_tab">UX Design</string>
     <string name="clean_tab">Working</string>
-    <string name="agile_tab">Remote</string>
+    <string name="agile_tab">Remotely</string>
 
     <!--actions-->
     <string name="background">Background</string>
@@ -30,8 +30,10 @@
     <!--description-->
     <string name="article_image">Article Image</string>
     <string name="comma_image">Comma Image</string>
-    <string name="menu_home">Trending</string>
-    <string name="menu_search">Discover</string>
-        <string name="menu_saved">Saved</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_saved">Favourite</string>
     <string name="menu_premium">Premium</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

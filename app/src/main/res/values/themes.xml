@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@drawable/bac_splash</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
     <!--tabLayout text style-->
@@ -34,6 +34,7 @@
     <!--Custom the text on Bottom Navigation-->
     <style name="BottomNavigationTextStyle">
         <item name="android:textSize">@dimen/_9ssp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

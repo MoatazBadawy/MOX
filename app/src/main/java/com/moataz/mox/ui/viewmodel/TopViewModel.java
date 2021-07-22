@@ -28,8 +28,8 @@ public class TopViewModel extends ViewModel {
         mediumObjectsList.setValue(Resource.loading());
         APIService apiService = RetroInstant.getRetroMediumClient().create(APIService.class);
         Observable<CnnResponse> observable = apiService.getNewsObjectsList(
-                "http://rss.cnn.com/rss/cnn_topstories.rss",
-                "2wjlh0wtxhp4zriwj6segb8ohftkbx0swwxtyjwh",
+                "http://rss.cnn.com/rss/cnn_latest.rss",
+                "b7fnpiy39m1ntewj93105d5ukhpmifvmnqufyksq",
                 "55");
 
         Observer<CnnResponse> observer = new Observer<CnnResponse>() {

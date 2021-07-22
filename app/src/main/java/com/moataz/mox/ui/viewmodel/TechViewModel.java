@@ -28,8 +28,8 @@ public class TechViewModel extends ViewModel {
         articleObjectsList.setValue(Resource.loading());
         APIService apiService = RetroInstant.getRetroMediumClient().create(APIService.class);
         Observable<MediumResponse> observable = apiService.getArticleObjectsList(
-                "https://www.theverge.com/tech/rss/index.xml",
-                "2wjlh0wtxhp4zriwj6segb8ohftkbx0swwxtyjwh");
+                "https://www.theverge.com/rss/full.xml",
+                "b7fnpiy39m1ntewj93105d5ukhpmifvmnqufyksq");
 
         Observer<MediumResponse> observer = new Observer<MediumResponse>() {
             @Override

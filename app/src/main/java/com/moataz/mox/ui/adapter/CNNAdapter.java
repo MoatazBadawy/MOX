@@ -1,5 +1,6 @@
 package com.moataz.mox.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -63,6 +64,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final TextView description;
         private final TextView source;
         private final TextView author;
+        private final Activity activity = new Activity();
 
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,13 +77,19 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         void setData(Item news) {
-            Glide.with(itemView.getContext())
-                    .load(Objects.requireNonNull(news.getEnclosure()).getLink())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .skipMemoryCache(true)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(image);
+            Glide.get(itemView.getContext()).clearMemory();
+            // load images in MainThread
+            activity.runOnUiThread (() -> {
+                Glide.with(itemView.getContext())
+                        .load(Objects.requireNonNull(news.getEnclosure()).getLink())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(image);
+
+                Glide.get(itemView.getContext()).clearMemory();
+            });
 
             title.setText(news.getTitle());
             description.setText(Html.fromHtml(Objects.requireNonNull(news.getDescription()).replaceAll("(<(/)img>)|(<img.+?>)", ""),Html.FROM_HTML_MODE_COMPACT));

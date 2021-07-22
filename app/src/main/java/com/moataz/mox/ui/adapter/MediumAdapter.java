@@ -1,5 +1,6 @@
 package com.moataz.mox.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -16,7 +17,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.article.Item;
+import com.moataz.mox.ui.view.fragment.TechFragment;
+import com.moataz.mox.ui.view.fragment.TopFragment;
+
 import java.util.List;
+import java.util.Objects;
+
+import static io.reactivex.schedulers.Schedulers.start;
 
 public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -57,6 +64,7 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private final TextView title;
         private final TextView source;
         private final TextView author;
+        private final Activity activity = new Activity();
 
         MediumViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,13 +75,19 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         void setData(Item mediumArticle) {
-            Glide.with(itemView.getContext())
-                    .load(mediumArticle.getThumbnail())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .skipMemoryCache(true)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(image);
+            Glide.get(itemView.getContext()).clearMemory();
+            // load images in MainThread
+            activity.runOnUiThread (() -> {
+                Glide.with(itemView.getContext())
+                        .load(mediumArticle.getThumbnail())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(image);
+
+                Glide.get(itemView.getContext()).clearMemory();
+            });
 
             title.setText(mediumArticle.getTitle());
             source.setText(R.string.medium);
