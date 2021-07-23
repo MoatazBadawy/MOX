@@ -1,21 +1,24 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.viewmodel.UIViewModel;
+import com.moataz.mox.ui.viewmodel.FrontEndViewModel;
+
 import org.jetbrains.annotations.NotNull;
 
-public class UIFragment extends Fragment {
+public class FrontEndFragment extends Fragment {
 
     private MediumAdapter adapter;
-    private UIViewModel viewModel;
+    private FrontEndViewModel viewModel;
     private FragmentArticlesBinding binding;
 
     @Override
@@ -75,6 +78,6 @@ public class UIFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(UIViewModel.class);
+        viewModel = new ViewModelProvider(this).get(FrontEndViewModel.class);
     }
 }

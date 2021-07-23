@@ -1,72 +1,40 @@
 package com.moataz.mox.ui.viewmodel;
 
-import android.util.Log;
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.moataz.mox.data.api.APIService;
+
 import com.moataz.mox.data.model.article.Item;
 import com.moataz.mox.data.model.article.MediumResponse;
-import com.moataz.mox.data.request.RetroInstant;
+import com.moataz.mox.data.repository.ArticlesRepository;
 import com.moataz.mox.utils.Resource;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Objects;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class UXViewModel extends ViewModel {
 
-    private static final String TAG = "UXViewModel";
+    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final MutableLiveData<Resource<List<Item>>> mediumObjectsList = new MutableLiveData<>();
+    private final ArticlesRepository articlesRepository = new ArticlesRepository();
 
-    public LiveData<Resource<List<Item>>> makeApiCallUXArticle() {
-        final MutableLiveData<Resource<List<Item>>> mediumObjectsList = new MutableLiveData<>();
-        mediumObjectsList.setValue(Resource.loading());
-        APIService apiService = RetroInstant.getRetroMediumClient().create(APIService.class);
-        Observable<MediumResponse> observable = apiService.getArticleObjectsList(
-                "https://uxplanet.org/feed",
-                "b7fnpiy39m1ntewj93105d5ukhpmifvmnqufyksq");
-
-        Observer<MediumResponse> observer = new Observer<MediumResponse>() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(MediumResponse value) {
-                List<Item> articles = new ArrayList<>();
-                assert value != null;
-                List<Item> responce = value.getItems();
-                for (int i = 0; i < Objects.requireNonNull(responce).size(); i ++) {
-                    if (!Objects.equals(responce.get(i).getAuthor(), "")
-                            && !Objects.equals(responce.get(i).getThumbnail(), "")
-                            && !Objects.equals(responce.get(i).getTitle(), "")) {
-                        articles.add(responce.get(i));
-                    }
-                }
-                mediumObjectsList.postValue(Resource.success(articles));
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                Log.e(TAG, "onError: message",e);
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        };
-
-        observable.observeOn(AndroidSchedulers.mainThread())
+    public LiveData<Resource<List<Item>>> makeApiCallUXArticles() {
+        disposables.add(articlesRepository.executeUXApi()
                 .subscribeOn(Schedulers.io())
-                .subscribe(observer);
-
+                .observeOn(AndroidSchedulers.mainThread())
+                .flattenAsObservable(MediumResponse::getItems)
+                .filter(item -> item.getThumbnail()!=null && !item.getThumbnail().isEmpty())
+                .toList()
+                .subscribe(result -> mediumObjectsList.postValue(Resource.success(result)),
+                        throwable -> mediumObjectsList.postValue(null)));
         return mediumObjectsList;
+    }
+
+    @Override
+    protected void onCleared() {
+        disposables.clear();
     }
 }

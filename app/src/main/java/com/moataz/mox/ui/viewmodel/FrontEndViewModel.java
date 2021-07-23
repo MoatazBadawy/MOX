@@ -15,14 +15,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class TechViewModel extends ViewModel {
+public class FrontEndViewModel extends ViewModel {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final MutableLiveData<Resource<List<Item>>> mediumObjectsList = new MutableLiveData<>();
     private final ArticlesRepository articlesRepository = new ArticlesRepository();
 
-    public LiveData<Resource<List<Item>>> makeApiCallTechArticles() {
-        disposables.add(articlesRepository.executeTechApi()
+    public LiveData<Resource<List<Item>>> makeApiCallUIArticles() {
+        disposables.add(articlesRepository.executeFrontEndApi()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flattenAsObservable(MediumResponse::getItems)
