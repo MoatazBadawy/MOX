@@ -1,13 +1,5 @@
 package com.moataz.mox.ui.view.activity;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
@@ -16,21 +8,31 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.brush.NotificationAfternoon;
 import com.moataz.mox.ui.view.brush.NotificationMorning;
+import com.moataz.mox.ui.view.brush.Shortcuts;
 import com.moataz.mox.ui.view.fragment.FavouriteFragment;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
-import com.moataz.mox.ui.view.brush.Shortcuts;
 import com.moataz.mox.ui.view.fragment.PremiumFragment;
 import com.moataz.mox.ui.view.fragment.SearchFragment;
+import com.moataz.mox.ui.view.fragment.VideosFragment;
 import com.moataz.mox.utils.IOnBackPressed;
 
 public class MainActivity extends AppCompatActivity  {
 
     final Fragment homeFragment = new HomeFragment();
     final Fragment searchFragment = new SearchFragment();
+    final Fragment videosFragment = new VideosFragment();
     final Fragment favouriteFragment = new FavouriteFragment();
     final Fragment premiumFragment = new PremiumFragment();
     final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -74,8 +76,9 @@ public class MainActivity extends AppCompatActivity  {
     private void initializeBottomNavigation() {
         // first one transaction to add each Fragment
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_layout, premiumFragment, "4").hide(premiumFragment);
-        fragmentTransaction.add(R.id.fragment_layout, favouriteFragment, "3").hide(favouriteFragment);
+        fragmentTransaction.add(R.id.fragment_layout, premiumFragment, "5").hide(premiumFragment);
+        fragmentTransaction.add(R.id.fragment_layout, favouriteFragment, "4").hide(favouriteFragment);
+        fragmentTransaction.add(R.id.fragment_layout, videosFragment, "3").hide(videosFragment);
         fragmentTransaction.add(R.id.fragment_layout, searchFragment, "2").hide(searchFragment);
         fragmentTransaction.add(R.id.fragment_layout, homeFragment, "1");
         // commit once! to finish the transaction
@@ -96,6 +99,11 @@ public class MainActivity extends AppCompatActivity  {
                 case R.id.search_item:
                     localFragmentTransaction.hide(mainFragment).show(searchFragment).commit();
                     mainFragment = searchFragment;
+                    return true;
+
+                case R.id.videos_item:
+                    localFragmentTransaction.hide(mainFragment).show(videosFragment).commit();
+                    mainFragment = videosFragment;
                     return true;
 
                 case R.id.saved_item:
