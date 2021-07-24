@@ -30,8 +30,11 @@
     <!--description-->
     <string name="article_image">Article Image</string>
     <string name="comma_image">Comma Image</string>
+
+    <!--bottomNavigation-->
     <string name="menu_home">Home</string>
     <string name="menu_search">Search</string>
+    <string name="menu_videos">Videos</string>
     <string name="menu_saved">Favourite</string>
     <string name="menu_premium">Premium</string>
     <!-- TODO: Remove or change this placeholder text -->

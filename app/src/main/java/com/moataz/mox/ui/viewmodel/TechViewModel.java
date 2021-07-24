@@ -29,7 +29,7 @@ public class TechViewModel extends ViewModel {
                 .filter(item -> item.getThumbnail()!=null && !item.getThumbnail().isEmpty())
                 .toList()
                 .subscribe(result -> mediumObjectsList.postValue(Resource.success(result)),
-                        throwable -> mediumObjectsList.postValue(null)));
+                        throwable -> mediumObjectsList.postValue(Resource.error("error"))));
         return mediumObjectsList;
     }
 
