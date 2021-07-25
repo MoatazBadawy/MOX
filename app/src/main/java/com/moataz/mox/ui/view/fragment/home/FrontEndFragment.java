@@ -1,21 +1,24 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.home;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.moataz.mox.databinding.FragmentArticlesBinding;
-import com.moataz.mox.ui.adapter.CNNAdapter;
-import com.moataz.mox.ui.viewmodel.TopViewModel;
+import com.moataz.mox.ui.adapter.MediumAdapter;
+import com.moataz.mox.ui.viewmodel.FrontEndViewModel;
+
 import org.jetbrains.annotations.NotNull;
 
-public class TopFragment extends Fragment {
+public class FrontEndFragment extends Fragment {
 
-    private CNNAdapter adapter;
-    private TopViewModel viewModel;
+    private MediumAdapter adapter;
+    private FrontEndViewModel viewModel;
     private FragmentArticlesBinding binding;
 
     @Override
@@ -32,14 +35,14 @@ public class TopFragment extends Fragment {
     }
 
     private void initializeViews() {
-        adapter = new CNNAdapter();
+        adapter = new MediumAdapter();
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);
         binding.recyclerViewArticles.setAdapter(adapter);
     }
 
     private void getList() {
-        viewModel.makeApiCallTopArticles().observe(requireActivity(), response -> {
+        viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarArticles.setVisibility(View.GONE);
@@ -51,7 +54,7 @@ public class TopFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarArticles.setVisibility(View.GONE);
-                    adapter.setCNNList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -59,7 +62,7 @@ public class TopFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallTopArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshArticles.setRefreshing(false);
@@ -67,7 +70,7 @@ public class TopFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshArticles.setRefreshing(false);
-                    adapter.setCNNList(response.data);
+                    adapter.setMediumList(response.data);
                     break;
                 }
             }
@@ -75,6 +78,6 @@ public class TopFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(TopViewModel.class);
+        viewModel = new ViewModelProvider(this).get(FrontEndViewModel.class);
     }
 }

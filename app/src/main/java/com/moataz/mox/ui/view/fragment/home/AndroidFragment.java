@@ -1,21 +1,24 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.home;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.viewmodel.ProViewModel;
+import com.moataz.mox.ui.viewmodel.AndroidViewModel;
+
 import org.jetbrains.annotations.NotNull;
 
-public class ProFragment extends Fragment {
+public class AndroidFragment extends Fragment {
 
     private MediumAdapter adapter;
-    private ProViewModel viewModel;
+    private AndroidViewModel viewModel;
     private FragmentArticlesBinding binding;
 
     @Override
@@ -26,7 +29,7 @@ public class ProFragment extends Fragment {
         requireActivity().setTitle("");
         initializeViews();
         initializeViewModel();
-        getList();
+        getTopList();
         onSwipeRefresh();
         return view;
     }
@@ -38,8 +41,8 @@ public class ProFragment extends Fragment {
         binding.recyclerViewArticles.setAdapter(adapter);
     }
 
-    private void getList() {
-        viewModel.makeApiCallDevArticles().observe(requireActivity(), response -> {
+    private void getTopList() {
+        viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarArticles.setVisibility(View.GONE);
@@ -59,7 +62,7 @@ public class ProFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallDevArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshArticles.setRefreshing(false);
@@ -75,6 +78,6 @@ public class ProFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(ProViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AndroidViewModel.class);
     }
 }

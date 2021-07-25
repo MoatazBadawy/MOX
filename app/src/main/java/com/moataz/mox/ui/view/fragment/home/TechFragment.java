@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,15 +10,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.moataz.mox.databinding.FragmentArticlesBinding;
-import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.viewmodel.FrontEndViewModel;
+import com.moataz.mox.ui.adapter.ThevergeAdapter;
+import com.moataz.mox.ui.viewmodel.TechViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-public class FrontEndFragment extends Fragment {
+public class TechFragment extends Fragment {
 
-    private MediumAdapter adapter;
-    private FrontEndViewModel viewModel;
+    private ThevergeAdapter adapter;
+    private TechViewModel viewModel;
     private FragmentArticlesBinding binding;
 
     @Override
@@ -35,14 +35,14 @@ public class FrontEndFragment extends Fragment {
     }
 
     private void initializeViews() {
-        adapter = new MediumAdapter();
+        adapter = new ThevergeAdapter();
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);
         binding.recyclerViewArticles.setAdapter(adapter);
     }
 
     private void getList() {
-        viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
+        viewModel.makeApiCallTechArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarArticles.setVisibility(View.GONE);
@@ -54,7 +54,7 @@ public class FrontEndFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarArticles.setVisibility(View.GONE);
-                    adapter.setMediumList(response.data);
+                    adapter.setThevergeList(response.data);
                     break;
                 }
             }
@@ -62,7 +62,7 @@ public class FrontEndFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallUIArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallTechArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshArticles.setRefreshing(false);
@@ -70,7 +70,7 @@ public class FrontEndFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshArticles.setRefreshing(false);
-                    adapter.setMediumList(response.data);
+                    adapter.setThevergeList(response.data);
                     break;
                 }
             }
@@ -78,6 +78,6 @@ public class FrontEndFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(FrontEndViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TechViewModel.class);
     }
 }

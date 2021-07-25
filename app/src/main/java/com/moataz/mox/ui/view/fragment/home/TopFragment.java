@@ -1,21 +1,24 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.home;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.moataz.mox.databinding.FragmentArticlesBinding;
-import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.viewmodel.AndroidViewModel;
+import com.moataz.mox.ui.adapter.CNNAdapter;
+import com.moataz.mox.ui.viewmodel.TopViewModel;
+
 import org.jetbrains.annotations.NotNull;
 
-public class AndroidFragment extends Fragment {
+public class TopFragment extends Fragment {
 
-    private MediumAdapter adapter;
-    private AndroidViewModel viewModel;
+    private CNNAdapter adapter;
+    private TopViewModel viewModel;
     private FragmentArticlesBinding binding;
 
     @Override
@@ -26,20 +29,20 @@ public class AndroidFragment extends Fragment {
         requireActivity().setTitle("");
         initializeViews();
         initializeViewModel();
-        getTopList();
+        getList();
         onSwipeRefresh();
         return view;
     }
 
     private void initializeViews() {
-        adapter = new MediumAdapter();
+        adapter = new CNNAdapter();
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);
         binding.recyclerViewArticles.setAdapter(adapter);
     }
 
-    private void getTopList() {
-        viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
+    private void getList() {
+        viewModel.makeApiCallTopArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarArticles.setVisibility(View.GONE);
@@ -51,7 +54,7 @@ public class AndroidFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.progressBarArticles.setVisibility(View.GONE);
-                    adapter.setMediumList(response.data);
+                    adapter.setCNNList(response.data);
                     break;
                 }
             }
@@ -59,7 +62,7 @@ public class AndroidFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallTopArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshArticles.setRefreshing(false);
@@ -67,7 +70,7 @@ public class AndroidFragment extends Fragment {
                 }
                 case SUCCESS:{
                     binding.swipeToRefreshArticles.setRefreshing(false);
-                    adapter.setMediumList(response.data);
+                    adapter.setCNNList(response.data);
                     break;
                 }
             }
@@ -75,6 +78,6 @@ public class AndroidFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(AndroidViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TopViewModel.class);
     }
 }
