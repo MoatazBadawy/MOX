@@ -1,7 +1,5 @@
 package com.moataz.mox.ui.view.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,36 +11,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moataz.mox.R;
+import com.moataz.mox.databinding.ActivityMainBinding;
 import com.moataz.mox.ui.view.brush.NotificationAfternoon;
 import com.moataz.mox.ui.view.brush.NotificationMorning;
 import com.moataz.mox.ui.view.brush.Shortcuts;
-import com.moataz.mox.ui.view.fragment.FavouriteFragment;
-import com.moataz.mox.ui.view.fragment.HomeFragment;
-import com.moataz.mox.ui.view.fragment.PremiumFragment;
-import com.moataz.mox.ui.view.fragment.SearchFragment;
-import com.moataz.mox.ui.view.fragment.VideosFragment;
 import com.moataz.mox.utils.IOnBackPressed;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
-    final Fragment homeFragment = new HomeFragment();
-    final Fragment searchFragment = new SearchFragment();
-    final Fragment videosFragment = new VideosFragment();
-    final Fragment favouriteFragment = new FavouriteFragment();
-    final Fragment premiumFragment = new PremiumFragment();
-    final FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment mainFragment = homeFragment;
+    ActivityMainBinding binding;
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         initializeView();
         setupShortcuts();
         setupNotification();
@@ -62,67 +51,23 @@ public class MainActivity extends AppCompatActivity  {
         ViewCompat.setLayoutDirection(getWindow().getDecorView(), ViewCompat.LAYOUT_DIRECTION_LTR);
     }
 
+    private void setupShortcuts() {
+        Shortcuts.setupShortcuts(this);
+    }
+
     private void setupNotification() {
         NotificationMorning.setupMorningNotification(this);
         NotificationAfternoon.setupAfternoonNotification(this);
     }
 
-    private void setupShortcuts() {
-        Shortcuts.setupShortcuts(this);
-    }
-
-
-    @SuppressLint("NonConstantResourceId")
     private void initializeBottomNavigation() {
-        // first one transaction to add each Fragment
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_layout, premiumFragment, "5").hide(premiumFragment);
-        fragmentTransaction.add(R.id.fragment_layout, favouriteFragment, "4").hide(favouriteFragment);
-        fragmentTransaction.add(R.id.fragment_layout, videosFragment, "3").hide(videosFragment);
-        fragmentTransaction.add(R.id.fragment_layout, searchFragment, "2").hide(searchFragment);
-        fragmentTransaction.add(R.id.fragment_layout, homeFragment, "1");
-        // commit once! to finish the transaction
-        fragmentTransaction.commit();
-
-        // show and hide them when click on BottomNav items
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
-        navigationView.setOnNavigationItemSelectedListener(item -> {
-            // start a new transaction
-            FragmentTransaction localFragmentTransaction = fragmentManager.beginTransaction();
-            // TODO: ADD Animations
-            switch (item.getItemId()) {
-                case R.id.home_item:
-                    localFragmentTransaction.hide(mainFragment).show(homeFragment).commit();
-                    mainFragment = homeFragment;
-                    return true;
-
-                case R.id.search_item:
-                    localFragmentTransaction.hide(mainFragment).show(searchFragment).commit();
-                    mainFragment = searchFragment;
-                    return true;
-
-                case R.id.videos_item:
-                    localFragmentTransaction.hide(mainFragment).show(videosFragment).commit();
-                    mainFragment = videosFragment;
-                    return true;
-
-                case R.id.saved_item:
-                    localFragmentTransaction.hide(mainFragment).show(favouriteFragment).commit();
-                    mainFragment = favouriteFragment;
-                    return true;
-
-                case R.id.premium_item:
-                    localFragmentTransaction.hide(mainFragment).show(premiumFragment).commit();
-                    mainFragment = premiumFragment;
-                    return true;
-            }
-            return false;
-        });
+        FragmentActivity activity = this;
+        BottomNavigation bottomNavigation = new BottomNavigation(this, activity);
+        bottomNavigation.initializeBottomNavigation(binding.bottomNavigation);
     }
 
-    public static void setHomeItemBack(Activity activity) {
-        BottomNavigationView bottomNavigationView = activity.findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.home_item);
+    public void setHomeItemBack() {
+        binding.bottomNavigation.setSelectedItemId(R.id.home_item);
     }
 
     @Override
@@ -132,11 +77,9 @@ public class MainActivity extends AppCompatActivity  {
             super.onBackPressed();
         }
 
-        // Select the right bottom navigation when press back
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        int selectedItemId = bottomNavigationView.getSelectedItemId();
+        int selectedItemId = binding.bottomNavigation.getSelectedItemId();
         if (R.id.home_item != selectedItemId) {
-            setHomeItemBack(MainActivity.this);
+            setHomeItemBack();
         } else {
             super.onBackPressed();
         }

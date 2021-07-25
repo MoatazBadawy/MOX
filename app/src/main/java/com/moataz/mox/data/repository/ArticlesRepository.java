@@ -31,7 +31,7 @@ public class ArticlesRepository {
     }
 
     public Single<MediumResponse> executeAndroidApi() {
-        return service.getArticleObjectsList("https://medium.com/feed/tag/android-development",
+        return service.getArticleObjectsList("https://medium.com/feed/tag/androiddev",
                 "b7fnpiy39m1ntewj93105d5ukhpmifvmnqufyksq");
     }
 
