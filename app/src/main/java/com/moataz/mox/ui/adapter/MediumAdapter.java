@@ -17,13 +17,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.model.article.Item;
-import com.moataz.mox.ui.view.fragment.TechFragment;
-import com.moataz.mox.ui.view.fragment.TopFragment;
 
 import java.util.List;
-import java.util.Objects;
-
-import static io.reactivex.schedulers.Schedulers.start;
 
 public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

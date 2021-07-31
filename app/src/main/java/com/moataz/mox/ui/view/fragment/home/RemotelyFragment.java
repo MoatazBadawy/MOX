@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.moataz.mox.databinding.FragmentArticlesBinding;
 import com.moataz.mox.ui.adapter.MediumAdapter;
-import com.moataz.mox.ui.viewmodel.UXViewModel;
+import com.moataz.mox.ui.viewmodel.RemotelyViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-public class UxFragment extends Fragment {
+public class RemotelyFragment extends Fragment {
 
     private MediumAdapter adapter;
-    private UXViewModel viewModel;
+    private RemotelyViewModel viewModel;
     private FragmentArticlesBinding binding;
 
     @Override
@@ -29,7 +29,7 @@ public class UxFragment extends Fragment {
         requireActivity().setTitle("");
         initializeViews();
         initializeViewModel();
-        getList();
+        getTopList();
         onSwipeRefresh();
         return view;
     }
@@ -41,8 +41,8 @@ public class UxFragment extends Fragment {
         binding.recyclerViewArticles.setAdapter(adapter);
     }
 
-    private void getList() {
-        viewModel.makeApiCallUXArticles().observe(requireActivity(), response -> {
+    private void getTopList() {
+        viewModel.makeApiCallAgileArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.progressBarArticles.setVisibility(View.GONE);
@@ -62,7 +62,7 @@ public class UxFragment extends Fragment {
     }
 
     private void onSwipeRefresh() {
-        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallUXArticles().observe(requireActivity(), response -> {
+        binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallAgileArticles().observe(requireActivity(), response -> {
             switch (response.status){
                 case ERROR: {
                     binding.swipeToRefreshArticles.setRefreshing(false);
@@ -78,6 +78,6 @@ public class UxFragment extends Fragment {
     }
 
     private void initializeViewModel() {
-        viewModel = new ViewModelProvider(this).get(UXViewModel.class);
+        viewModel = new ViewModelProvider(this).get(RemotelyViewModel.class);
     }
 }

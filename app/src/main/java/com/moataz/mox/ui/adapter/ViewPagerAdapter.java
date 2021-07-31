@@ -5,14 +5,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.moataz.mox.R;
-import com.moataz.mox.ui.view.fragment.RemotelyFragment;
-import com.moataz.mox.ui.view.fragment.ProFragment;
-import com.moataz.mox.ui.view.fragment.FrontEndFragment;
-import com.moataz.mox.ui.view.fragment.UxFragment;
+import com.moataz.mox.ui.view.fragment.home.RemotelyFragment;
+import com.moataz.mox.ui.view.fragment.home.ProFragment;
+import com.moataz.mox.ui.view.fragment.home.FrontEndFragment;
+import com.moataz.mox.ui.view.fragment.home.UxFragment;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
-import com.moataz.mox.ui.view.fragment.TechFragment;
-import com.moataz.mox.ui.view.fragment.AndroidFragment;
-import com.moataz.mox.ui.view.fragment.TopFragment;
+import com.moataz.mox.ui.view.fragment.home.TechFragment;
+import com.moataz.mox.ui.view.fragment.home.AndroidFragment;
+import com.moataz.mox.ui.view.fragment.home.TopFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
