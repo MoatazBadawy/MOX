@@ -1,5 +1,6 @@
 package com.moataz.mox.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -27,6 +28,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Item> items = null;
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setCNNList(List<Item> items) {
         this.items = items;
         notifyDataSetChanged();

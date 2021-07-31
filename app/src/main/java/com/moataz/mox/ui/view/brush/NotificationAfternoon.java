@@ -38,7 +38,7 @@ public class NotificationAfternoon extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
                 .setSubText("Articles")
                 .setContentTitle("New articles arrived")
-                .setContentText("Check out the new articles created just for you")
+                .setContentText("New articles are here just for you")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLights(Notification.FLAG_SHOW_LIGHTS, 1000, 500)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)

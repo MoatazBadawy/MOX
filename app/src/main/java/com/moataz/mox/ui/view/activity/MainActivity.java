@@ -2,6 +2,7 @@ package com.moataz.mox.ui.view.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -85,11 +86,12 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.commit();
 
         // show and hide them when click on BottomNav items
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
-        navigationView.setOnNavigationItemSelectedListener(item -> {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setItemRippleColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             // start a new transaction
             FragmentTransaction localFragmentTransaction = fragmentManager.beginTransaction();
-            // TODO: ADD Animations
+            localFragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
             switch (item.getItemId()) {
                 case R.id.home_item:
                     localFragmentTransaction.hide(mainFragment).show(homeFragment).commit();
