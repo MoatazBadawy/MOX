@@ -17,7 +17,7 @@ public class Shortcuts {
         @SuppressLint("RestrictedApi") ShortcutInfoCompat shortcut = new ShortcutInfoCompat.Builder(context, "id1")
                 .setShortLabel("Instagram")
                 .setLongLabel("Instagram")
-                .setIcon(IconCompat.createFromIcon(Icon.createWithResource(context, R.drawable.ic_notification)))
+                .setIcon(IconCompat.createFromIcon(Icon.createWithResource(context, R.mipmap.ic_instagram_round)))
                 .setIntent(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://www.instagram.com/thecoderui/")))
                 .build();

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity  {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             // start a new transaction
             FragmentTransaction localFragmentTransaction = fragmentManager.beginTransaction();
-            localFragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            localFragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
             switch (item.getItemId()) {
                 case R.id.home_item:
                     localFragmentTransaction.hide(mainFragment).show(homeFragment).commit();
