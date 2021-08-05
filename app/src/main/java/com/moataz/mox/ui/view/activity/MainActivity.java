@@ -7,20 +7,18 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moataz.mox.R;
-import com.moataz.mox.ui.view.brush.NotificationAfternoon;
-import com.moataz.mox.ui.view.brush.NotificationMorning;
+import com.moataz.mox.ui.view.brush.NotificationInAfternoon;
+import com.moataz.mox.ui.view.brush.NotificationInMorning;
 import com.moataz.mox.ui.view.brush.Shortcuts;
 import com.moataz.mox.ui.view.fragment.FavouriteFragment;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
@@ -51,21 +49,15 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void initializeView() {
-        // Initialize statue bar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            View decorView = window.getDecorView();
-            WindowInsetsControllerCompat windowInsetsControllerCompat = new WindowInsetsControllerCompat(window, decorView);
-            windowInsetsControllerCompat.setAppearanceLightStatusBars(true);
-            window.setStatusBarColor(Color.WHITE);
-        }
+        // make the icons on Statues black
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         // Make the app support only English View "left to Right"
         ViewCompat.setLayoutDirection(getWindow().getDecorView(), ViewCompat.LAYOUT_DIRECTION_LTR);
     }
 
     private void setupNotification() {
-        NotificationMorning.setupMorningNotification(this);
-        NotificationAfternoon.setupAfternoonNotification(this);
+        NotificationInAfternoon.setupAfternoonNotification(this);
+        NotificationInMorning.setupInMorningNotification(this);
     }
 
     private void setupShortcuts() {

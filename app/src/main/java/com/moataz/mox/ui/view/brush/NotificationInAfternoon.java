@@ -1,5 +1,8 @@
 package com.moataz.mox.ui.view.brush;
 
+import static android.content.Context.ALARM_SERVICE;
+
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -19,9 +22,7 @@ import com.moataz.mox.ui.view.activity.MainActivity;
 
 import java.util.Calendar;
 
-import static android.content.Context.ALARM_SERVICE;
-
-public class NotificationAfternoon extends BroadcastReceiver {
+public class NotificationInAfternoon extends BroadcastReceiver {
 
     private static final String CHANNEL_ID = "NEW_ARTICLES_AFTERNOON";
 
@@ -36,9 +37,8 @@ public class NotificationAfternoon extends BroadcastReceiver {
 
         Notification.Builder builder = new Notification.Builder(context);
         Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
-                .setSubText("Articles")
-                .setContentTitle("New articles arrived")
-                .setContentText("New articles are here just for you")
+                .setContentTitle("New Articles Arrived")
+                .setContentText("Tap here to read the latest articles for today")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLights(Notification.FLAG_SHOW_LIGHTS, 1000, 500)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -74,8 +74,8 @@ public class NotificationAfternoon extends BroadcastReceiver {
         cal.set(Calendar.MINUTE,0);
         cal.set(Calendar.SECOND, 0);
         if(cal.getTimeInMillis()>System.currentTimeMillis()){
-            Intent notificationIntent = new Intent(context, NotificationAfternoon.class);
-            PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent notificationIntent = new Intent(context, NotificationInAfternoon.class);
+            @SuppressLint("UnspecifiedImmutableFlag") PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 24*60*60*1000, broadcast); //Repeat every 24 h
         }

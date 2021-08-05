@@ -1,5 +1,8 @@
 package com.moataz.mox.ui.view.brush;
 
+import static android.content.Context.ALARM_SERVICE;
+
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,16 +14,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+
 import androidx.core.app.NotificationCompat;
+
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.activity.MainActivity;
 
 import java.util.Calendar;
 
-import static android.content.Context.ALARM_SERVICE;
-
-public class NotificationMorning extends BroadcastReceiver {
-
+public class NotificationInMorning extends BroadcastReceiver  {
     private static final String CHANNEL_ID = "NEW_ARTICLES_MORNING";
 
     @Override
@@ -36,7 +38,7 @@ public class NotificationMorning extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
                 .setSubText("Articles")
                 .setContentTitle("Your daily read")
-                .setContentText("New articles are here just for you")
+                .setContentText("Tap here to get the new articles today...")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLights(Notification.FLAG_SHOW_LIGHTS, 1000, 500)
                 .setAutoCancel(true)
@@ -62,15 +64,15 @@ public class NotificationMorning extends BroadcastReceiver {
         notificationManager.notify(0, notification);
     }
 
-    public static void setupMorningNotification(Context context) {
+    public static void setupInMorningNotification(Context context) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY,8);
-        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.HOUR_OF_DAY,7);
+        cal.set(Calendar.MINUTE,30);
         cal.set(Calendar.SECOND, 0);
         if(cal.getTimeInMillis()>System.currentTimeMillis()){
-            Intent notificationIntent = new Intent(context, NotificationMorning.class);
-            PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent notificationIntent = new Intent(context, NotificationInMorning.class);
+            @SuppressLint("UnspecifiedImmutableFlag") PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 24*60*60*1000, broadcast); //Repeat every 24 h
         }

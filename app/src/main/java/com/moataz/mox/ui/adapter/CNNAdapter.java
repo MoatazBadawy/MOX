@@ -83,7 +83,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // load images in MainThread
             activity.runOnUiThread (() -> {
                 Glide.with(itemView.getContext())
-                        .load(Objects.requireNonNull(news.getEnclosure()).getLink())
+                        .load((Objects.requireNonNull(news.getEnclosure())).getLink())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .skipMemoryCache(true)

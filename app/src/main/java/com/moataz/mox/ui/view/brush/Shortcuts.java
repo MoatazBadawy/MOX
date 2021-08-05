@@ -15,11 +15,11 @@ public class Shortcuts {
 
     public static void setupShortcuts(Context context) {
         @SuppressLint("RestrictedApi") ShortcutInfoCompat shortcut = new ShortcutInfoCompat.Builder(context, "id1")
-                .setShortLabel("Twitter")
-                .setLongLabel("Twitter")
-                .setIcon(IconCompat.createFromIcon(Icon.createWithResource(context, R.mipmap.ic_twitter_round)))
+                .setShortLabel("Instagram")
+                .setLongLabel("Instagram")
+                .setIcon(IconCompat.createFromIcon(Icon.createWithResource(context, R.drawable.ic_notification)))
                 .setIntent(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.linkedin.com/in/moataz-badawy/")))
+                        Uri.parse("https://www.instagram.com/thecoderui/")))
                 .build();
         ShortcutManagerCompat.pushDynamicShortcut(context, shortcut);
 
