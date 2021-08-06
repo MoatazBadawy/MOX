@@ -17,8 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moataz.mox.R;
-import com.moataz.mox.ui.view.brush.NotificationInAfternoon;
-import com.moataz.mox.ui.view.brush.NotificationInMorning;
+import com.moataz.mox.ui.view.brush.NotificationAfternoon;
+import com.moataz.mox.ui.view.brush.NotificationMorning;
 import com.moataz.mox.ui.view.brush.Shortcuts;
 import com.moataz.mox.ui.view.fragment.FavouriteFragment;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void setupNotification() {
-        NotificationInAfternoon.setupAfternoonNotification(this);
-        NotificationInMorning.setupInMorningNotification(this);
+        NotificationAfternoon.setupAfternoonNotification(this);
+        NotificationMorning.setupInMorningNotification(this);
     }
 
     private void setupShortcuts() {
