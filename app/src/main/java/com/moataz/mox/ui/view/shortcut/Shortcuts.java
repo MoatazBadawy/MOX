@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.view.brush;
+package com.moataz.mox.ui.view.shortcut;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

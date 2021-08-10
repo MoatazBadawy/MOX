@@ -57,7 +57,7 @@
             android:fontFamily="@font/abeezee"
             android:lineSpacingExtra="4sp"
             android:maxLines="2"
-            android:text="This artical is a test and very best fro you. so if you like this news please call me and i will not answer haha..."
+            tools:text="This article is a test and very best for you. so if you like this news please call me and i will not answer haha..."
             android:textAlignment="textStart"
             android:textSize="@dimen/_11ssp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.view.brush;
+package com.moataz.mox.ui.view.notification;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -22,9 +22,8 @@ import com.moataz.mox.ui.view.activity.MainActivity;
 
 import java.util.Calendar;
 
-public class NotificationAfternoon extends BroadcastReceiver {
-
-    private static final String CHANNEL_ID = "NEW_ARTICLES_AFTERNOON_CHANNEL_ID";
+public class NotificationMorning extends BroadcastReceiver  {
+    private static final String CHANNEL_ID = "NEW_ARTICLES_MORNING_CHANNEL_ID";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -37,12 +36,11 @@ public class NotificationAfternoon extends BroadcastReceiver {
 
         Notification.Builder builder = new Notification.Builder(context);
         Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
-                .setContentTitle("New Articles Arrived")
-                .setContentText("Tap here to read the latest articles for today")
+                .setSubText("Articles")
+                .setContentTitle("Your daily read")
+                .setContentText("Tap here to get the new articles today...")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLights(Notification.FLAG_SHOW_LIGHTS, 1000, 500)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setStyle(new NotificationCompat.BigTextStyle())
@@ -56,25 +54,24 @@ public class NotificationAfternoon extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Channel_Afternoon_ID",
-                    NotificationManager.IMPORTANCE_HIGH
+                    "Channel_Morning_ID",
+                    NotificationManager.IMPORTANCE_DEFAULT
             );
             channel.enableLights(true);
             channel.setLightColor(Color.WHITE);
-            channel.enableVibration(false);
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(0, notification);
     }
 
-    public static void setupAfternoonNotification(Context context) {
+    public static void setupInMorningNotification(Context context) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY, 17);
-        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.HOUR_OF_DAY,7);
+        cal.set(Calendar.MINUTE,30);
         cal.set(Calendar.SECOND, 0);
         if(cal.getTimeInMillis()>System.currentTimeMillis()){
-            Intent notificationIntent = new Intent(context, NotificationAfternoon.class);
+            Intent notificationIntent = new Intent(context, NotificationMorning.class);
             @SuppressLint("UnspecifiedImmutableFlag") PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 24*60*60*1000, broadcast); //Repeat every 24 h
