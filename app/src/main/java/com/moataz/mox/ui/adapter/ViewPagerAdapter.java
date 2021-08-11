@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import com.moataz.mox.R;
 import com.moataz.mox.ui.view.fragment.home.RemotelyFragment;
 import com.moataz.mox.ui.view.fragment.home.ProFragment;
@@ -34,9 +35,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return new ProFragment();
         } else if (position == 3) {
             return new AndroidFragment();
-        }  else if (position == 4) {
+        } else if (position == 4) {
             return new FrontEndFragment();
-        } else if (position == 5){
+        } else if (position == 5) {
             return new UxFragment();
         } else {
             return new RemotelyFragment();
@@ -55,7 +56,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return mContext.getString(R.string.android_tab);
         } else if (position == 4) {
             return mContext.getString(R.string.ui_tab);
-        } else if (position == 5){
+        } else if (position == 5) {
             return mContext.getString(R.string.ux_tab);
         } else {
             return mContext.getString(R.string.agile_tab);

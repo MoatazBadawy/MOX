@@ -26,7 +26,7 @@ public class TopViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flattenAsObservable(CnnResponse::getItems)
-                .filter(item -> item.getEnclosure().getLink()!=null && !item.getEnclosure().getLink().isEmpty())
+                .filter(item -> item.getEnclosure().getLink() != null && !item.getEnclosure().getLink().isEmpty())
                 .toList()
                 .subscribe(result -> newsObjectsList.postValue(Resource.success(result)),
                         throwable -> newsObjectsList.postValue(Resource.error("error"))));

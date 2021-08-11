@@ -36,7 +36,7 @@ public class NotificationAfternoon extends BroadcastReceiver {
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(context);
-        Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle("New Articles Arrived")
                 .setContentText("Tap here to read the latest articles for today")
                 .setSmallIcon(R.drawable.ic_notification)
@@ -71,13 +71,13 @@ public class NotificationAfternoon extends BroadcastReceiver {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         cal.set(Calendar.HOUR_OF_DAY, 17);
-        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
-        if(cal.getTimeInMillis()>System.currentTimeMillis()){
+        if (cal.getTimeInMillis() > System.currentTimeMillis()) {
             Intent notificationIntent = new Intent(context, NotificationAfternoon.class);
             @SuppressLint("UnspecifiedImmutableFlag") PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 24*60*60*1000, broadcast); //Repeat every 24 h
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 24 * 60 * 60 * 1000, broadcast); //Repeat every 24 h
         }
     }
 }

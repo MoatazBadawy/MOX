@@ -17,60 +17,42 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/image_news"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_160sdp"
+            android:id="@+id/image_article_save"
+            android:layout_width="125dp"
+            android:layout_height="94dp"
             android:contentDescription="@string/article_image"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/title_news"
+            android:id="@+id/title_article_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/_12sdp"
             android:elevation="@dimen/_7sdp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:fontFamily="@font/abeezee"
             android:lineSpacingExtra="5sp"
             android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="@dimen/_15ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_news"
+            app:layout_constraintHorizontal_bias="0.297"
+            app:layout_constraintStart_toEndOf="@+id/image_article_save"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="6 Python Projects You Can Finish in a Weekend like a pro!" />
 
         <TextView
-            android:id="@+id/description_news"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:elevation="@dimen/_7sdp"
-            android:ellipsize="end"
-            android:fontFamily="@font/abeezee"
-            android:lineSpacingExtra="4sp"
-            android:maxLines="2"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/_11ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_news"
-            tools:text="This article is a test and very best for you. so if you like this news please call me and i will not answer haha..." />
-
-        <TextView
-            android:id="@+id/source_news"
+            android:id="@+id/source_article_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="@dimen/_6sdp"
             android:elevation="@dimen/_7sdp"
             android:ellipsize="end"
@@ -80,8 +62,9 @@
             android:textAlignment="textStart"
             android:textSize="@dimen/_8ssp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_news"
+            app:layout_constraintStart_toStartOf="@+id/title_article_save"
+            app:layout_constraintTop_toBottomOf="@+id/title_article_save"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="Medium" />
 
         <ImageView
@@ -90,17 +73,17 @@
             android:layout_height="@dimen/_6sdp"
             android:layout_marginStart="@dimen/_3sdp"
             android:contentDescription="@string/comma_image"
-            app:layout_constraintBottom_toBottomOf="@+id/source_news"
-            app:layout_constraintStart_toEndOf="@+id/source_news"
-            app:layout_constraintTop_toTopOf="@+id/source_news"
+            app:layout_constraintBottom_toBottomOf="@+id/source_article_save"
+            app:layout_constraintStart_toEndOf="@+id/source_article_save"
+            app:layout_constraintTop_toTopOf="@+id/source_article_save"
             app:srcCompat="@drawable/ic_circel" />
 
         <TextView
-            android:id="@+id/author_name_news"
+            android:id="@+id/author_name_article_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_3sdp"
-            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="@dimen/_6sdp"
             android:elevation="@dimen/_7sdp"
             android:ellipsize="end"
@@ -111,16 +94,8 @@
             android:textSize="@dimen/_8ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_circle"
-            app:layout_constraintTop_toBottomOf="@+id/description_news"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/title_article_save"
+            app:layout_constraintVertical_bias="1.0"
             tools:text="Moataz Badawy" />
-
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="52dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

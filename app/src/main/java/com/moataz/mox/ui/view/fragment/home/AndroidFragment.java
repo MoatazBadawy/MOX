@@ -43,7 +43,7 @@ public class AndroidFragment extends Fragment {
 
     private void getTopList() {
         viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
-            switch (response.status){
+            switch (response.status) {
                 case ERROR: {
                     binding.progressBarArticles.setVisibility(View.GONE);
                     break;
@@ -52,7 +52,7 @@ public class AndroidFragment extends Fragment {
                     binding.progressBarArticles.setVisibility(View.VISIBLE);
                     break;
                 }
-                case SUCCESS:{
+                case SUCCESS: {
                     binding.progressBarArticles.setVisibility(View.GONE);
                     adapter.setMediumList(response.data);
                     break;
@@ -63,12 +63,12 @@ public class AndroidFragment extends Fragment {
 
     private void onSwipeRefresh() {
         binding.swipeToRefreshArticles.setOnRefreshListener(() -> viewModel.makeApiCallAndroidArticles().observe(requireActivity(), response -> {
-            switch (response.status){
+            switch (response.status) {
                 case ERROR: {
                     binding.swipeToRefreshArticles.setRefreshing(false);
                     break;
                 }
-                case SUCCESS:{
+                case SUCCESS: {
                     binding.swipeToRefreshArticles.setRefreshing(false);
                     adapter.setMediumList(response.data);
                     break;

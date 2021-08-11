@@ -17,25 +17,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moataz.mox.R;
-import com.moataz.mox.ui.view.notification.NotificationAfternoon;
-import com.moataz.mox.ui.view.notification.NotificationMorning;
-import com.moataz.mox.ui.view.shortcut.Shortcuts;
 import com.moataz.mox.ui.view.fragment.FavouriteFragment;
 import com.moataz.mox.ui.view.fragment.HomeFragment;
 import com.moataz.mox.ui.view.fragment.PremiumFragment;
 import com.moataz.mox.ui.view.fragment.SearchFragment;
 import com.moataz.mox.ui.view.fragment.VideosFragment;
+import com.moataz.mox.ui.view.notification.NotificationAfternoon;
+import com.moataz.mox.ui.view.notification.NotificationMorning;
+import com.moataz.mox.ui.view.shortcut.Shortcuts;
 import com.moataz.mox.utils.IOnBackPressed;
 
 public class MainActivity extends AppCompatActivity  {
 
-    final Fragment homeFragment = new HomeFragment();
-    final Fragment searchFragment = new SearchFragment();
-    final Fragment videosFragment = new VideosFragment();
-    final Fragment favouriteFragment = new FavouriteFragment();
-    final Fragment premiumFragment = new PremiumFragment();
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment mainFragment = homeFragment;
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     @Override
@@ -68,49 +62,45 @@ public class MainActivity extends AppCompatActivity  {
     @SuppressLint("NonConstantResourceId")
     private void initializeBottomNavigation() {
         // first one transaction to add each Fragment
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_layout, premiumFragment, "5").hide(premiumFragment);
-        fragmentTransaction.add(R.id.fragment_layout, favouriteFragment, "4").hide(favouriteFragment);
-        fragmentTransaction.add(R.id.fragment_layout, videosFragment, "3").hide(videosFragment);
-        fragmentTransaction.add(R.id.fragment_layout, searchFragment, "2").hide(searchFragment);
-        fragmentTransaction.add(R.id.fragment_layout, homeFragment, "1");
-        // commit once! to finish the transaction
-        fragmentTransaction.commit();
 
         // show and hide them when click on BottomNav items
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setItemRippleColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,
+                new HomeFragment()).commit();
         bottomNavigationView.setOnItemSelectedListener(item -> {
             // start a new transaction
             FragmentTransaction localFragmentTransaction = fragmentManager.beginTransaction();
             localFragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+            Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.home_item:
-                    localFragmentTransaction.hide(mainFragment).show(homeFragment).commit();
-                    mainFragment = homeFragment;
-                    return true;
+                    selectedFragment = new HomeFragment();
+                    break;
 
                 case R.id.search_item:
-                    localFragmentTransaction.hide(mainFragment).show(searchFragment).commit();
-                    mainFragment = searchFragment;
-                    return true;
+                    selectedFragment = new SearchFragment();
+
+                    break;
 
                 case R.id.videos_item:
-                    localFragmentTransaction.hide(mainFragment).show(videosFragment).commit();
-                    mainFragment = videosFragment;
-                    return true;
+                    selectedFragment = new VideosFragment();
+
+                    break;
 
                 case R.id.saved_item:
-                    localFragmentTransaction.hide(mainFragment).show(favouriteFragment).commit();
-                    mainFragment = favouriteFragment;
-                    return true;
+                    selectedFragment = new FavouriteFragment();
+                    break;
 
                 case R.id.premium_item:
-                    localFragmentTransaction.hide(mainFragment).show(premiumFragment).commit();
-                    mainFragment = premiumFragment;
-                    return true;
+                    selectedFragment = new PremiumFragment();
+
+                    break;
             }
-            return false;
+            assert selectedFragment != null;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, selectedFragment).commit();
+
+            return true;
         });
     }
 

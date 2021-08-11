@@ -45,7 +45,7 @@ public class ArticlesRepository {
                 "b7fnpiy39m1ntewj93105d5ukhpmifvmnqufyksq");
     }
 
-    public Single<CnnResponse> executeCnnApi(){
+    public Single<CnnResponse> executeCnnApi() {
         return service.getNewsObjectsList("http://rss.cnn.com/rss/cnn_latest.rss",
                 "b7fnpiy39m1ntewj93105d5ukhpmifvmnqufyksq",
                 "50");

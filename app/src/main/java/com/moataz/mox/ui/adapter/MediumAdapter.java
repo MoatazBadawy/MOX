@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -72,7 +74,7 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void setData(Item mediumArticle) {
             Glide.get(itemView.getContext()).clearMemory();
             // load images in MainThread
-            activity.runOnUiThread (() -> {
+            activity.runOnUiThread(() -> {
                 Glide.with(itemView.getContext())
                         .load(mediumArticle.getThumbnail())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -97,17 +99,17 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
-                customTabIntent.setStartAnimations(itemView.getContext(),R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setStartAnimations(itemView.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
                 customTabIntent.setExitAnimations(itemView.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
-                openCustomTabs(itemView.getContext(),customTabIntent.build(),Uri.parse(mediumArticle.getLink()));
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(mediumArticle.getLink()));
             });
         }
 
         static void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
             String packageName = "com.android.chrome";
             customTabsIntent.intent.setPackage(packageName);
-            customTabsIntent.launchUrl(activity,uri);
+            customTabsIntent.launchUrl(activity, uri);
         }
     }
 }

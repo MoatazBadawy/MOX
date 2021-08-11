@@ -1,23 +1,44 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.moataz.mox.R;
+import com.moataz.mox.data.model.news.Item;
+import com.moataz.mox.databinding.FragmentFavouriteBinding;
+import com.moataz.mox.ui.adapter.FavoriteAdapter;
 import com.moataz.mox.utils.IOnBackPressed;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class FavouriteFragment extends Fragment implements IOnBackPressed {
 
+    private FragmentFavouriteBinding binding;
+    ArrayList<Item> arrayList = new ArrayList<>();;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false);
+        binding = FragmentFavouriteBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        requireActivity().setTitle("");
+        initializeViews();
+        return view;
+    }
+
+    private void initializeViews() {
+        FavoriteAdapter adapter = new FavoriteAdapter();
+        binding.recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewFavorites.setHasFixedSize(true);
+        binding.recyclerViewFavorites.setAdapter(adapter);
+        adapter.setFavoriteList(arrayList,getContext());
     }
 
     @Override

@@ -22,7 +22,7 @@ import com.moataz.mox.ui.view.activity.MainActivity;
 
 import java.util.Calendar;
 
-public class NotificationMorning extends BroadcastReceiver  {
+public class NotificationMorning extends BroadcastReceiver {
     private static final String CHANNEL_ID = "NEW_ARTICLES_MORNING_CHANNEL_ID";
 
     @Override
@@ -35,7 +35,7 @@ public class NotificationMorning extends BroadcastReceiver  {
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(context);
-        Notification notification = new NotificationCompat.Builder(context,CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSubText("Articles")
                 .setContentTitle("Your daily read")
                 .setContentText("Tap here to get the new articles today...")
@@ -67,14 +67,14 @@ public class NotificationMorning extends BroadcastReceiver  {
     public static void setupInMorningNotification(Context context) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY,7);
-        cal.set(Calendar.MINUTE,30);
+        cal.set(Calendar.HOUR_OF_DAY, 7);
+        cal.set(Calendar.MINUTE, 30);
         cal.set(Calendar.SECOND, 0);
-        if(cal.getTimeInMillis()>System.currentTimeMillis()){
+        if (cal.getTimeInMillis() > System.currentTimeMillis()) {
             Intent notificationIntent = new Intent(context, NotificationMorning.class);
             @SuppressLint("UnspecifiedImmutableFlag") PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 24*60*60*1000, broadcast); //Repeat every 24 h
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 24 * 60 * 60 * 1000, broadcast); //Repeat every 24 h
         }
     }
 }

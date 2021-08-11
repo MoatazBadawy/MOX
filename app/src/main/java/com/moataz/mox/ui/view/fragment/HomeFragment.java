@@ -1,15 +1,15 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -36,7 +36,7 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
     }
 
     private void initializeViewPager() {
-        adapter = new ViewPagerAdapter(this,0,requireActivity().getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(this, 0, requireActivity().getSupportFragmentManager());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(6); // make TabLayout not Update the data when swipe
         binding.tabs.setupWithViewPager(binding.viewPager);
@@ -45,7 +45,7 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
         binding.tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                binding.viewPager.setCurrentItem(tab.getPosition(),true);
+                binding.viewPager.setCurrentItem(tab.getPosition(), true);
             }
 
             @Override
@@ -63,7 +63,7 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
     }
 
     private void showBottomSheetDialog() {
-        bottomSheetDialog = new BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme);
+        bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_no_internet);
         if (CheckNetwork.isInternetAvailable(requireActivity())) {
             bottomSheetDialog.dismiss();
@@ -85,7 +85,7 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
     }
 
     private void setupBottomSheetDialog() {
-        bottomSheetDialog = new BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme) {
+        bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme) {
             @Override
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
