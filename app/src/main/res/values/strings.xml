@@ -42,4 +42,7 @@
     <string name="article">Article</string>
     <string name="for_every">for every</string>
     <string name="moment">moment</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="open_in_tab">Open in tab</string>
 </resources>

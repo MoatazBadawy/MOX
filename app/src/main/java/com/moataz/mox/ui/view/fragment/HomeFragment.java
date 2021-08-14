@@ -1,11 +1,9 @@
 package com.moataz.mox.ui.view.fragment;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +14,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.moataz.mox.R;
 import com.moataz.mox.databinding.FragmentHomeBinding;
 import com.moataz.mox.ui.adapter.ViewPagerAdapter;
-import com.moataz.mox.utils.CheckNetwork;
 import com.moataz.mox.utils.IOnBackPressed;
 
 public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPressed {
@@ -31,7 +28,6 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         initializeViewPager();
-        showBottomSheetDialog();
         return view;
     }
 
@@ -62,58 +58,60 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
         });
     }
 
-    private void showBottomSheetDialog() {
-        bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme);
-        bottomSheetDialog.setContentView(R.layout.bottomsheet_no_internet);
-        if (CheckNetwork.isInternetAvailable(requireActivity())) {
-            bottomSheetDialog.dismiss();
-        } else {
-            setupBottomSheetDialog();
-        }
-        Button buttonNoInternet = bottomSheetDialog.findViewById(R.id.buttonNoInternet);
-        assert buttonNoInternet != null;
-        buttonNoInternet.setOnClickListener(v -> {
+    /*
+        private void showBottomSheetDialog() {
+            bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme);
+            bottomSheetDialog.setContentView(R.layout.bottom_sheet);
             if (CheckNetwork.isInternetAvailable(requireActivity())) {
-                adapter.notifyDataSetChanged();
                 bottomSheetDialog.dismiss();
             } else {
+                setupBottomSheetDialog();
+            }
+            Button buttonNoInternet = bottomSheetDialog.findViewById(R.id.buttonNoInternet);
+            assert buttonNoInternet != null;
+            buttonNoInternet.setOnClickListener(v -> {
+                if (CheckNetwork.isInternetAvailable(requireActivity())) {
+                    adapter.notifyDataSetChanged();
+                    bottomSheetDialog.dismiss();
+                } else {
+                    bottomSheetDialog.dismiss();
+                    adapter.notifyDataSetChanged();
+                    bottomSheetDialog.show();
+                }
+            });
+        }
+
+        private void setupBottomSheetDialog() {
+            bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme) {
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+                    setOnKeyListener((dialog, keyCode, event) -> {
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                            bottomSheetDialog.dismiss();
+                            requireActivity().moveTaskToBack(true);
+                            requireActivity().finish();
+                            return true;
+                        }
+                        return false;
+                    });
+
+                }
+            };
+            bottomSheetDialog.setContentView(R.layout.bottom_sheet);
+            bottomSheetDialog.setCancelable(false);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            if (CheckNetwork.isInternetAvailable(requireActivity())) {
                 bottomSheetDialog.dismiss();
-                adapter.notifyDataSetChanged();
+            } else {
                 bottomSheetDialog.show();
             }
-        });
-    }
-
-    private void setupBottomSheetDialog() {
-        bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme) {
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setOnKeyListener((dialog, keyCode, event) -> {
-                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                        bottomSheetDialog.dismiss();
-                        requireActivity().moveTaskToBack(true);
-                        requireActivity().finish();
-                        return true;
-                    }
-                    return false;
-                });
-
-            }
-        };
-        bottomSheetDialog.setContentView(R.layout.bottomsheet_no_internet);
-        bottomSheetDialog.setCancelable(false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (CheckNetwork.isInternetAvailable(requireActivity())) {
-            bottomSheetDialog.dismiss();
-        } else {
-            bottomSheetDialog.show();
         }
-    }
+    */
 
     @Override
     public boolean onBackPressed() {

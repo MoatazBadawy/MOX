@@ -1,5 +1,6 @@
 package com.moataz.mox.ui.view.fragment.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +35,17 @@ public class TopFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initializeViews() {
         adapter = new CNNAdapter();
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);
         binding.recyclerViewArticles.setAdapter(adapter);
+        // disable thw touch on items when scroll the recyclerview
+        binding.recyclerViewArticles.setOnTouchListener((view, motionEvent) -> {
+            binding.recyclerViewArticles.onTouchEvent(motionEvent);
+            return true;
+        });
     }
 
     private void getList() {

@@ -1,14 +1,20 @@
 package com.moataz.mox.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -26,6 +32,7 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private List<Item> items = null;
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setThevergeList(List<Item> items) {
         this.items = items;
         notifyDataSetChanged();
@@ -95,14 +102,19 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
          * When the user click on article it will open the article
          * in new Tab using ChromeCustomTab
          */
-        void setOnClick(Item mediumArticle) {
+        void setOnClick(Item article) {
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
                 customTabIntent.setStartAnimations(itemView.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
                 customTabIntent.setExitAnimations(itemView.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
-                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(mediumArticle.getLink()));
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(article.getLink()));
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                openBottomSheet(v, article);
+                return false;
             });
         }
 
@@ -110,6 +122,51 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             String packageName = "com.android.chrome";
             customTabsIntent.intent.setPackage(packageName);
             customTabsIntent.launchUrl(activity, uri);
+        }
+
+        @SuppressLint("InflateParams")
+        void openBottomSheet(View view, Item article) {
+            Context context = view.getContext();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+            view = inflater.inflate (R.layout.bottom_sheet, null);
+            LinearLayout save = view.findViewById(R.id.save);
+            LinearLayout share = view.findViewById(R.id.share);
+            LinearLayout open = view.findViewById(R.id.open_in_tab);
+
+            final Dialog mBottomSheetDialog = new Dialog (context, R.style.BottomSheetDialogTheme);
+            mBottomSheetDialog.setContentView (view);
+            mBottomSheetDialog.setCancelable (true);
+            mBottomSheetDialog.getWindow ().setLayout (LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mBottomSheetDialog.getWindow ().setGravity (Gravity.BOTTOM);
+            mBottomSheetDialog.show ();
+
+
+            save.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(),"Clicked Backup",Toast.LENGTH_SHORT).show();
+                mBottomSheetDialog.dismiss();
+            });
+
+            share.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareSubText = "Check out this great article from *MOX APP*" + '\n';
+                String shareBodyText = shareSubText + article.getLink();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+                v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
+                mBottomSheetDialog.dismiss();
+            });
+
+            open.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(article.getLink()));
+                mBottomSheetDialog.dismiss();
+            });
         }
     }
 }

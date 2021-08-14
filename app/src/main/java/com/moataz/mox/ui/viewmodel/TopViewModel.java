@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.moataz.mox.data.model.news.Item;
-import com.moataz.mox.data.model.news.CnnResponse;
+import com.moataz.mox.data.model.article.ArticleResponse;
+import com.moataz.mox.data.model.article.Item;
 import com.moataz.mox.data.repository.ArticlesRepository;
 import com.moataz.mox.utils.Resource;
 
@@ -25,7 +25,7 @@ public class TopViewModel extends ViewModel {
         disposables.add(articlesRepository.executeCnnApi()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flattenAsObservable(CnnResponse::getItems)
+                .flattenAsObservable(ArticleResponse::getItems)
                 .filter(item -> item.getEnclosure().getLink() != null && !item.getEnclosure().getLink().isEmpty())
                 .toList()
                 .subscribe(result -> newsObjectsList.postValue(Resource.success(result)),

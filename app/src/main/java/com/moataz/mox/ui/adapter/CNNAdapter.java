@@ -2,18 +2,24 @@ package com.moataz.mox.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -24,8 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
-import com.moataz.mox.data.model.news.Item;
-import com.moataz.mox.ui.view.fragment.FavouriteFragment;
+import com.moataz.mox.data.model.article.Item;
 
 import java.util.List;
 import java.util.Objects;
@@ -57,8 +62,8 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Item News = items.get(position);
         ((NewsViewHolder) holder).setData(News);
-        ((NewsViewHolder) holder).setOnClick(News);
-        ((NewsViewHolder) holder).sendData(News);
+        ((NewsViewHolder) holder).setOnClickItems(News);
+        ((NewsViewHolder) holder).setOnClickButtons(News);
     }
 
     @Override
@@ -67,13 +72,16 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return items.size();
     }
 
-    static class NewsViewHolder extends RecyclerView.ViewHolder {
+    class NewsViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
         private final TextView title;
         private final TextView description;
         private final TextView source;
         private final TextView author;
-        private final Button sendDataButton;
+        private final Button more;
+        private final Button share;
+        private final Button save;
+        private final ImageButton saveButton;
         private final Activity activity = new Activity();
 
         NewsViewHolder(@NonNull View itemView) {
@@ -83,7 +91,10 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             description = itemView.findViewById(R.id.description_news);
             source = itemView.findViewById(R.id.source_news);
             author = itemView.findViewById(R.id.author_name_news);
-            sendDataButton = itemView.findViewById(R.id.button_save);
+            more = itemView.findViewById(R.id.more_button_news_onClick);
+            share = itemView.findViewById(R.id.share_button_news_onClick);
+            save = itemView.findViewById(R.id.save_button_news_onClick);
+            saveButton = itemView.findViewById(R.id.save_button_news_list);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
@@ -112,7 +123,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
          * When the user click on article it will open the article
          * in new Tab using ChromeCustomTab
          */
-        void setOnClick(Item news) {
+        void setOnClickItems(Item news) {
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
@@ -121,25 +132,87 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 customTabIntent.setShowTitle(true);
                 openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
             });
-        }
 
-        void sendData(Item news) {
-            sendDataButton.setOnClickListener(v -> {
-                Bundle bundle = new Bundle();
-                bundle.putString("title", news.getTitle());
-                bundle.putString("image", Objects.requireNonNull(news.getEnclosure()).getLink());
-                bundle.putString("source", "CNN");
-                bundle.putString("author", "CNN editor's");
-                bundle.putString("link", news.getLink());
-                FavouriteFragment favouriteFragment = new FavouriteFragment();
-                favouriteFragment.setArguments(bundle);
+            itemView.setOnLongClickListener(v -> {
+                openBottomSheet(v, news);
+                return false;
             });
         }
 
-        static void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
+        void setOnClickButtons(Item news) {
+            more.setOnClickListener(v -> openBottomSheet(v, news));
+
+            share.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareSubText = "Check out this great article from *MOX APP*" + '\n';
+                String shareBodyText = shareSubText + news.getLink();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+                v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
+            });
+
+            save.setOnClickListener(v -> {
+                SharedPreferences preferences = v.getContext().getSharedPreferences("MY_PREFS_NAME", 0);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("savedImageButton", R.drawable.ic_black_favorite_24);
+                editor.apply();
+                saveButton.setBackgroundResource(preferences.getInt("savedImageButton", R.drawable.ic_black_favorite_24));
+                saveButton.setSelected(true);
+            });
+        }
+
+        void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
             String packageName = "com.android.chrome";
             customTabsIntent.intent.setPackage(packageName);
             customTabsIntent.launchUrl(activity, uri);
         }
+
+        @SuppressLint("InflateParams")
+        void openBottomSheet(View view, Item news) {
+            Context context = view.getContext();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.bottom_sheet, null);
+            LinearLayout save = view.findViewById(R.id.save);
+            LinearLayout share = view.findViewById(R.id.share);
+            LinearLayout open = view.findViewById(R.id.open_in_tab);
+
+            final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.setCancelable(true);
+            mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+            mBottomSheetDialog.show();
+
+
+            save.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(), "Clicked Backup", Toast.LENGTH_SHORT).show();
+                mBottomSheetDialog.dismiss();
+            });
+
+            share.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareSubText = "Check out this great article from *MOX APP*" + '\n';
+                String shareBodyText = shareSubText + news.getLink();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+                v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
+                mBottomSheetDialog.dismiss();
+            });
+
+            open.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
+                mBottomSheetDialog.dismiss();
+            });
+        }
     }
+
+
 }

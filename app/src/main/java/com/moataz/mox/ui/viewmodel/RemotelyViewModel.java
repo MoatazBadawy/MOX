@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.moataz.mox.data.model.article.Item;
-import com.moataz.mox.data.model.article.MediumResponse;
+import com.moataz.mox.data.model.article.ArticleResponse;
 import com.moataz.mox.data.repository.ArticlesRepository;
 import com.moataz.mox.utils.Resource;
 
@@ -25,7 +25,7 @@ public class RemotelyViewModel extends ViewModel {
         disposables.add(articlesRepository.executeRemoteApi()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flattenAsObservable(MediumResponse::getItems)
+                .flattenAsObservable(ArticleResponse::getItems)
                 .filter(item -> item.getThumbnail() != null && !item.getThumbnail().isEmpty())
                 .toList()
                 .subscribe(result -> mediumObjectsList.postValue(Resource.success(result)),
