@@ -22,7 +22,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
-import com.moataz.mox.data.model.article.Item;
 import com.moataz.mox.ui.view.fragment.FavouriteFragment;
 
 import java.util.ArrayList;
