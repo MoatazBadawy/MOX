@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
+import com.moataz.mox.data.model.article.Item;
 
 import java.util.List;
 
@@ -53,7 +57,8 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Item Article = items.get(position);
         ((ArticleViewHolder) holder).setData(Article);
-        ((ArticleViewHolder) holder).setOnClick(Article);
+        ((ArticleViewHolder) holder).setOnClickItems(Article);
+        ((ArticleViewHolder) holder).setOnClickButtons(Article);
     }
 
     @Override
@@ -67,6 +72,10 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private final TextView title;
         private final TextView source;
         private final TextView author;
+        private final Button more;
+        private final Button share;
+        private final Button save;
+        private final ImageButton saveButton;
         private final Activity activity = new Activity();
 
         ArticleViewHolder(@NonNull View itemView) {
@@ -75,6 +84,10 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             title = itemView.findViewById(R.id.title_article);
             source = itemView.findViewById(R.id.source_article);
             author = itemView.findViewById(R.id.author_name_article);
+            more = itemView.findViewById(R.id.more_button_article_onClick);
+            share = itemView.findViewById(R.id.share_button_article_onClick);
+            save = itemView.findViewById(R.id.save_button_article_onClick);
+            saveButton = itemView.findViewById(R.id.save_button_article_list);
         }
 
         void setData(Item mediumArticle) {
@@ -101,7 +114,7 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
          * When the user click on article it will open the article
          * in new Tab using ChromeCustomTab
          */
-        void setOnClick(Item article) {
+        void setOnClickItems(Item article) {
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
@@ -112,8 +125,31 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
 
             itemView.setOnLongClickListener(v -> {
-                openBottomSheet(v, article);
+                openSecretBottomSheet(v);
                 return false;
+            });
+        }
+
+        void setOnClickButtons(Item news) {
+            more.setOnClickListener(v -> openBottomSheet(v, news));
+
+            share.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareSubText = "Check out this great article from *MOX APP*" + '\n';
+                String shareBodyText = shareSubText + news.getLink();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+                v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
+            });
+
+            save.setOnClickListener(v -> {
+                SharedPreferences preferences = v.getContext().getSharedPreferences("MY_PREFS_NAME", 0);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("savedImageButton", R.drawable.ic_black_favorite_24);
+                editor.apply();
+                saveButton.setBackgroundResource(preferences.getInt("savedImageButton", R.drawable.ic_black_favorite_24));
+                saveButton.setSelected(true);
             });
         }
 
@@ -126,23 +162,23 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @SuppressLint("InflateParams")
         void openBottomSheet(View view, Item article) {
             Context context = view.getContext();
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-            view = inflater.inflate (R.layout.bottom_sheet, null);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.bottom_sheet, null);
             LinearLayout save = view.findViewById(R.id.save);
             LinearLayout share = view.findViewById(R.id.share);
             LinearLayout open = view.findViewById(R.id.open_in_tab);
 
-            final Dialog mBottomSheetDialog = new Dialog (context, R.style.BottomSheetDialogTheme);
-            mBottomSheetDialog.setContentView (view);
-            mBottomSheetDialog.setCancelable (true);
-            mBottomSheetDialog.getWindow ().setLayout (LinearLayout.LayoutParams.MATCH_PARENT,
+            final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.setCancelable(true);
+            mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            mBottomSheetDialog.getWindow ().setGravity (Gravity.BOTTOM);
-            mBottomSheetDialog.show ();
+            mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+            mBottomSheetDialog.show();
 
 
             save.setOnClickListener(v -> {
-                Toast.makeText(v.getContext(),"Clicked Backup",Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Clicked Backup", Toast.LENGTH_SHORT).show();
                 mBottomSheetDialog.dismiss();
             });
 
@@ -164,6 +200,33 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
                 openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(article.getLink()));
+                mBottomSheetDialog.dismiss();
+            });
+        }
+
+        @SuppressLint("InflateParams")
+        void openSecretBottomSheet(View view) {
+            Context context = view.getContext();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.bottom_sheet_secret, null);
+            Button buttonSecret = view.findViewById(R.id.button_Secret);
+
+            final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.setCancelable(true);
+            mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+            mBottomSheetDialog.show();
+
+
+            buttonSecret.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse("https://github.com/MoatazBadawy/MOX"));
                 mBottomSheetDialog.dismiss();
             });
         }

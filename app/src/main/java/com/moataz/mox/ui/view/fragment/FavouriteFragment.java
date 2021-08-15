@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.moataz.mox.R;
+import com.moataz.mox.data.model.article.Item;
 import com.moataz.mox.databinding.FragmentFavouriteBinding;
 import com.moataz.mox.ui.adapter.FavoriteAdapter;
 import com.moataz.mox.utils.IOnBackPressed;

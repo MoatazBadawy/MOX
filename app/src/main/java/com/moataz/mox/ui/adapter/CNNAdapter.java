@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
+import com.moataz.mox.data.model.article.Item;
 
 import java.util.List;
 import java.util.Objects;
@@ -71,7 +72,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return items.size();
     }
 
-    class NewsViewHolder extends RecyclerView.ViewHolder {
+    static class NewsViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
         private final TextView title;
         private final TextView description;
@@ -133,8 +134,8 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
 
             itemView.setOnLongClickListener(v -> {
-                openBottomSheet(v, news);
-                return false;
+            openSecretBottomSheet(v);
+            return false;
             });
         }
 
@@ -211,6 +212,34 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mBottomSheetDialog.dismiss();
             });
         }
+
+        @SuppressLint("InflateParams")
+        void openSecretBottomSheet(View view) {
+            Context context = view.getContext();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.bottom_sheet_secret, null);
+            Button buttonSecret = view.findViewById(R.id.button_Secret);
+
+            final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.setCancelable(true);
+            mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+            mBottomSheetDialog.show();
+
+
+            buttonSecret.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse("https://github.com/MoatazBadawy/MOX"));
+                mBottomSheetDialog.dismiss();
+            });
+        }
+
     }
 
 
