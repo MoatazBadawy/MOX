@@ -1,7 +1,5 @@
 package com.moataz.mox.data.model.article
 
-import com.moataz.mox.data.model.article.Enclosure
-
 data class Item(
     val author: String?,
     val categories: List<Any>?,
@@ -13,5 +11,4 @@ data class Item(
     val pubDate: String?,
     val thumbnail: String?,
     val title: String?,
-    val favStatus: Boolean?
 )

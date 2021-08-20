@@ -17,11 +17,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moataz.mox.R;
-import com.moataz.mox.ui.view.fragment.FavouriteFragment;
-import com.moataz.mox.ui.view.fragment.HomeFragment;
-import com.moataz.mox.ui.view.fragment.PremiumFragment;
-import com.moataz.mox.ui.view.fragment.SearchFragment;
-import com.moataz.mox.ui.view.fragment.VideosFragment;
+import com.moataz.mox.ui.view.fragment.main.FavouriteFragment;
+import com.moataz.mox.ui.view.fragment.main.HomeFragment;
+import com.moataz.mox.ui.view.fragment.main.PremiumFragment;
+import com.moataz.mox.ui.view.fragment.main.SearchFragment;
+import com.moataz.mox.ui.view.fragment.main.VideosFragment;
 import com.moataz.mox.ui.view.notification.NotificationAfternoon;
 import com.moataz.mox.ui.view.notification.NotificationMorning;
 import com.moataz.mox.ui.view.shortcut.Shortcuts;

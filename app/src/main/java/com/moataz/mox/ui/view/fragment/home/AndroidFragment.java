@@ -37,7 +37,7 @@ public class AndroidFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initializeViews() {
-        adapter = new MediumAdapter();
+        adapter = new MediumAdapter(getContext());
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);
         binding.recyclerViewArticles.setAdapter(adapter);

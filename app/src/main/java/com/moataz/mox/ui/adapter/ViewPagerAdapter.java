@@ -10,7 +10,7 @@ import com.moataz.mox.ui.view.fragment.home.RemotelyFragment;
 import com.moataz.mox.ui.view.fragment.home.ProFragment;
 import com.moataz.mox.ui.view.fragment.home.FrontEndFragment;
 import com.moataz.mox.ui.view.fragment.home.UxFragment;
-import com.moataz.mox.ui.view.fragment.HomeFragment;
+import com.moataz.mox.ui.view.fragment.main.HomeFragment;
 import com.moataz.mox.ui.view.fragment.home.TechFragment;
 import com.moataz.mox.ui.view.fragment.home.AndroidFragment;
 import com.moataz.mox.ui.view.fragment.home.TopFragment;

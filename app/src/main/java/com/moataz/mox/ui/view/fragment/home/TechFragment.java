@@ -37,7 +37,7 @@ public class TechFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initializeViews() {
-        adapter = new ThevergeAdapter();
+        adapter = new ThevergeAdapter(getContext());
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);
         binding.recyclerViewArticles.setAdapter(adapter);

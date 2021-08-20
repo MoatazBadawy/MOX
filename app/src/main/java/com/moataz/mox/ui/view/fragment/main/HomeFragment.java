@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,7 +38,7 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
         binding.tabs.setupWithViewPager(binding.viewPager);
 
 
-        binding.tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewPager.setCurrentItem(tab.getPosition(), true);
@@ -49,9 +49,10 @@ public class HomeFragment extends BottomSheetDialogFragment implements IOnBackPr
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {//scroll to top
-                RecyclerView mRecyclerView = requireActivity().findViewById(R.id.recyclerView_articles);//mine one is RecyclerView
+            public void onTabReselected(TabLayout.Tab tab) {
+                RecyclerView mRecyclerView = requireActivity().findViewById(R.id.recyclerView_articles); //mine one is RecyclerView
                 if (mRecyclerView.getAdapter() != null && mRecyclerView.getAdapter().getItemCount() > 0) {
+                    //scroll to top
                     mRecyclerView.smoothScrollToPosition(0);
                 }
             }

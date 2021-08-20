@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.main;
 
 import android.os.Bundle;
 
@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.moataz.mox.R;
+import com.moataz.mox.ui.view.fragment.main.HomeFragment;
 import com.moataz.mox.utils.IOnBackPressed;
-
-import java.util.Objects;
 
 public class SearchFragment extends Fragment implements IOnBackPressed {
 

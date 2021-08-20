@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.Gravity;
@@ -27,6 +26,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
+import com.moataz.mox.data.db.Favorite;
+import com.moataz.mox.data.db.SQLiteDatabaseManager;
 import com.moataz.mox.data.model.article.Item;
 
 import java.util.List;
@@ -34,11 +35,16 @@ import java.util.List;
 public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Item> items = null;
+    SQLiteDatabaseManager sqliteManager;
 
     @SuppressLint("NotifyDataSetChanged")
     public void setMediumList(List<Item> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public MediumAdapter(Context context) {
+        sqliteManager = new SQLiteDatabaseManager(context);
     }
 
     @NonNull
@@ -57,7 +63,7 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Item mediumArticle = items.get(position);
         ((MediumViewHolder) holder).setData(mediumArticle);
-        ((MediumViewHolder) holder).setOnClickItems(mediumArticle);
+        ((MediumViewHolder) holder).setOnClickItem(mediumArticle);
         ((MediumViewHolder) holder).setOnClickButtons(mediumArticle);
     }
 
@@ -67,7 +73,7 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return items.size();
     }
 
-    static class MediumViewHolder extends RecyclerView.ViewHolder {
+    class MediumViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
         private final TextView title;
         private final TextView source;
@@ -111,11 +117,32 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             author.setText(mediumArticle.getAuthor());
         }
 
+        void setOnClickButtons(Item news) {
+            more.setOnClickListener(v -> openBottomSheet(v, news));
+
+            share.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareSubText = "Check out this great article from *MOX APP*" + '\n';
+                String shareBodyText = shareSubText + news.getLink();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+                v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
+            });
+
+            save.setOnClickListener(v -> {
+                // here we will insert the data into our dataBase and we will send it to the fragment
+                sqliteManager.insertFavorite(new Favorite(news.getTitle(), news.getThumbnail(), news.getLink(), news.getAuthor()));
+                saveButton.setBackgroundResource(R.drawable.ic_black_favorite_24);
+                saveButton.setSelected(true);
+            });
+        }
+
         /**
          * When the user click on article it will open the article
          * in new Tab using ChromeCustomTab
          */
-        void setOnClickItems(Item article) {
+        void setOnClickItem(Item article) {
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
@@ -131,30 +158,7 @@ public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         }
 
-        void setOnClickButtons(Item news) {
-            more.setOnClickListener(v -> openBottomSheet(v, news));
-
-            share.setOnClickListener(v -> {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                String shareSubText = "Check out this great article from *MOX APP*" + '\n';
-                String shareBodyText = shareSubText + news.getLink();
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
-                v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
-            });
-
-            save.setOnClickListener(v -> {
-                SharedPreferences preferences = v.getContext().getSharedPreferences("MY_PREFS_NAME", 0);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt("savedImageButton", R.drawable.ic_black_favorite_24);
-                editor.apply();
-                saveButton.setBackgroundResource(preferences.getInt("savedImageButton", R.drawable.ic_black_favorite_24));
-                saveButton.setSelected(true);
-            });
-        }
-
-        static void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
+        void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
             String packageName = "com.android.chrome";
             customTabsIntent.intent.setPackage(packageName);
             customTabsIntent.launchUrl(activity, uri);

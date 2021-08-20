@@ -4,12 +4,15 @@ import com.moataz.mox.data.api.APIService;
 import com.moataz.mox.data.model.article.ArticleResponse;
 import com.moataz.mox.data.request.RetroInstant;
 
+import javax.inject.Inject;
+
 import io.reactivex.Single;
 
 public class ArticlesRepository {
 
     private final APIService service;
 
+    @Inject
     public ArticlesRepository() {
         this.service = RetroInstant.getRetroMediumClient();
     }

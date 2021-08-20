@@ -1,5 +1,6 @@
-package com.moataz.mox.ui.view.fragment;
+package com.moataz.mox.ui.view.fragment.main;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,37 +10,53 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.moataz.mox.R;
-import com.moataz.mox.data.model.article.Item;
+import com.moataz.mox.data.db.Favorite;
+import com.moataz.mox.data.db.SQLiteDatabaseManager;
 import com.moataz.mox.databinding.FragmentFavouriteBinding;
 import com.moataz.mox.ui.adapter.FavoriteAdapter;
 import com.moataz.mox.utils.IOnBackPressed;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FavouriteFragment extends Fragment implements IOnBackPressed {
 
+    private SQLiteDatabaseManager sqliteManager;
     private FragmentFavouriteBinding binding;
-    ArrayList<Item> arrayList = new ArrayList<>();;
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentFavouriteBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        requireActivity().setTitle("");
-        initializeViews();
+        initializeSqliteDatabase();
+        setupAdapter();
+        onSwipeRefresh();
         return view;
     }
 
-    private void initializeViews() {
-        FavoriteAdapter adapter = new FavoriteAdapter();
+    @SuppressLint({"NotifyDataSetChanged", "ClickableViewAccessibility"})
+    private void setupAdapter() {
+        List<Favorite> favoriteList = sqliteManager.getFavoriteData();
+        FavoriteAdapter adapter = new FavoriteAdapter(favoriteList, getContext());
         binding.recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewFavorites.setHasFixedSize(true);
         binding.recyclerViewFavorites.setAdapter(adapter);
-        adapter.setFavoriteList(arrayList,getContext());
+        binding.recyclerViewFavorites.setOnTouchListener((view, motionEvent) -> {
+            binding.recyclerViewFavorites.onTouchEvent(motionEvent);
+            return true;
+        });
+        adapter.notifyDataSetChanged();
     }
+
+    private void onSwipeRefresh() {
+        binding.swipeToRefreshFavourites.setOnRefreshListener(() -> {
+            setupAdapter();
+            binding.swipeToRefreshFavourites.setRefreshing(false);
+        });
+    }
+
+    private void initializeSqliteDatabase() { sqliteManager = new SQLiteDatabaseManager(getContext()); }
 
     @Override
     public boolean onBackPressed() {

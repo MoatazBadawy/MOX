@@ -37,11 +37,11 @@ public class TopFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initializeViews() {
-        adapter = new CNNAdapter();
+        adapter = new CNNAdapter(getContext());
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);
         binding.recyclerViewArticles.setAdapter(adapter);
-        // disable thw touch on items when scroll the recyclerview
+        // disable the touch on items when scroll the recyclerview
         binding.recyclerViewArticles.setOnTouchListener((view, motionEvent) -> {
             binding.recyclerViewArticles.onTouchEvent(motionEvent);
             return true;
