@@ -136,8 +136,16 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 // here we will insert the data into our dataBase and we will send it to the fragment
                 sqliteManager.insertFavorite(new Favorite(news.getTitle(), news.getThumbnail(), news.getLink(), news.getAuthor()));
                 saveButton.setBackgroundResource(R.drawable.ic_black_favorite_24);
-                saveButton.setSelected(true);
+                save.setEnabled(false);
             });
+
+            if (sqliteManager.isFavorite(news.getThumbnail())) {
+                saveButton.setBackgroundResource(R.drawable.ic_black_favorite_24);
+                save.setEnabled(false);
+            } else {
+                saveButton.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
+                save.setEnabled(true);
+            }
         }
 
         /**
@@ -152,11 +160,6 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 customTabIntent.setExitAnimations(itemView.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
                 openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(article.getLink()));
-            });
-
-            itemView.setOnLongClickListener(v -> {
-                openSecretBottomSheet(v);
-                return false;
             });
         }
 

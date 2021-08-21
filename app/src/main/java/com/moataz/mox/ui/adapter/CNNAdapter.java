@@ -146,109 +146,112 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 // here we will insert the data into our dataBase and we will send it to the fragment
                 sqliteManager.insertFavorite(new Favorite(news.getTitle(), news.getEnclosure().getLink(), news.getLink(), news.getAuthor()));
                 saveButton.setBackgroundResource(R.drawable.ic_black_favorite_24);
-                saveButton.setSelected(true);
+                save.setEnabled(false);
             });
+
+            if (sqliteManager.isFavorite(news.getEnclosure().getLink())) {
+                saveButton.setBackgroundResource(R.drawable.ic_black_favorite_24);
+                save.setEnabled(false);
+            } else {
+                saveButton.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
+                save.setEnabled(true);
+            }
+        }
+
+        /**
+         * When the user click on article it will open the article
+         * in new Tab using ChromeCustomTab
+         */
+        void setOnClickItem(Item news) {
+            itemView.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setStartAnimations(itemView.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(itemView.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
+            });
+        }
+
+        void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
+            String packageName = "com.android.chrome";
+            customTabsIntent.intent.setPackage(packageName);
+            customTabsIntent.launchUrl(activity, uri);
+        }
+
+        @SuppressLint("InflateParams")
+        void openBottomSheet(View view, Item news) {
+            Context context = view.getContext();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.bottom_sheet, null);
+            LinearLayout save = view.findViewById(R.id.save);
+            LinearLayout share = view.findViewById(R.id.share);
+            LinearLayout open = view.findViewById(R.id.open_in_tab);
+
+            final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.setCancelable(true);
+            mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+            mBottomSheetDialog.show();
+
+
+            save.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(), "Clicked Backup", Toast.LENGTH_SHORT).show();
+                mBottomSheetDialog.dismiss();
+            });
+
+            share.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareSubText = "Check out this great article from *MOX APP*" + '\n';
+                String shareBodyText = shareSubText + news.getLink();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+                v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
+                mBottomSheetDialog.dismiss();
+            });
+
+            open.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
+                mBottomSheetDialog.dismiss();
+            });
+        }
+
+        @SuppressLint("InflateParams")
+        void openSecretBottomSheet(View view) {
+            Context context = view.getContext();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.bottom_sheet_secret, null);
+            Button buttonSecret = view.findViewById(R.id.button_Secret);
+
+            final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.setCancelable(true);
+            mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+            mBottomSheetDialog.show();
+
+
+            buttonSecret.setOnClickListener(v -> {
+                CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
+                customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
+                customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+                customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+                customTabIntent.setShowTitle(true);
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse("https://github.com/MoatazBadawy/MOX"));
+                mBottomSheetDialog.dismiss();
+            });
+        }
+
     }
-
-    /**
-     * When the user click on article it will open the article
-     * in new Tab using ChromeCustomTab
-     */
-    void setOnClickItem(Item news) {
-        itemView.setOnClickListener(v -> {
-            CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
-            customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
-            customTabIntent.setStartAnimations(itemView.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
-            customTabIntent.setExitAnimations(itemView.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
-            customTabIntent.setShowTitle(true);
-            openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
-        });
-
-        itemView.setOnLongClickListener(v -> {
-            openSecretBottomSheet(v);
-            return false;
-        });
-    }
-
-    void openCustomTabs(Context activity, CustomTabsIntent customTabsIntent, Uri uri) {
-        String packageName = "com.android.chrome";
-        customTabsIntent.intent.setPackage(packageName);
-        customTabsIntent.launchUrl(activity, uri);
-    }
-
-    @SuppressLint("InflateParams")
-    void openBottomSheet(View view, Item news) {
-        Context context = view.getContext();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.bottom_sheet, null);
-        LinearLayout save = view.findViewById(R.id.save);
-        LinearLayout share = view.findViewById(R.id.share);
-        LinearLayout open = view.findViewById(R.id.open_in_tab);
-
-        final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.setCancelable(true);
-        mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
-        mBottomSheetDialog.show();
-
-
-        save.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Clicked Backup", Toast.LENGTH_SHORT).show();
-            mBottomSheetDialog.dismiss();
-        });
-
-        share.setOnClickListener(v -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            String shareSubText = "Check out this great article from *MOX APP*" + '\n';
-            String shareBodyText = shareSubText + news.getLink();
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
-            v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
-            mBottomSheetDialog.dismiss();
-        });
-
-        open.setOnClickListener(v -> {
-            CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
-            customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
-            customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
-            customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
-            customTabIntent.setShowTitle(true);
-            openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
-            mBottomSheetDialog.dismiss();
-        });
-    }
-
-    @SuppressLint("InflateParams")
-    void openSecretBottomSheet(View view) {
-        Context context = view.getContext();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.bottom_sheet_secret, null);
-        Button buttonSecret = view.findViewById(R.id.button_Secret);
-
-        final Dialog mBottomSheetDialog = new Dialog(context, R.style.BottomSheetDialogTheme);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.setCancelable(true);
-        mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
-        mBottomSheetDialog.show();
-
-
-        buttonSecret.setOnClickListener(v -> {
-            CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
-            customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
-            customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
-            customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
-            customTabIntent.setShowTitle(true);
-            openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse("https://github.com/MoatazBadawy/MOX"));
-            mBottomSheetDialog.dismiss();
-        });
-    }
-
-}
 
 
 }

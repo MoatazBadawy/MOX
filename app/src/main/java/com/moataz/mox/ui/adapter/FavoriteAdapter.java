@@ -22,15 +22,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.db.Favorite;
+import com.moataz.mox.data.db.SQLiteDatabaseManager;
 
 import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<Favorite> items;
+    SQLiteDatabaseManager sqliteManager;
 
     public FavoriteAdapter(List<Favorite> items, Context context) {
         this.items = items;
+        sqliteManager = new SQLiteDatabaseManager(context);
     }
 
     @NonNull
@@ -50,6 +53,13 @@ public class FavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Favorite favorite = items.get(position);
         ((FavoriteViewHolder) holder).setData(favorite);
+    }
+
+    public void deleteItem(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+        Favorite favorite = items.get(direction);
+        sqliteManager.deleteFavorite(favorite.getImage());
+        items.remove(viewHolder.getAdapterPosition());
+        notifyItemRemoved(viewHolder.getAdapterPosition());
     }
 
     @Override
