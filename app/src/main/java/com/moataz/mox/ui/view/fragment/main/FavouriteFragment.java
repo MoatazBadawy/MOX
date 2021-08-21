@@ -2,6 +2,7 @@ package com.moataz.mox.ui.view.fragment.main;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class FavouriteFragment extends Fragment implements IOnBackPressed {
 
     private SQLiteDatabaseManager sqliteManager;
     private FragmentFavouriteBinding binding;
+    FavoriteAdapter adapter;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class FavouriteFragment extends Fragment implements IOnBackPressed {
     @SuppressLint({"NotifyDataSetChanged", "ClickableViewAccessibility"})
     private void setupAdapter() {
         List<Favorite> favoriteList = sqliteManager.getFavoriteData();
-        FavoriteAdapter adapter = new FavoriteAdapter(favoriteList, getContext());
+        adapter = new FavoriteAdapter(favoriteList, getContext());
         binding.recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewFavorites.setHasFixedSize(true);
         binding.recyclerViewFavorites.setAdapter(adapter);
@@ -51,7 +53,8 @@ public class FavouriteFragment extends Fragment implements IOnBackPressed {
 
     private void onSwipeRefresh() {
         binding.swipeToRefreshFavourites.setOnRefreshListener(() -> {
-            setupAdapter();
+            adapter.clearAll();
+            (new Handler()).postDelayed(this::setupAdapter, 100);
             binding.swipeToRefreshFavourites.setRefreshing(false);
         });
     }
