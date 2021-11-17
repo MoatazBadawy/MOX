@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.moataz.mox.data.model.article.ArticleResponse;
-import com.moataz.mox.data.model.article.Item;
+import com.moataz.mox.data.model.ArticleResponse;
+import com.moataz.mox.data.model.Item;
 import com.moataz.mox.data.repository.ArticlesRepository;
 import com.moataz.mox.utils.Resource;
 

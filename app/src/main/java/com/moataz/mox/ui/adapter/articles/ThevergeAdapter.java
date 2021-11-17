@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.adapter;
+package com.moataz.mox.ui.adapter.articles;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,55 +19,52 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.moataz.mox.R;
 import com.moataz.mox.data.db.Favorite;
 import com.moataz.mox.data.db.SQLiteDatabaseManager;
-import com.moataz.mox.R;
-import com.moataz.mox.data.model.article.Item;
+import com.moataz.mox.data.model.Item;
 
 import java.util.List;
-import java.util.Objects;
 
-public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Item> items = null;
     SQLiteDatabaseManager sqliteManager;
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setCNNList(List<Item> items) {
+    public void setThevergeList(List<Item> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
-    public CNNAdapter(Context context) {
+    public ThevergeAdapter(Context context) {
         sqliteManager = new SQLiteDatabaseManager(context);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NewsViewHolder(
+        return new ArticleViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.list_news,
+                        R.layout.list_articles,
                         parent,
                         false
                 )
         );
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Item News = items.get(position);
-        ((NewsViewHolder) holder).setData(News);
-        ((NewsViewHolder) holder).setOnClickItem(News);
-        ((NewsViewHolder) holder).setOnClickButtons(News);
+        Item Article = items.get(position);
+        ((ArticleViewHolder) holder).setData(Article);
+        ((ArticleViewHolder) holder).setOnClickItem(Article);
+        ((ArticleViewHolder) holder).setOnClickButtons(Article);
     }
 
     @Override
@@ -78,10 +73,9 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return items.size();
     }
 
-    class NewsViewHolder extends RecyclerView.ViewHolder {
+    class ArticleViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
         private final TextView title;
-        private final TextView description;
         private final TextView source;
         private final TextView author;
         private final Button more;
@@ -90,26 +84,24 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final ImageButton saveButton;
         private final Activity activity = new Activity();
 
-        NewsViewHolder(@NonNull View itemView) {
+        ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.image_news);
-            title = itemView.findViewById(R.id.title_news);
-            description = itemView.findViewById(R.id.description_news);
-            source = itemView.findViewById(R.id.source_news);
-            author = itemView.findViewById(R.id.author_name_news);
-            more = itemView.findViewById(R.id.more_button_news_onClick);
-            share = itemView.findViewById(R.id.share_button_news_onClick);
-            save = itemView.findViewById(R.id.save_button_news_onClick);
-            saveButton = itemView.findViewById(R.id.save_button_news_list);
+            image = itemView.findViewById(R.id.image_article);
+            title = itemView.findViewById(R.id.title_article);
+            source = itemView.findViewById(R.id.source_article);
+            author = itemView.findViewById(R.id.author_name_article);
+            more = itemView.findViewById(R.id.more_button_article_onClick);
+            share = itemView.findViewById(R.id.share_button_article_onClick);
+            save = itemView.findViewById(R.id.save_button_article_onClick);
+            saveButton = itemView.findViewById(R.id.save_button_article_list);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        void setData(Item news) {
+        void setData(Item mediumArticle) {
             Glide.get(itemView.getContext()).clearMemory();
             // load images in MainThread
             activity.runOnUiThread(() -> {
                 Glide.with(itemView.getContext())
-                        .load((Objects.requireNonNull(news.getEnclosure())).getLink())
+                        .load(mediumArticle.getThumbnail())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .skipMemoryCache(true)
@@ -119,16 +111,14 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Glide.get(itemView.getContext()).clearMemory();
             });
 
-            title.setText(news.getTitle());
-            description.setText(Html.fromHtml(Objects.requireNonNull(news.getDescription()).replaceAll("(<(/)img>)|(<img.+?>)", ""), Html.FROM_HTML_MODE_COMPACT));
-            source.setText(R.string.cnn);
-            author.setText(R.string.author);
+            title.setText(mediumArticle.getTitle());
+            source.setText(R.string.theverge);
+            author.setText(mediumArticle.getAuthor());
         }
 
         /**
          * we will make an action for the buttons that in every item
          */
-        @SuppressLint("NotifyDataSetChanged")
         void setOnClickButtons(Item news) {
             more.setOnClickListener(v -> openBottomSheet(v, news));
 
@@ -144,12 +134,12 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             save.setOnClickListener(v -> {
                 // here we will insert the data into our dataBase and we will send it to the fragment
-                sqliteManager.insertFavorite(new Favorite(news.getTitle(), news.getEnclosure().getLink(), news.getLink(), news.getAuthor()));
+                sqliteManager.insertFavorite(new Favorite(news.getTitle(), news.getThumbnail(), news.getLink(), news.getAuthor()));
                 saveButton.setBackgroundResource(R.drawable.ic_black_favorite_24);
                 save.setEnabled(false);
             });
 
-            if (sqliteManager.isFavorite(news.getEnclosure().getLink())) {
+            if (sqliteManager.isFavorite(news.getThumbnail())) {
                 saveButton.setBackgroundResource(R.drawable.ic_black_favorite_24);
                 save.setEnabled(false);
             } else {
@@ -162,14 +152,14 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
          * When the user click on article it will open the article
          * in new Tab using ChromeCustomTab
          */
-        void setOnClickItem(Item news) {
+        void setOnClickItem(Item article) {
             itemView.setOnClickListener(v -> {
                 CustomTabsIntent.Builder customTabIntent = new CustomTabsIntent.Builder();
                 customTabIntent.setToolbarColor(Color.parseColor("#ffffff"));
                 customTabIntent.setStartAnimations(itemView.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
                 customTabIntent.setExitAnimations(itemView.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
-                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(article.getLink()));
             });
         }
 
@@ -180,7 +170,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         @SuppressLint("InflateParams")
-        void openBottomSheet(View view, Item news) {
+        void openBottomSheet(View view, Item article) {
             Context context = view.getContext();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.bottom_sheet, null);
@@ -206,7 +196,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 String shareSubText = "Check out this great article from *MOX APP*" + '\n';
-                String shareBodyText = shareSubText + news.getLink();
+                String shareBodyText = shareSubText + article.getLink();
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubText);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
                 v.getContext().startActivity(Intent.createChooser(shareIntent, "Share With"));
@@ -219,7 +209,7 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 customTabIntent.setStartAnimations(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
                 customTabIntent.setExitAnimations(v.getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
                 customTabIntent.setShowTitle(true);
-                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(news.getLink()));
+                openCustomTabs(itemView.getContext(), customTabIntent.build(), Uri.parse(article.getLink()));
                 mBottomSheetDialog.dismiss();
             });
         }
@@ -250,8 +240,5 @@ public class CNNAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mBottomSheetDialog.dismiss();
             });
         }
-
     }
-
-
 }

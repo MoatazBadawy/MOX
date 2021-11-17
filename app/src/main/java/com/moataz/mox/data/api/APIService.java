@@ -1,6 +1,6 @@
 package com.moataz.mox.data.api;
 
-import com.moataz.mox.data.model.article.ArticleResponse;
+import com.moataz.mox.data.model.ArticleResponse;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;

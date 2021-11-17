@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.moataz.mox.data.model.article.ArticleResponse;
-import com.moataz.mox.data.model.article.Item;
+import com.moataz.mox.data.model.ArticleResponse;
+import com.moataz.mox.data.model.Item;
 import com.moataz.mox.data.repository.ArticlesRepository;
 import com.moataz.mox.utils.Resource;
 
@@ -16,7 +16,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class AndroidViewModel extends ViewModel {
-
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final MutableLiveData<Resource<List<Item>>> mediumObjectsList = new MutableLiveData<>();
     private final ArticlesRepository articlesRepository = new ArticlesRepository();

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.moataz.mox.databinding.FragmentArticlesBinding;
-import com.moataz.mox.ui.adapter.MediumAdapter;
+import com.moataz.mox.ui.adapter.articles.MediumAdapter;
 import com.moataz.mox.ui.viewmodel.AndroidViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +27,7 @@ public class AndroidFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentArticlesBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        requireActivity().setTitle("");
-        initializeViews();
+        initializeAdapter();
         initializeViewModel();
         getTopList();
         onSwipeRefresh();
@@ -36,7 +35,7 @@ public class AndroidFragment extends Fragment {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void initializeViews() {
+    private void initializeAdapter() {
         adapter = new MediumAdapter(getContext());
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);

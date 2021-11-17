@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.adapter;
+package com.moataz.mox.ui.adapter.main;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

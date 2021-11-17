@@ -38,7 +38,7 @@ public class NotificationMorning extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSubText("Articles")
                 .setContentTitle("Your daily read")
-                .setContentText("Tap here to get the new articles today...")
+                .setContentText("Good Morning! let's discover some new articles for today")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLights(Notification.FLAG_SHOW_LIGHTS, 1000, 500)
                 .setAutoCancel(true)

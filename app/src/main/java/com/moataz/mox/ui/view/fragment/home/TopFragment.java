@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.moataz.mox.databinding.FragmentArticlesBinding;
-import com.moataz.mox.ui.adapter.CNNAdapter;
+import com.moataz.mox.ui.adapter.articles.CNNAdapter;
 import com.moataz.mox.ui.viewmodel.TopViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ public class TopFragment extends Fragment {
         binding = FragmentArticlesBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         requireActivity().setTitle("");
-        initializeViews();
+        initializeAdapter();
         initializeViewModel();
         getList();
         onSwipeRefresh();
@@ -36,7 +36,7 @@ public class TopFragment extends Fragment {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void initializeViews() {
+    private void initializeAdapter() {
         adapter = new CNNAdapter(getContext());
         binding.recyclerViewArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerViewArticles.setHasFixedSize(true);

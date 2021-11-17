@@ -1,4 +1,4 @@
-package com.moataz.mox.data.model.article
+package com.moataz.mox.data.model
 
 data class Feed(
     val author: String?,

@@ -46,4 +46,15 @@
     <string name="share">Share</string>
     <string name="open_in_tab">Open in tab</string>
     <string name="favourites">Favourites</string>
+
+    <string name="pro_languages">languages</string>
+    <string name="technology">Technology</string>
+    <string name="science">Science</string>
+    <string name="industry">Industry</string>
+    <string name="culture">Culture</string>
+    <string name="graphic_design">Graphic</string>
+    <string name="works_life">Works</string>
+    <string name="management">Management</string>
+    <string name="development">Development</string>
+    <string name="top_topics">Top Topics</string>
 </resources>

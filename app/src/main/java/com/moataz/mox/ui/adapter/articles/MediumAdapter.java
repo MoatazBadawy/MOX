@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.adapter;
+package com.moataz.mox.ui.adapter.articles;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,29 +28,29 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.moataz.mox.R;
 import com.moataz.mox.data.db.Favorite;
 import com.moataz.mox.data.db.SQLiteDatabaseManager;
-import com.moataz.mox.data.model.article.Item;
+import com.moataz.mox.data.model.Item;
 
 import java.util.List;
 
-public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MediumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Item> items = null;
     SQLiteDatabaseManager sqliteManager;
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setThevergeList(List<Item> items) {
+    public void setMediumList(List<Item> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
-    public ThevergeAdapter(Context context) {
+    public MediumAdapter(Context context) {
         sqliteManager = new SQLiteDatabaseManager(context);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ArticleViewHolder(
+        return new MediumViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.list_articles,
                         parent,
@@ -61,10 +61,10 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Item Article = items.get(position);
-        ((ArticleViewHolder) holder).setData(Article);
-        ((ArticleViewHolder) holder).setOnClickItem(Article);
-        ((ArticleViewHolder) holder).setOnClickButtons(Article);
+        Item mediumArticle = items.get(position);
+        ((MediumViewHolder) holder).setData(mediumArticle);
+        ((MediumViewHolder) holder).setOnClickItem(mediumArticle);
+        ((MediumViewHolder) holder).setOnClickButtons(mediumArticle);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return items.size();
     }
 
-    class ArticleViewHolder extends RecyclerView.ViewHolder {
+    class MediumViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
         private final TextView title;
         private final TextView source;
@@ -84,12 +84,13 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private final ImageButton saveButton;
         private final Activity activity = new Activity();
 
-        ArticleViewHolder(@NonNull View itemView) {
+        MediumViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image_article);
             title = itemView.findViewById(R.id.title_article);
             source = itemView.findViewById(R.id.source_article);
             author = itemView.findViewById(R.id.author_name_article);
+
             more = itemView.findViewById(R.id.more_button_article_onClick);
             share = itemView.findViewById(R.id.share_button_article_onClick);
             save = itemView.findViewById(R.id.save_button_article_onClick);
@@ -112,13 +113,10 @@ public class ThevergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
 
             title.setText(mediumArticle.getTitle());
-            source.setText(R.string.theverge);
+            source.setText(R.string.medium);
             author.setText(mediumArticle.getAuthor());
         }
 
-        /**
-         * we will make an action for the buttons that in every item
-         */
         void setOnClickButtons(Item news) {
             more.setOnClickListener(v -> openBottomSheet(v, news));
 

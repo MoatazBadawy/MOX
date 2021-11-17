@@ -1,4 +1,4 @@
-package com.moataz.mox.ui.adapter;
+package com.moataz.mox.ui.adapter.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

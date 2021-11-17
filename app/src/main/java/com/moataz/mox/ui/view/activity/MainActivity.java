@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         Shortcuts.setupShortcuts(this);
     }
 
-
     @SuppressLint("NonConstantResourceId")
     private void initializeBottomNavigation() {
         // first one transaction to add each Fragment

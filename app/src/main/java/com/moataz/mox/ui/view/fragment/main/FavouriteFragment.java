@@ -6,18 +6,23 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.moataz.mox.R;
 import com.moataz.mox.data.db.Favorite;
 import com.moataz.mox.data.db.SQLiteDatabaseManager;
 import com.moataz.mox.databinding.FragmentFavouriteBinding;
-import com.moataz.mox.ui.adapter.FavoriteAdapter;
+import com.moataz.mox.ui.adapter.main.FavoriteAdapter;
 import com.moataz.mox.utils.IOnBackPressed;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class FavouriteFragment extends Fragment implements IOnBackPressed {
@@ -52,7 +57,7 @@ public class FavouriteFragment extends Fragment implements IOnBackPressed {
     }
 
     private void setupRecyclerView() {
-        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -62,6 +67,7 @@ public class FavouriteFragment extends Fragment implements IOnBackPressed {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int swipedArticlePosition = viewHolder.getAdapterPosition();
                 adapter.deleteItem(viewHolder, swipedArticlePosition);
+                Snackbar.make(requireView(),"The article has been removed",Snackbar.LENGTH_LONG).show();
             }
         };
 
